@@ -1,28 +1,20 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
 import { useLanguage } from "@/i18n/lang";
 import { useTranslation } from "@/hooks/useTranslation";
 import { cn } from "@/lib/utils";
-import { ArrowRight, ExternalLink, Sparkles, TrendingUp, Eye } from "lucide-react";
+import { ArrowRight, ExternalLink, Sparkles, TrendingUp, Calendar, Building2 } from "lucide-react";
 import { Link } from "wouter";
-import { useQuery } from "@tanstack/react-query";
-import type { PortfolioItem } from "@shared/schema";
+import { portfolioProjects } from "@/data/portfolio";
 
 export function PortfolioPreview() {
   const { dir } = useLanguage();
   const { t } = useTranslation();
 
-  // Fetch real portfolio items from API
-  const { data: portfolioData, isLoading, isError } = useQuery<PortfolioItem[]>({
-    queryKey: ["/api/portfolio"],
-  });
-
-  // Get top 3 featured or most recent projects
-  const featuredProjects = portfolioData?.slice(0, 3) || [];
-  const hasProjects = featuredProjects.length > 0;
+  // Get top 6 featured projects
+  const featuredProjects = portfolioProjects.filter(p => p.status === 'published').slice(0, 6);
 
   return (
     <section className="py-20 relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-blue-50/30 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
@@ -96,170 +88,113 @@ export function PortfolioPreview() {
           </motion.p>
         </motion.div>
 
-        {/* Portfolio Grid */}
-        {isLoading ? (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-            {[1, 2, 3].map((i) => (
-              <Card key={i} className="overflow-hidden">
-                <Skeleton className="h-56 w-full" />
-                <CardContent className="p-6 space-y-3">
-                  <Skeleton className="h-6 w-3/4" />
-                  <Skeleton className="h-4 w-full" />
-                  <Skeleton className="h-4 w-5/6" />
-                  <div className="flex gap-2 pt-2">
-                    <Skeleton className="h-6 w-16" />
-                    <Skeleton className="h-6 w-16" />
-                    <Skeleton className="h-6 w-16" />
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        ) : isError || !hasProjects ? (
-          <div className="text-center py-16 mb-12">
+        {/* Projects Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 mb-12">
+          {featuredProjects.map((project, index) => (
             <motion.div
-              className="max-w-md mx-auto"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
+              key={project.slug}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
+              viewport={{ once: true }}
             >
-              <div className="w-24 h-24 bg-gradient-to-br from-primary/10 to-brand-sky-accent/10 rounded-full mx-auto mb-6 flex items-center justify-center">
-                <ExternalLink className="w-12 h-12 text-primary" />
-              </div>
-              <h3 className="text-2xl font-bold text-brand-text-primary dark:text-white mb-3">
-                {isError 
-                  ? (dir === 'rtl' ? 'عذراً، حدث خطأ' : 'Oops, Something went wrong')
-                  : (dir === 'rtl' ? 'قريباً' : 'Coming Soon')
-                }
-              </h3>
-              <p className="text-brand-text-muted dark:text-slate-400 mb-6">
-                {isError
-                  ? (dir === 'rtl' ? 'لم نتمكن من تحميل المشاريع. يرجى المحاولة مرة أخرى لاحقاً.' : 'Unable to load projects. Please try again later.')
-                  : (dir === 'rtl' ? 'نعمل على إضافة مشاريع مميزة قريباً.' : 'We are working on adding featured projects soon.')
-                }
-              </p>
-              <Link href="/portfolio" data-testid="link-portfolio-fallback">
-                <Button variant="outline" data-testid="button-portfolio-fallback">
-                  {dir === 'rtl' ? 'استكشف محفظة الأعمال' : 'Explore Portfolio'}
-                </Button>
-              </Link>
-            </motion.div>
-          </div>
-        ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-            {featuredProjects.map((project, index) => (
-              <Link key={project.id} href={`/portfolio/${project.slug}`} data-testid={`link-portfolio-${project.slug}`}>
-                <motion.div
-                  className="group h-full"
-                  initial={{ opacity: 0, y: 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.15 }}
-                  viewport={{ once: true }}
-                  data-testid={`card-portfolio-${project.slug}`}
-                >
-                  <Card className="h-full overflow-hidden hover-elevate active-elevate-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 transition-all duration-300">
-                    {/* Project Image */}
-                    <div className="relative overflow-hidden h-56 bg-gradient-to-br from-primary/5 to-brand-sky-accent/5">
-                      {project.coverImage || project.imageUrl ? (
-                        <motion.div
-                          className="w-full h-full bg-cover bg-center"
-                          style={{
-                            backgroundImage: `url(${project.coverImage || project.imageUrl})`,
-                          }}
-                          whileHover={{ scale: 1.05 }}
-                          transition={{ duration: 0.4 }}
-                        />
-                      ) : (
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="text-center text-slate-400">
-                            <div className="w-20 h-20 bg-slate-100 dark:bg-slate-700 rounded-2xl mx-auto mb-3 flex items-center justify-center">
-                              <ExternalLink className="w-10 h-10" />
-                            </div>
-                            <p className="text-sm font-medium">{project.category}</p>
-                          </div>
-                        </div>
-                      )}
-                      
-                      {/* Year Badge */}
-                      <div className="absolute top-4 right-4">
-                        <Badge variant="secondary" className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm text-slate-700 dark:text-slate-300 border-0">
-                          {project.year}
-                        </Badge>
-                      </div>
-
-                      {/* Hover Overlay */}
-                      <motion.div
-                        className="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-6"
-                        initial={{ opacity: 0 }}
-                      >
-                        <Button
-                          size="sm"
-                          variant="secondary"
-                          className="bg-white text-primary hover:bg-slate-100 shadow-lg"
-                          data-testid={`button-view-project-${project.slug}`}
-                        >
-                          <Eye className="w-4 h-4 mr-2" />
-                          {dir === 'rtl' ? 'عرض التفاصيل' : 'View Details'}
-                        </Button>
-                      </motion.div>
+              <Link href={`/portfolio/${project.slug}`} data-testid={`link-project-${project.slug}`}>
+                <Card className="group overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 cursor-pointer h-full">
+                  {/* Project Image */}
+                  <div className="relative overflow-hidden">
+                    <img
+                      src={project.coverImage.startsWith('@assets') ? project.coverImage.replace('@assets', '/attached_assets') : project.coverImage}
+                      alt={dir === 'rtl' ? project.titleAr : project.title}
+                      className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
+                      width={400}
+                      height={256}
+                      loading="lazy"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    
+                    {/* Project Type Badge */}
+                    <div className={cn(
+                      "absolute top-4",
+                      dir === 'rtl' ? "right-4" : "left-4"
+                    )}>
+                      <Badge className="bg-primary text-white border-0">
+                        {dir === 'rtl' ? project.sectorAr : project.sector}
+                      </Badge>
                     </div>
 
-                    {/* Project Content */}
-                    <CardContent className="p-6">
-                      {/* Category Badge */}
-                      <div className="mb-3">
-                        <Badge className="bg-primary/10 text-primary hover:bg-primary/20 border-0">
-                          {project.category}
-                        </Badge>
-                      </div>
-                      
-                      {/* Title */}
-                      <h3 className="text-xl font-bold text-brand-text-primary dark:text-white mb-3 group-hover:text-primary transition-colors duration-300 line-clamp-2">
-                        {project.title}
-                      </h3>
-                      
-                      {/* Description */}
-                      <p className="text-brand-text-muted dark:text-slate-400 mb-4 text-sm leading-relaxed line-clamp-3">
-                        {project.description}
-                      </p>
-
-                      {/* Technology Tags */}
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        {project.technologies?.slice(0, 3).map((tech, techIndex) => (
-                          <span
-                            key={techIndex}
-                            className="px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs rounded-md font-medium"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                        {(project.technologies?.length || 0) > 3 && (
-                          <span className="px-2 py-1 bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-xs rounded-md font-medium">
-                            +{(project.technologies?.length || 0) - 3}
-                          </span>
-                        )}
-                      </div>
-
-                      {/* View Project Link */}
-                      <motion.div
-                        className="flex items-center gap-2 text-primary font-medium cursor-pointer group-hover:gap-3 transition-all duration-300"
-                        whileHover={{ x: dir === 'rtl' ? -5 : 5 }}
+                    {/* Hover Action */}
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <Button
+                        size="sm"
+                        className="bg-white text-primary hover:bg-primary hover:text-white transition-colors duration-300"
+                        data-testid={`button-view-project-${project.slug}`}
                       >
-                        <span className="text-sm">{dir === 'rtl' ? 'استكشف المشروع' : 'Explore Project'}</span>
-                        <ArrowRight 
-                          className={cn(
-                            "w-4 h-4 transition-transform duration-300",
-                            dir === 'rtl' && "rotate-180"
-                          )} 
-                        />
-                      </motion.div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
+                        <ExternalLink className={cn("w-4 h-4", dir === 'rtl' ? "ml-2" : "mr-2")} />
+                        {dir === 'rtl' ? 'عرض المشروع' : 'View Project'}
+                      </Button>
+                    </div>
+                  </div>
+
+                  {/* Project Content */}
+                  <div className="p-6">
+                    {/* Project Meta */}
+                    <div className="flex items-center gap-4 mb-3 text-sm text-brand-text-muted">
+                      <div className="flex items-center gap-1">
+                        <Building2 className="w-4 h-4" />
+                        <span>{dir === 'rtl' ? project.clientAr : project.client}</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Calendar className="w-4 h-4" />
+                        <span>{project.year}</span>
+                      </div>
+                    </div>
+
+                    {/* Project Title */}
+                    <h3 className="text-xl font-bold text-brand-text-primary dark:text-white mb-3 line-clamp-2 group-hover:text-primary transition-colors duration-300">
+                      {dir === 'rtl' ? project.titleAr : project.title}
+                    </h3>
+
+                    {/* Project Description */}
+                    <p className="text-brand-text-muted dark:text-slate-400 mb-4 line-clamp-3 leading-relaxed">
+                      {dir === 'rtl' ? project.summaryAr : project.summaryEn}
+                    </p>
+
+                    {/* Technology Stack */}
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {project.tech.slice(0, 3).map((tech) => (
+                        <Badge
+                          key={tech}
+                          variant="outline"
+                          className="text-xs border-brand-sky-accent text-brand-sky-accent hover:bg-brand-sky-accent hover:text-white transition-colors duration-300"
+                        >
+                          {tech}
+                        </Badge>
+                      ))}
+                      {project.tech.length > 3 && (
+                        <Badge variant="outline" className="text-xs text-brand-text-muted">
+                          +{project.tech.length - 3}
+                        </Badge>
+                      )}
+                    </div>
+
+                    {/* Project Link */}
+                    <Button
+                      variant="ghost"
+                      className={cn(
+                        "w-full justify-between text-primary hover:text-white hover:bg-primary transition-all duration-300",
+                        dir === 'rtl' && "flex-row-reverse"
+                      )}
+                      data-testid={`button-details-${project.slug}`}
+                    >
+                      <span>{dir === 'rtl' ? 'عرض التفاصيل' : 'View Details'}</span>
+                      <ExternalLink className={cn("w-4 h-4", dir === 'rtl' ? 'mr-2' : 'ml-2')} />
+                    </Button>
+                  </div>
+                </Card>
               </Link>
-            ))}
-          </div>
-        )}
+            </motion.div>
+          ))}
+        </div>
 
         {/* View All Projects Button */}
         <motion.div
