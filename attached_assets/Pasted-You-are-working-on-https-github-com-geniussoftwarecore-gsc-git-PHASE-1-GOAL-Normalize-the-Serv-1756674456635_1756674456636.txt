@@ -1,0 +1,102 @@
+You are working on https://github.com/geniussoftwarecore/gsc.git
+
+PHASE 1 GOAL: Normalize the Services taxonomy and i18n so all pages use a single canonical list of services and consistent keys/slugs in EN/AR. DO NOT change routes or backend. No new libraries.
+
+────────────────────────────────────────────────────────
+0) Branch & Scope
+────────────────────────────────────────────────────────
+- Create branch: feat/services-taxonomy-normalization
+- Frontend-only changes in /client
+
+────────────────────────────────────────────────────────
+1) Canonical Services (keys/titles/slugs)
+────────────────────────────────────────────────────────
+Use EXACTLY these 7 items as the canonical set. Do not add/remove in this phase.
+
+[
+  {"key":"mobileApps","slug":"mobile-apps","title_en":"Mobile App Development","title_ar":"تطوير تطبيقات الموبايل"},
+  {"key":"webApps","slug":"web-apps","title_en":"Web Application Development","title_ar":"تطوير تطبيقات الويب"},
+  {"key":"desktopApps","slug":"desktop-apps","title_en":"Desktop Software Development","title_ar":"تطوير برمجيات سطح المكتب"},
+  {"key":"designGraphics","slug":"design-brand","title_en":"UI/UX & Brand Design","title_ar":"تصميم UI/UX وهوية العلامة"},
+  {"key":"paidAdsMarketing","slug":"performance-marketing","title_en":"Performance Marketing & Paid Media","title_ar":"التسويق الأدائي والإعلانات الممولة"},
+  {"key":"erpnextV15","slug":"erpnext-v15","title_en":"ERPNext v15 Implementation & Customization","title_ar":"تنفيذ وتخصيص ERPNext v15"},
+  {"key":"mobileSolutions","slug":"mobile-solutions","title_en":"Smart Mobile Solutions & Device Integrations","title_ar":"الحلول الذكية وتكاملات الهواتف"}
+]
+
+────────────────────────────────────────────────────────
+2) Term Map (synonyms → canonical keys)
+────────────────────────────────────────────────────────
+- Create file: client/src/config/term-map.json
+- Purpose: map legacy names and synonyms (EN/AR) to the canonical keys above.
+- Seed with examples (ADD, don’t remove existing references if any):
+
+{
+  "mobile apps": "mobileApps",
+  "android & ios": "mobileApps",
+  "smart mobile solutions": "mobileSolutions",
+  "mobile enablement": "mobileSolutions",
+  "web apps": "webApps",
+  "web application": "webApps",
+  "desktop applications": "desktopApps",
+  "ui/ux": "designGraphics",
+  "branding": "designGraphics",
+  "paid ads": "paidAdsMarketing",
+  "performance marketing": "paidAdsMarketing",
+  "erpnext": "erpnextV15",
+  "erpnext v15": "erpnextV15",
+
+  "تطبيقات الموبايل": "mobileApps",
+  "اندرويد و آي أو إس": "mobileApps",
+  "الحلول الذكية": "mobileSolutions",
+  "تكاملات الهواتف": "mobileSolutions",
+  "تطبيقات الويب": "webApps",
+  "برامج سطح المكتب": "desktopApps",
+  "تصميم الهوية": "designGraphics",
+  "إعلانات ممولة": "paidAdsMarketing",
+  "التسويق الأدائي": "paidAdsMarketing",
+  "ERPNext": "erpnextV15",
+  "ERPNext v15": "erpnextV15"
+}
+
+- This file is used only for internal normalization (e.g., when reading old keys or showing breadcrumbs). Do not ship it to the backend.
+
+────────────────────────────────────────────────────────
+3) i18n Files (Append/Merge ONLY)
+────────────────────────────────────────────────────────
+- Update these:
+  • client/src/locales/en/services.json
+  • client/src/locales/ar/services.json
+
+- For each of the 7 items, ensure fields exist:
+  • title (already present)
+  • short (if you use it today; keep as-is)
+  • details (NEW; see Phase 2 payload)
+  • slug (optional in i18n if your UI reads it there; otherwise keep slugs in code)
+
+- Do NOT delete any existing arrays (features, deliverables, inputsNeeded, interactiveIdeas); they will be unused later.
+
+- If there are legacy keys, preserve them but add a field `"canonicalKey": "<one of the 7 keys>"` so the UI can map them for backward compatibility.
+
+────────────────────────────────────────────────────────
+4) Code Touch Points
+────────────────────────────────────────────────────────
+- Ensure services listing code reads the canonical keys. Typical files:
+  • client/src/sections/services/ServicesGrid.tsx
+  • client/src/hooks/useServiceTranslations.ts
+- Add a small helper util: client/src/lib/services-normalize.ts
+  • export function toCanonicalKey(inputKeyOrName: string): string { … } using term-map.json
+  • Use it wherever services are looked up by key.
+
+────────────────────────────────────────────────────────
+5) Acceptance Criteria
+────────────────────────────────────────────────────────
+- Exactly 7 canonical services available via i18n lookups (EN/AR).
+- Any legacy names resolve to one of the 7 keys via toCanonicalKey().
+- No visual changes yet beyond keeping current titles as per canonical set.
+- TS/ESLint/build pass.
+
+────────────────────────────────────────────────────────
+6) Commits
+────────────────────────────────────────────────────────
+- feat(services): add canonical taxonomy (keys/slugs) and term map
+- refactor(i18n): align services EN/AR to canonical keys without removing legacy fields

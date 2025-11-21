@@ -1,0 +1,121 @@
+You are working on https://github.com/geniussoftwarecore/gsc.git
+
+Goal: Restyle the **Services** page so it perfectly matches the NEW Home visual system.
+IMPORTANT: DO NOT change the services data/content at all. Keep the same items, text, order, slugs, links, and i18n keys. Only update presentation/layout/styles.
+
+────────────────────────────────────────────────────────
+0) Scope & Guardrails
+────────────────────────────────────────────────────────
+- Create branch: feat/services-restyle-match-home
+- Frontend-only changes in /client.
+- DO NOT:
+  • change or add/remove service items
+  • change any text/labels/translations
+  • change order, URLs, or keys
+  • add new colors or libraries
+  • modify APIs or business logic
+- YES:
+  • unify spacing/typography/radius/shadows/animations with Home
+  • reuse Home’s components, tokens, and RTL/i18n behavior
+
+────────────────────────────────────────────────────────
+1) Detect the Services Route & Data Source
+────────────────────────────────────────────────────────
+- Find the Services page file (one of):
+  • client/src/pages/Services.tsx
+  • client/src/pages/services.tsx
+  • client/src/app/services/page.tsx
+- Identify where SERVICES CONTENT currently comes from:
+  • i18n keys (e.g., t('services.items')) OR
+  • a local array/constant in the page/component
+  • images/icons already in use
+- DO NOT modify that data source. Only read from it.
+
+────────────────────────────────────────────────────────
+2) Use the Same Design System as Home
+────────────────────────────────────────────────────────
+- Reuse the same Layout used by Home: Header + main + Footer.
+- Same container/spacing:
+  • container mx-auto px-4 sm:px-6 lg:px-8
+  • section vertical rhythm: py-12 (mobile) / py-16 (desktop)
+- Reuse shared UI primitives (create if already done on Home):
+  • client/src/components/ui/{Button.tsx, Card.tsx, Section.tsx, PageHeader.tsx}
+- Typography scale, radii (e.g., rounded-2xl), shadows, and link styles must match Home exactly.
+- RTL/i18n: wrap with the same i18n provider; use `t()` for any UI labels that already exist. Direction must flip via <html dir>.
+
+────────────────────────────────────────────────────────
+3) Services Page Structure (Presentation Only)
+────────────────────────────────────────────────────────
+Create (presentation components only) under: client/src/sections/services/
+- PageHeaderServices.tsx:
+  • Breadcrumb (Home / Services)
+  • <h1> from existing page title (do not rewrite text)
+  • brief lead (use existing text if present; otherwise omit—DO NOT invent copy)
+  • background/decoration matches Home headers (no new colors)
+
+- ServicesGrid.tsx:
+  • Read the EXISTING services data (i18n or array). DO NOT change content.
+  • Render responsive grid:
+    - xl: grid-cols-3
+    - md: grid-cols-2
+    - sm: grid-cols-1
+  • Each item in a Home-style <Card>:
+    - Existing icon/image if present (don’t swap libraries)
+    - Title and description exactly as-is
+    - If the item has bullets/links, render them as they already exist
+    - “Learn more” (or the existing CTA) must point to the existing route/anchor
+  • Hover micro-interactions identical to Home (subtle lift/scale/shadow with framer-motion if already used on Home)
+
+- ServicesCTA.tsx (optional):
+  • If the page already has a CTA, restyle it to match Home’s CTA strip (same background tint and buttons).
+  • If no CTA exists, SKIP (do not invent new sections).
+
+Compose in the Services route:
+<PageHeaderServices /> → <ServicesGrid /> → (optional) <ServicesCTA />
+
+────────────────────────────────────────────────────────
+4) Styling & Visual Parity with Home
+────────────────────────────────────────────────────────
+- Colors: use ONLY existing brand tokens from Tailwind/CSS vars (no new colors).
+- Cards: same radius/shadow as Home sections/cards.
+- Buttons/links: same variants and hover/focus behavior as Home.
+- Spacing: no ad-hoc margins; use the same Section/Container rhythm as Home.
+- Images: keep current assets; if sizes cause CLS, add width/height and loading="lazy" (presentation only).
+
+────────────────────────────────────────────────────────
+5) Accessibility & RTL
+────────────────────────────────────────────────────────
+- Keep one h1 for the page title; section headings h2/h3.
+- Visible focus styles; adequate color contrast.
+- Verify RTL: paddings/margins and list markers are correct when lang='ar'.
+
+────────────────────────────────────────────────────────
+6) No-Data-Change Checks
+────────────────────────────────────────────────────────
+- The SAME number of services appears, same order, same titles/descriptions/CTAs.
+- All existing routes/anchors remain unchanged and functional.
+- No new i18n keys are added; no existing keys are altered.
+
+────────────────────────────────────────────────────────
+7) QA (Acceptance Criteria)
+────────────────────────────────────────────────────────
+- Visual parity with Home (container, spacing, typography, radii, shadows, link/button styles).
+- AR/EN toggle updates the Services page as before; <html dir> flips for Arabic.
+- Grid responsive: 1 col (≤640px), 2 cols (≥640/768px), 3 cols (≥1024/1280px).
+- No content changes; only presentation/layout updated.
+- TypeScript/ESLint clean; build passes.
+
+────────────────────────────────────────────────────────
+8) Commands & Commits
+────────────────────────────────────────────────────────
+Run:
+- pnpm install
+- pnpm dev
+
+Commits (conventional):
+- refactor(services): restyle Services to match Home visual system (presentation only)
+- chore(ui): reuse Home Card/Section/Button primitives for Services
+- perf(a11y): fix CLS/focus/RTL where necessary (no content changes)
+
+Open PR: “refactor(services): align Services UI with Home (no content changes)”
+Attach screenshots (AR/EN, mobile/desktop) showing identical content with the new Home-aligned design.

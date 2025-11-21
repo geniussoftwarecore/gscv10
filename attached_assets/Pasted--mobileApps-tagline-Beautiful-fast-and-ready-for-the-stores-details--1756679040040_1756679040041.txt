@@ -1,0 +1,65 @@
+{
+  "mobileApps": {
+    "tagline": "Beautiful, fast, and ready for the stores.",
+    "details": "We design and build high-quality Android and iOS apps—from discovery and UX to secure APIs, offline-first experiences, and store releases. Delivery includes analytics, crash monitoring, CI/CD, and post-launch support so your app stays fast, reliable, and ready to scale.",
+    "detailPage": {
+      "achieve": "Launch an app users love: smooth onboarding, resilient offline flows, and telemetry that helps you iterate with confidence.",
+      "delivery": "Milestone plan with weekly demos, CI/CD pipelines, and automated QA. TestFlight/Play tracks, crash monitoring, and clear release notes.",
+      "timeline": "MVP-first roadmap with scoped iterations and a documented handover: source code, runbooks, release playbooks, and support window."
+    }
+  },
+  "webApps": {
+    "tagline": "Scalable, secure, and SEO-friendly web.",
+    "details": "We ship production-grade web applications with clean architecture, responsive UI, and strong security. Expect SEO-aware routing, role-based access, audit trails, performance budgets, automated testing, and CI/CD pipelines that keep releases predictable.",
+    "detailPage": {
+      "achieve": "A fast, accessible web experience that ranks and converts—backed by security, observability, and maintainable code.",
+      "delivery": "Component-driven UI, PR reviews, automated tests, and performance checks in CI. Infrastructure as code for repeatable deployments.",
+      "timeline": "Incremental releases: define scope → implement → verify (perf, a11y, SEO) → document and hand over with dashboards and alerts."
+    }
+  },
+  "desktopApps": {
+    "tagline": "Reliable desktop tools with native power.",
+    "details": "We develop robust desktop software for Windows (and cross-platform when required) with native OS integrations such as printing, device access, and secure local storage. Updates are streamlined via managed release channels and enterprise-ready installers.",
+    "detailPage": {
+      "achieve": "Stable desktop tooling that leverages native OS capabilities for speed, reliability, and secure offline work.",
+      "delivery": "Modular architecture, signed builds, and auto-update channels. Hardware access and permission models documented and tested.",
+      "timeline": "Plan → prototype core flows → finalize integrations → UAT and packaging → rollout with update and rollback strategy."
+    }
+  },
+  "designGraphics": {
+    "tagline": "Cohesive identity, delightful interfaces.",
+    "details": "We craft a consistent visual identity across UI/UX and marketing—logos, brand guidelines, design systems, social kits, and motion graphics—so every touchpoint looks professional, on brand, and conversion-ready.",
+    "detailPage": {
+      "achieve": "Unify your brand and improve usability with a design system that accelerates product teams and marketing alike.",
+      "delivery": "Research & moodboards → UI kit and tokens → responsive components → interaction specs and handoff via design files & docs.",
+      "timeline": "Phased rollout: brand foundations → core components → product pages/flows → QA and adoption playbook."
+    }
+  },
+  "paidAdsMarketing": {
+    "tagline": "Growth-focused campaigns with clear ROI.",
+    "details": "We run performance marketing across Meta, Google, and TikTok with transparent reporting. We handle creative variants, tracking (Pixels/GA4), landing pages, and A/B tests—optimizing budgets for measurable growth and positive ROI.",
+    "detailPage": {
+      "achieve": "Acquire qualified traffic and conversions with measurable ROI, aligned to your funnel and lifetime value.",
+      "delivery": "Structured testing, creative iterations, audience and bid optimizations, server-side tracking, and weekly performance reviews.",
+      "timeline": "Kickoff & tracking setup → testing sprints → scale what works → monthly strategy and budget rebalancing with clear reports."
+    }
+  },
+  "erpnextV15": {
+    "tagline": "Streamlined operations on ERPNext v15.",
+    "details": "We implement and customize ERPNext v15—configuring doctypes, workflows, reports, and permissions. We handle integrations, data migration, hosting, training, and ongoing support so teams adopt ERP quickly, securely, and with confidence.",
+    "detailPage": {
+      "achieve": "Unify processes and data with workflows, roles, and reports tailored to your departments and compliance needs.",
+      "delivery": "Fit-gap analysis, configuration, custom doctypes, data migration scripts, integrations, and change-management with training.",
+      "timeline": "Discovery & blueprint → configure & migrate → UAT & training → go-live with hypercare and a measured stabilization period."
+    }
+  },
+  "mobileSolutions": {
+    "tagline": "Device integrations that just work.",
+    "details": "We deliver smart mobile capabilities—payments, maps, camera, biometrics, SDK integrations, and MDM policies—with a focus on performance, profiling, and stability so device-level features work flawlessly at scale.",
+    "detailPage": {
+      "achieve": "Unlock device capabilities safely: secure auth, sensors, and payments that enhance user journeys and field operations.",
+      "delivery": "Native modules/SDKs, permission flows, telemetry, profiling, and resilience patterns for poor network conditions.",
+      "timeline": "Requirements & security review → POC integrations → production hardening → rollout with monitoring and playbooks."
+    }
+  }
+}

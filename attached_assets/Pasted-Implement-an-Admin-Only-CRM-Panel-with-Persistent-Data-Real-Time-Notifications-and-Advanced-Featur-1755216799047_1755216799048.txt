@@ -1,0 +1,101 @@
+Implement an Admin‑Only CRM Panel with Persistent Data, Real‑Time Notifications, and Advanced Features in the GSC Platform
+
+Tasks to Implement
+
+Set up an admin account:
+
+Create a new file client/src/data/users.ts containing a default admin user:
+
+export const users = [
+  {
+    id: "admin-1",
+    name: "Admin",
+    email: "admin@example.com",
+    role: "admin",
+    password: "123",
+  },
+];
+
+
+Add a function authenticateUser(email: string, password: string) that returns the user if they exist and the password matches.
+
+In login.tsx, use this function instead of creating dummy user data; when credentials match the admin account, set role to 'admin'.
+
+Create a route and page for the CRM:
+
+Add a new route in App.tsx for /admin/crm and import a new AdminCRM page to display the CRM panel:
+
+<Route path="/admin/crm" component={AdminCRM} />
+
+
+Create client/src/pages/admin/crm.tsx and wrap its content with <AdminRoute> so only admins can access it:
+
+import { AdminRoute } from "@/components/auth/AdminRoute";
+export default function AdminCRM() {
+  return (
+    <AdminRoute>
+      {/* CRM content goes here */}
+    </AdminRoute>
+  );
+}
+
+
+Build the CRM interface for handling client messages:
+
+In AdminCRM.tsx, import helper functions from clientRequests.ts such as getAllRequests and addResponseToRequest.
+
+Display a table or list of all client requests (type “request,” “suggestion,” or “comment”) with details like customer name, service, status, creation date, and any attachments.
+
+Add a button or link for each request that opens a form allowing the admin to write a reply. When sending:
+
+Call addResponseToRequest to save the reply within the request.
+
+Add a new client notification of type reply via addNotification.
+
+Provide filtering options (by status or service type) and a search box.
+
+Display notifications within the CRM:
+
+Use useNotifications() in the CRM page to show a list of new notifications (e.g., new requests or unread replies).
+
+Add a section or tab inside the CRM to display notifications with the ability to mark them as read.
+
+Hide CRM links from non-admin users:
+
+In the navigation bar or admin dashboard, only show a link to /admin/crm if isAdmin is true:
+
+const { isAdmin } = useAuth();
+{isAdmin && <Link href="/admin/crm">CRM Panel</Link>}
+
+
+Update data structures to store replies and attachments:
+
+Modify clientRequests.ts so the ClientRequest interface includes fields like responses?: Response[] and attachments?: string[].
+
+Add a function addResponseToRequest(requestId: string, response: Response) to append replies and update storage.
+
+Update the user dashboard (dashboard.tsx) requests tab to display any replies sent by the admin and allow users to download attached files.
+
+Ensure proper access control:
+
+Wrap all admin pages (including /admin/dashboard and the new /admin/crm) with <AdminRoute> to prevent non-admin users from accessing them.
+
+Persist data across sessions:
+
+Modify clientRequests.ts, notifications, and any future transactions or responses to load from and save to localStorage (or integrate with a backend) so that requests, replies, and notifications are retained after refreshing the page.
+
+Add logic in helper functions such as addClientRequest and addResponseToRequest to update localStorage whenever data changes.
+
+Add real‑time notifications (optional but recommended):
+
+Integrate a WebSocket or similar real‑time communication library to push new request or reply notifications to admins instantly. Update the NotificationContext to subscribe to these updates and refresh the UI automatically.
+
+Handle attachments in the CRM:
+
+When displaying requests in the CRM, include links or buttons to view or download any attached files (e.g., PDFs or images) that clients uploaded via the contact form.
+
+Implement logging and analytics:
+
+Add a simple analytics module to record metrics such as the total number of requests, average response time, and number of pending replies.
+
+Display these metrics in summary cards or charts within the CRM to help the admin team monitor workload and performance.

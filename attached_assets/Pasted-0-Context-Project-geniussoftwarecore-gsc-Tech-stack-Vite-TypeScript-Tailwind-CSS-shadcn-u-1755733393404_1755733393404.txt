@@ -1,0 +1,183 @@
+0) Context
+
+Project: geniussoftwarecore/gsc
+
+Tech stack: Vite + TypeScript + Tailwind CSS + shadcn/ui + framer-motion
+
+Brand Identity: White + Sky Blue (color tokens already added in tailwind.config.ts)
+
+Goal: Improve the Hero section (top introduction of the homepage) to look more modern, perform better, and engage users with clear emphasis on platform services — while staying consistent with the existing design system (white + sky theme, typography, radii, shadows, spacing).
+
+Rule: Do not modify other homepage sections. Keep typography, spacing, and design style consistent with the rest of the platform.
+
+1) Location
+
+Open the homepage file (e.g., client/src/pages/index.tsx or equivalent).
+
+Replace or update the current hero section with a new component HomeHero.tsx under:
+
+client/src/components/home/HomeHero.tsx
+
+2) Hero Structure
+
+Build HomeHero with the following elements:
+
+Top Badge (Optional)
+
+Small badge that conveys value, e.g., “Complete Digital Platform.”
+
+Background: brand.sky.light, text dark.
+
+Main Heading + Subtitle
+
+Localized headline (ar/en):
+
+ar: “نُحوّل أفكارك إلى منتجات رقمية فعّالة”
+
+en: “We turn ideas into effective digital products”
+
+Subtitle: two lines explaining key services (Web, Mobile, ERP, AI, Automation).
+
+Call-to-Action (CTA) Buttons
+
+Primary CTA: “Start Your Project” → contact/request quote page.
+
+Outline style, hover → filled brand.sky.accent with dark text.
+
+Secondary CTA: “View Our Work” → /portfolio.
+
+Service Highlights Grid
+
+Responsive grid (2×2 desktop, 2×1 mobile).
+
+Four highlights: “Web Development”, “Mobile Apps”, “ERP/CRM Solutions”, “AI & Automation.”
+
+Each card: icon (lucide-react), short title, one-line description.
+
+Styled like shadcn/ui Cards.
+
+Optional Illustration/Image
+
+Use lightweight SVG/illustration or small UI screenshot.
+
+Lazy-loaded, with fixed dimensions to avoid CLS.
+
+3) Motion & Interactivity
+
+Use framer-motion for smooth animations:
+
+Headline & subtitle:
+
+initial={{opacity:0, y:12}}
+
+whileInView={{opacity:1, y:0}}
+
+viewport={{ once:true, amount:0.5 }}
+
+CTAs: slight delay transition={{ delay: 0.08 }}.
+
+Service cards: staggered children (0.04s) with fade + slight scale.
+
+Clear hover states for buttons and cards (subtle shadow + lift).
+
+4) Styling
+
+Background: bg-white.
+
+Generous vertical spacing (py-16 to py-24 on desktop).
+
+Heading: text-brand.text.primary, subtitle: text-brand.text.muted.
+
+Borders/dividers: brand.sky.base or brand.sky.light.
+
+Maintain AA contrast compliance.
+
+5) i18n and RTL/LTR
+
+All texts via i18n JSON:
+
+home.hero.badge, home.hero.title, home.hero.subtitle,
+
+home.hero.primaryCta, home.hero.secondaryCta,
+
+home.hero.services.web, mobile, erp, ai (title + description).
+
+When Arabic: dir="rtl" on container.
+
+When English: dir="ltr".
+
+Flip icons if necessary for RTL.
+
+6) Performance
+
+No heavy libraries.
+
+Lazy-load any images/illustrations.
+
+Define fixed image dimensions to avoid CLS.
+
+Use loading="lazy" and memoize where possible.
+
+7) Accessibility
+
+Main heading <h1>, subtitle <p>.
+
+CTA buttons with descriptive aria-label.
+
+Keyboard navigation with visible focus-visible states.
+
+Alt text for meaningful images/icons.
+
+8) Component API (Props) — optional for future customization
+
+Accept props for:
+
+Custom text overrides.
+
+Services list { icon, title_ar, title_en, desc_ar, desc_en }.
+
+CTA links.
+
+By default, pull text from i18n.
+
+9) Integration
+
+In index.tsx, import and place <HomeHero /> at the top of the homepage before “Our Work.”
+
+Pass correct CTA links (/contact, /portfolio).
+
+10) Testing (Acceptance Criteria)
+
+Heading, subtitle, and CTAs appear aligned with design identity.
+
+Service highlights render responsively (mobile → desktop).
+
+CTAs work and link correctly.
+
+Animations smooth and lightweight.
+
+i18n works with RTL/LTR.
+
+No console errors/warnings in dev.
+
+11) Delivery (Commits & PR)
+
+Suggested commits:
+
+feat(home-hero): new responsive hero with CTAs and service highlights
+
+style(theme): apply white+sky hero palette and motion polish
+
+chore(i18n): add home.hero keys (ar/en)
+
+Open PR titled:
+
+Home Hero: improved design, performance & interactivity (white+sky)
+
+12) Optional Conversion Boosters
+
+Add small social proof line under CTAs (e.g., “Trusted by leading companies”).
+
+Badge like “Response within 24h” next to CTA.
+
+Optional downward arrow → smooth scroll to #our-work.

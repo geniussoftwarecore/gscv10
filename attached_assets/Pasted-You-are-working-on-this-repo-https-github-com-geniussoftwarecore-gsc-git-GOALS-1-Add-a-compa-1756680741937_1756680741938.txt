@@ -1,0 +1,139 @@
+You are working on this repo: https://github.com/geniussoftwarecore/gsc.git
+
+GOALS
+1) Add a compact, accessible “View Details” button to every service card on the Services screen.
+2) Clicking the button navigates to that service’s Detail page (existing route if present; otherwise create the minimal route).
+3) Auto-detect the frontend frameworks/libs from /client/package.json and USE the existing stack (do not add new libs).
+4) Keep the current brand, colors, spacing, typography, RTL/i18n behavior.
+
+CONSTRAINTS
+- Frontend-only changes inside /client.
+- Do NOT change API shapes or backend.
+- Do NOT add new dependencies.
+- Keep current design system (Tailwind/shadcn/etc. if present).
+- i18n: add labels for EN/AR; honor RTL (Arabic).
+
+────────────────────────────────────────────────────────
+0) Branch & Setup
+────────────────────────────────────────────────────────
+- Create branch: feat/services-view-details-button
+- Read /client/package.json and list the UI stack (React/Next, Tailwind, shadcn/ui, lucide-react, react-router or Next router, etc.) in the PR description. Use them as-is.
+
+────────────────────────────────────────────────────────
+1) i18n: Button label
+────────────────────────────────────────────────────────
+Files:
+- client/src/locales/en/common.json (or your shared i18n file)
+- client/src/locales/ar/common.json
+
+Append these keys (create file if missing; merge only, don’t remove anything):
+EN:
+  "buttons": {
+    "viewDetails": "View Details"
+  }
+AR:
+  "buttons": {
+    "viewDetails": "عرض التفاصيل"
+  }
+
+If your i18n paths differ, adapt to your structure (e.g., `common.buttons.viewDetails` or `services.cta.viewDetails`).
+
+────────────────────────────────────────────────────────
+2) Services screen: add the button
+────────────────────────────────────────────────────────
+File to edit (adjust if different in repo):
+- client/src/sections/services/ServicesGrid.tsx
+
+Requirements:
+- Each service card shows:
+  • Title
+  • (Optional) tagline/short if present
+  • Details paragraph (already added in previous tasks)
+  • NEW primary action button “View Details”
+- The entire card may remain clickable; the button must also be focusable and clickable.
+- Button placement: bottom of card content, with existing spacing tokens.
+- Styles: reuse existing button component from your UI kit (e.g., shadcn/ui <Button/>). If no button component, use current design tokens (rounded-2xl, transitions, focus-visible rings).
+- Accessibility:
+  • role="button" for the element if not a real <button>
+  • aria-label should include the service title, e.g., `aria-label={\`View details for \${title}\`}`
+  • Keyboard: Enter/Space triggers click
+- i18n label: t("buttons.viewDetails")
+
+Example (pseudocode; adapt to your components):
+<Button
+  onClick={() => navigateTo(`/services/${item.slug}`)}
+  aria-label={t('buttons.viewDetails') + ' — ' + itemTitle}
+>
+  {t('buttons.viewDetails')}
+</Button>
+
+Use the router that exists in the repo:
+- If Next.js (pages): push(`/services/${slug}`)
+- If Next.js (app): link to `/services/${slug}`
+- If React Router: use navigate(`/services/${slug}`)
+
+────────────────────────────────────────────────────────
+3) Routing: ensure Service Detail route exists
+────────────────────────────────────────────────────────
+- If already present, reuse it.
+- Otherwise create minimal route:
+  • Next.js pages: client/src/pages/services/[slug].tsx
+  • Next.js app router: client/src/app/services/[slug]/page.tsx
+  • React Router: add a <Route path="/services/:slug" element={<ServiceDetail/>} />
+
+ServiceDetail must:
+- Read slug from the router.
+- Map slug → i18n service key (if you have a normalize util, reuse it; otherwise define a small reverse map).
+- Render:
+  <h1>{title}</h1>
+  <p className="text-muted-foreground">{tagline}</p>
+  <p className="leading-relaxed">{details}</p>
+  (Optional) three short sections (achieve / delivery / timeline) if present under i18n `detailPage.*`
+- Keep spacing, headings hierarchy (h1 then h2/h3), and RTL.
+- SEO/meta (if your app supports it): set title & description from i18n.
+
+────────────────────────────────────────────────────────
+4) Framework detection (from repo)
+────────────────────────────────────────────────────────
+- Read /client/package.json and note the stack in the PR description (no code changes needed for this step):
+  • React / Next.js or Vite + React?
+  • Tailwind CSS?
+  • shadcn/ui / Radix UI?
+  • tanstack/react-query?
+  • lucide-react icons?
+- Reuse existing components and tokens. Do not add packages.
+
+────────────────────────────────────────────────────────
+5) Save & polish the Services page
+────────────────────────────────────────────────────────
+- Keep the card height compact:
+  • Clamp “details” to 2–3 lines on the grid (CSS line-clamp if available), show full text on the detail page.
+- Motion:
+  • Subtle hover (translate/scale/shadow) consistent with the rest of the site (reuse framer-motion if present; else CSS).
+- RTL:
+  • Verify the button alignment and icon direction under Arabic.
+- Accessibility:
+  • Visible focus states
+  • Sufficient contrast
+  • Button has aria-label and is reachable by keyboard
+
+────────────────────────────────────────────────────────
+6) QA — Acceptance Criteria
+────────────────────────────────────────────────────────
+- Each service card has a visible “View Details” button (EN/AR).
+- Clicking the button routes to `/services/:slug` (or Next’s equivalent) and shows the full detailed content.
+- Services grid remains small/compact; details are line-clamped on the grid, full on the detail page.
+- RTL works correctly; i18n toggles update labels.
+- No new dependencies; build, lint, type-check pass.
+
+────────────────────────────────────────────────────────
+7) Commits & PR
+────────────────────────────────────────────────────────
+Commits (conventional):
+- feat(services): add interactive “View Details” button on service cards (EN/AR)
+- feat(service-detail): ensure dynamic detail route renders full content
+- refactor(i18n): add common.buttons.viewDetails (EN/AR)
+- perf(a11y): focus states, keyboard activation, and line-clamp on cards
+
+Open PR: “feat(services): interactive ‘View Details’ button + detail page wiring (EN/AR, RTL)”
+In PR description, list the detected frameworks/libs from /client/package.json.

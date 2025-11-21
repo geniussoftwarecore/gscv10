@@ -1,0 +1,46 @@
+[vite] connecting...
+[vite] connected.
+Please ensure that the container has a non-static position, like 'relative', 'fixed', or 'absolute' to ensure scroll offset is calculated correctly.
+You're attempting to animate multiple children within AnimatePresence, but its mode is set to "wait". This will lead to odd visual behaviour.
+isRTL is not defined
+at Services (https://7210e6ec-888b-4e25-b8c1-de2183b23fc1-00-2cu9uhy3a97ub.worf.replit.dev/src/pages/services.tsx:167:196)
+at renderWithHooks (https://7210e6ec-888b-4e25-b8c1-de2183b23fc1-00-2cu9uhy3a97ub.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=70bdad07:11548:26)
+at mountIndeterminateComponent (https://7210e6ec-888b-4e25-b8c1-de2183b23fc1-00-2cu9uhy3a97ub.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=70bdad07:14926:21)
+at beginWork (https://7210e6ec-888b-4e25-b8c1-de2183b23fc1-00-2cu9uhy3a97ub.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=70bdad07:15914:22)
+at HTMLUnknownElement.callCallback2 (https://7210e6ec-888b-4e25-b8c1-de2183b23fc1-00-2cu9uhy3a97ub.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=70bdad07:3674:22)
+at Object.invokeGuardedCallbackDev (https://7210e6ec-888b-4e25-b8c1-de2183b23fc1-00-2cu9uhy3a97ub.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=70bdad07:3699:24)
+at invokeGuardedCallback (https://7210e6ec-888b-4e25-b8c1-de2183b23fc1-00-2cu9uhy3a97ub.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=70bdad07:3733:39)
+at beginWork$1 (https://7210e6ec-888b-4e25-b8c1-de2183b23fc1-00-2cu9uhy3a97ub.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=70bdad07:19765:15)
+at performUnitOfWork (https://7210e6ec-888b-4e25-b8c1-de2183b23fc1-00-2cu9uhy3a97ub.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=70bdad07:19198:20)
+at workLoopSync (https://7210e6ec-888b-4e25-b8c1-de2183b23fc1-00-2cu9uhy3a97ub.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=70bdad07:19137:13)
+isRTL is not defined
+at Services (https://7210e6ec-888b-4e25-b8c1-de2183b23fc1-00-2cu9uhy3a97ub.worf.replit.dev/src/pages/services.tsx:167:196)
+at renderWithHooks (https://7210e6ec-888b-4e25-b8c1-de2183b23fc1-00-2cu9uhy3a97ub.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=70bdad07:11548:26)
+at mountIndeterminateComponent (https://7210e6ec-888b-4e25-b8c1-de2183b23fc1-00-2cu9uhy3a97ub.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=70bdad07:14926:21)
+at beginWork (https://7210e6ec-888b-4e25-b8c1-de2183b23fc1-00-2cu9uhy3a97ub.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=70bdad07:15914:22)
+at HTMLUnknownElement.callCallback2 (https://7210e6ec-888b-4e25-b8c1-de2183b23fc1-00-2cu9uhy3a97ub.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=70bdad07:3674:22)
+at Object.invokeGuardedCallbackDev (https://7210e6ec-888b-4e25-b8c1-de2183b23fc1-00-2cu9uhy3a97ub.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=70bdad07:3699:24)
+at invokeGuardedCallback (https://7210e6ec-888b-4e25-b8c1-de2183b23fc1-00-2cu9uhy3a97ub.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=70bdad07:3733:39)
+at beginWork$1 (https://7210e6ec-888b-4e25-b8c1-de2183b23fc1-00-2cu9uhy3a97ub.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=70bdad07:19765:15)
+at performUnitOfWork (https://7210e6ec-888b-4e25-b8c1-de2183b23fc1-00-2cu9uhy3a97ub.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=70bdad07:19198:20)
+at workLoopSync (https://7210e6ec-888b-4e25-b8c1-de2183b23fc1-00-2cu9uhy3a97ub.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-RPCDYKBN.js?v=70bdad07:19137:13)
+The above error occurred in the <Services> component:
+
+    at Services (https://7210e6ec-888b-4e25-b8c1-de2183b23fc1-00-2cu9uhy3a97ub.worf.replit.dev/src/pages/services.tsx:33:48)
+    at Route (https://7210e6ec-888b-4e25-b8c1-de2183b23fc1-00-2cu9uhy3a97ub.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=70bdad07:280:16)
+    at Switch (https://7210e6ec-888b-4e25-b8c1-de2183b23fc1-00-2cu9uhy3a97ub.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=70bdad07:336:17)
+    at Router
+    at main
+    at div
+    at Provider (https://7210e6ec-888b-4e25-b8c1-de2183b23fc1-00-2cu9uhy3a97ub.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-PJUZUWZ6.js?v=70bdad07:49:15)
+    at TooltipProvider (https://7210e6ec-888b-4e25-b8c1-de2183b23fc1-00-2cu9uhy3a97ub.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=70bdad07:60:5)
+    at NotificationProvider (https://7210e6ec-888b-4e25-b8c1-de2183b23fc1-00-2cu9uhy3a97ub.worf.replit.dev/src/contexts/NotificationContext.tsx:53:40)
+    at NotificationProviderWrapper (https://7210e6ec-888b-4e25-b8c1-de2183b23fc1-00-2cu9uhy3a97ub.worf.replit.dev/src/App.tsx?v=6aQUqPkUtNHnkCmjcVvvO:219:40)
+    at AuthProvider (https://7210e6ec-888b-4e25-b8c1-de2183b23fc1-00-2cu9uhy3a97ub.worf.replit.dev/src/contexts/AuthContext.tsx:20:32)
+    at LanguageProvider (https://7210e6ec-888b-4e25-b8c1-de2183b23fc1-00-2cu9uhy3a97ub.worf.replit.dev/src/contexts/LanguageContext.tsx:21:36)
+    at QueryClientProvider (https://7210e6ec-888b-4e25-b8c1-de2183b23fc1-00-2cu9uhy3a97ub.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=70bdad07:2934:3)
+    at _a (https://7210e6ec-888b-4e25-b8c1-de2183b23fc1-00-2cu9uhy3a97ub.worf.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/react-helmet-async.js?v=70bdad07:624:5)
+    at App
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.

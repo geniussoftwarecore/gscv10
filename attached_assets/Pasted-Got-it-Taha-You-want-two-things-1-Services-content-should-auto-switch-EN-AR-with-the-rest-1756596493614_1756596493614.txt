@@ -1,0 +1,362 @@
+Got it, Taha. You want two things:
+
+1. Services content should **auto-switch EN⇄AR** with the rest of your framework.
+2. Each service should have its **own detail page** with: description, **location chooser**, and a **Start Request** flow — with an **ERPNext v15** page that includes overview + **hardware guidance** + “rates” (pricing tiers as “Contact us”).
+
+Here’s a **ready-to-paste “perfect prompt”** for RBCI (Replit AI). It keeps your exact design/theme; only adds content, i18n, routes, and light UX.
+
+---
+
+# 🔧 RBCI Prompt — “Services i18n + Detail Pages (EN/AR) with ERPNext v15”
+
+**Context**
+You are working inside the `gsc` repo. Do **not** change global layout, colors, spacing, or typography. Reuse existing components (cards, grids, buttons, accordions, inputs). Keep the current blue/green/white theme. Add only content, routes, i18n files, and minimal logic.
+
+---
+
+## 1) i18n wiring for Services (auto EN/AR)
+
+* Detect current language from the app’s existing mechanism. If none exists:
+
+  * Create a small i18n context: `/client/src/lib/i18n.tsx`
+
+    * State: `lang` ∈ {`en`,`ar`} initialized from:
+
+      1. `localStorage.lang`, else
+      2. `<html lang>` attribute, else
+      3. default `'en'`.
+    * Side effect: `document.documentElement.lang = lang; document.documentElement.dir = (lang === 'ar' ? 'rtl' : 'ltr');`
+    * Provide `useI18n()` hook with `{ t, lang, setLang }`.
+  * Reuse any existing LanguageSwitcher, otherwise add a minimal one that just toggles `lang` and persists to localStorage.
+* Create translations for services content:
+
+**Files**
+
+* `/client/src/locales/en/services.json`
+* `/client/src/locales/ar/services.json`
+
+**Shape**
+
+```json
+{
+  "ui": {
+    "services": "Services",
+    "viewDetails": "View details",
+    "whatYouGet": "What you get",
+    "whatWeNeed": "What we need from you",
+    "interactiveIdeas": "Interactive ideas",
+    "startRequest": "Start Request",
+    "chooseLocation": "Choose your location",
+    "country": "Country",
+    "city": "City",
+    "mode": "Mode",
+    "onsite": "On-site",
+    "remote": "Remote",
+    "hybrid": "Hybrid",
+    "sendRequest": "Send Request",
+    "backToServices": "Back to Services"
+  },
+  "services": [
+    {
+      "id": "web-dev",
+      "name": "Web Development",
+      "tagline": "Modern, fast, secure websites and web apps.",
+      "description": "We build responsive interfaces, modular codebases, and SEO-ready web experiences that are easy to maintain and scale.",
+      "features": ["Responsive UI", "Clean architecture", "SEO basics", "Performance budget"],
+      "deliverables": ["Page templates", "Reusable components", "CI build", "Docs for handover"],
+      "inputsNeeded": ["Brand assets", "Site map/sections", "Reference links"],
+      "interactiveIdeas": ["Tech stack selector (Static/SSR)", "Quick quote estimator"],
+      "category": "Web",
+      "ctaLabel": "Request a Proposal"
+    },
+    {
+      "id": "mobile-apps",
+      "name": "Mobile App Development",
+      "tagline": "Native-quality apps for Android & iOS with one codebase.",
+      "description": "Flutter-based apps with solid navigation, secure auth, and analytics. Release pipelines and store-ready deliverables included.",
+      "features": ["Flutter codebase", "Secure auth", "Crash/analytics hooks", "Store bundles"],
+      "deliverables": ["Android APK/AAB", "iOS IPA (where applicable)", "CI/CD pipeline", "Release notes template"],
+      "inputsNeeded": ["Feature list", "Target OS versions", "Launch timing"],
+      "interactiveIdeas": ["Feature toggles (push/offline)", "Release plan timeline"],
+      "category": "Mobile",
+      "ctaLabel": "Request a Proposal"
+    },
+    {
+      "id": "erpnext",
+      "name": "ERPNext Implementation",
+      "tagline": "Tailored ERPNext setup, data migration, and training.",
+      "description": "Configure modules, roles, and reports around your real workflows. We migrate data safely and train your team.",
+      "features": ["Module setup", "Custom scripts", "Reports", "Role-based access"],
+      "deliverables": ["Configured modules", "User roles & permissions", "Sample reports", "Training sessions"],
+      "inputsNeeded": ["Current workflows", "Sample data", "Approval matrix"],
+      "interactiveIdeas": ["Module picker", "Migration readiness checklist"],
+      "category": "ERP",
+      "ctaLabel": "Request a Proposal"
+    },
+    {
+      "id": "custom-erp-crm",
+      "name": "Custom ERP/CRM",
+      "tagline": "When off-the-shelf isn’t enough—build what fits your business.",
+      "description": "We model your domain, design APIs and permissions, and deliver dashboards that match how your teams work.",
+      "features": ["Domain modeling", "API design", "Dashboards", "Granular permissions"],
+      "deliverables": ["Data model", "Endpoints", "Admin console", "Dashboards"],
+      "inputsNeeded": ["Entities/objects", "Process maps", "KPIs"],
+      "interactiveIdeas": ["Data model visualizer", "Dashboard presets"],
+      "category": "ERP",
+      "ctaLabel": "Request a Proposal"
+    },
+    {
+      "id": "ai-automation",
+      "name": "AI Agents & Automation",
+      "tagline": "Automate support, back-office, and data tasks with safe AI workflows.",
+      "description": "We orchestrate tools with guardrails and audit trails so tasks get done quickly and responsibly.",
+      "features": ["Tool use", "Guardrails", "Audit logs", "Escalation paths"],
+      "deliverables": ["Agent workflows", "Eval tests", "Safety config", "Runbooks"],
+      "inputsNeeded": ["Target tasks", "Data sources", "Risk tolerance"],
+      "interactiveIdeas": ["Task builder wizard", "Automation ROI calculator"],
+      "category": "AI",
+      "ctaLabel": "Request a Proposal"
+    },
+    {
+      "id": "ui-ux-branding",
+      "name": "UI/UX & Branding",
+      "tagline": "Interfaces that look great and work even better.",
+      "description": "From wireframes to polished components, we design systems that are accessible, consistent, and delightful.",
+      "features": ["Wireframes", "Design tokens", "Component library", "Accessibility review"],
+      "deliverables": ["Brand kit", "High-fidelity mockups", "Tokens", "Prototype"],
+      "inputsNeeded": ["Audience & tone", "Competitors", "Brand constraints"],
+      "interactiveIdeas": ["Theme previewer", "Font toggle"],
+      "category": "Design",
+      "ctaLabel": "Request a Proposal"
+    },
+    {
+      "id": "cloud-devops",
+      "name": "Cloud & DevOps",
+      "tagline": "From laptop to production—repeatable, reliable, secure.",
+      "description": "We containerize your app, set up CI/CD, and script infrastructure so deployments are boring and safe.",
+      "features": ["Dockerization", "CI/CD", "Infra as code", "Monitoring/alerts"],
+      "deliverables": ["Pipelines", "IaC scripts", "Dashboards", "Playbooks"],
+      "inputsNeeded": ["Hosting choice", "Uptime/SLA", "Budget"],
+      "interactiveIdeas": ["Deployment target selector", "SLA checklist"],
+      "category": "Cloud",
+      "ctaLabel": "Request a Proposal"
+    },
+    {
+      "id": "data-analytics",
+      "name": "Data & Analytics",
+      "tagline": "Turn raw data into dashboards and decisions.",
+      "description": "We define KPIs, build pipelines, and ship dashboards your teams will actually use.",
+      "features": ["Data modeling", "ETL/ELT", "KPI dashboards", "Alerting"],
+      "deliverables": ["Data models", "Pipelines", "Dashboards", "Alert rules"],
+      "inputsNeeded": ["Data sources", "KPI definitions", "Update cadence"],
+      "interactiveIdeas": ["KPI selector", "Dashboard gallery"],
+      "category": "Data",
+      "ctaLabel": "Request a Proposal"
+    },
+    {
+      "id": "ecommerce",
+      "name": "E-Commerce",
+      "tagline": "Storefronts built for conversion and scale.",
+      "description": "We implement product catalogs, payments, and order flows tuned for speed and trust.",
+      "features": ["Catalog", "Checkout", "Payments", "Promos"],
+      "deliverables": ["Storefront", "Payment integration", "Order tracking", "Promo tools"],
+      "inputsNeeded": ["Catalog structure", "Shipping rules", "Payment providers"],
+      "interactiveIdeas": ["Conversion checklist", "Promotion planner"],
+      "category": "Commerce",
+      "ctaLabel": "Request a Proposal"
+    },
+    {
+      "id": "maintenance-support",
+      "name": "Maintenance & Support",
+      "tagline": "Keep everything updated, monitored, and running smoothly.",
+      "description": "Proactive maintenance with security updates, backups, and clear monthly health reports.",
+      "features": ["Patching", "Backups", "Uptime checks", "Reports"],
+      "deliverables": ["Maintenance plan", "SLA", "Monitoring", "Monthly report"],
+      "inputsNeeded": ["Contact ladder", "Maintenance windows", "Environments"],
+      "interactiveIdeas": ["Plan selector (Basic/Pro/Enterprise)", "Incident SLA timeline"],
+      "category": "Support",
+      "ctaLabel": "Request a Proposal"
+    }
+  ]
+}
+```
+
+**Arabic file** uses the **same structure** and ids, but translated:
+
+```json
+{
+  "ui": {
+    "services": "الخدمات",
+    "viewDetails": "عرض التفاصيل",
+    "whatYouGet": "ما الذي ستحصل عليه",
+    "whatWeNeed": "ما الذي نحتاجه منك",
+    "interactiveIdeas": "أفكار تفاعلية",
+    "startRequest": "ابدأ الطلب",
+    "chooseLocation": "اختر موقعك",
+    "country": "الدولة",
+    "city": "المدينة",
+    "mode": "النمط",
+    "onsite": "في الموقع",
+    "remote": "عن بُعد",
+    "hybrid": "هجين",
+    "sendRequest": "إرسال الطلب",
+    "backToServices": "العودة إلى الخدمات"
+  },
+  "services": [
+    { "id": "web-dev", "name": "تطوير الويب", "tagline": "مواقع وتطبيقات ويب حديثة وسريعة وآمنة.", "description": "نبني واجهات متجاوبة، وهياكل برمجية معيارية، وتجارب جاهزة لتحسين محركات البحث وسهلة الصيانة والتوسع.", "features": ["واجهة متجاوبة", "هيكل نظيف", "أساسيات SEO", "ميزانية أداء"], "deliverables": ["قوالب صفحات", "مكوّنات قابلة لإعادة الاستخدام", "بناء CI", "وثائق تسليم"], "inputsNeeded": ["هوية بصرية", "خريطة الموقع", "نماذج مرجعية"], "interactiveIdeas": ["محدد التقنية (ثابت/SSR)", "حاسبة عرض السعر السريع"], "category": "Web", "ctaLabel": "طلب عرض" },
+    { "id": "mobile-apps", "name": "تطوير تطبيقات الموبايل", "tagline": "تطبيقات بجودة أصلية للأندرويد وiOS من قاعدة كود واحدة.", "description": "تطبيقات Flutter بتنقّل ثابت، توثيق آمن، وتحليلات. مع خطوط إصدار وحزم جاهزة للمتاجر.", "features": ["Flutter", "توثيق آمن", "تحليلات/أعطال", "حزم المتجر"], "deliverables": ["APK/AAB", "IPA (عند الإمكان)", "CI/CD", "قالب ملاحظات الإصدار"], "inputsNeeded": ["قائمة الميزات", "إصدارات الأنظمة", "توقيت الإطلاق"], "interactiveIdeas": ["مفاتيح ميزات (إشعارات/أوفلاين)", "مخطط خطة الإصدار"], "category": "Mobile", "ctaLabel": "طلب عرض" },
+    { "id": "erpnext", "name": "تنفيذ ERPNext", "tagline": "إعداد مخصص لـ ERPNext مع ترحيل بيانات وتدريب.", "description": "نهيّئ الوحدات والأدوار والتقارير حسب تدفقات عملك الفعلية. نرحّل البيانات بأمان وندرب فريقك.", "features": ["إعداد الوحدات", "سكربتات مخصصة", "تقارير", "صلاحيات مبنية على الأدوار"], "deliverables": ["وحدات مهيّأة", "أدوار وصلاحيات", "تقارير نموذجية", "جلسات تدريب"], "inputsNeeded": ["تدفقات العمل الحالية", "بيانات عينة", "هيكل الموافقات"], "interactiveIdeas": ["منتقي الوحدات", "قائمة جاهزية الترحيل"], "category": "ERP", "ctaLabel": "طلب عرض" },
+    { "id": "custom-erp-crm", "name": "نُظم ERP/CRM مخصّصة", "tagline": "عندما لا تكفي الحلول الجاهزة—نبني ما يناسب عملك.", "description": "نمذجة المجال، تصميم واجهات برمجية وصلاحيات، ولوحات معلومات تلائم طريقة عمل فرقك.", "features": ["نمذجة المجال", "تصميم API", "لوحات معلومات", "صلاحيات دقيقة"], "deliverables": ["نموذج بيانات", "نقاط نهاية", "لوحة إدارة", "لوحات"], "inputsNeeded": ["الكيانات/الكائنات", "خرائط العمليات", "المؤشرات"], "interactiveIdeas": ["عارض نموذج البيانات", "قوالب لوحات"], "category": "ERP", "ctaLabel": "طلب عرض" },
+    { "id": "ai-automation", "name": "وكلاء الذكاء الاصطناعي والأتمتة", "tagline": "أتمتة الدعم والمهام الخلفية وعمليات البيانات بأمان.", "description": "ننسّق الأدوات بحواجز حماية وسجلات تدقيق لإنجاز المهام بسرعة وبمسؤولية.", "features": ["استخدام الأدوات", "حواجز حماية", "سجلات تدقيق", "مسارات تصعيد"], "deliverables": ["تدفقات الوكلاء", "اختبارات تقييم", "إعدادات الأمان", "كتيبات تشغيل"], "inputsNeeded": ["المهام المستهدفة", "مصادر البيانات", "تحمّل المخاطر"], "interactiveIdeas": ["معالج بناء المهام", "حاسبة عائد الأتمتة"], "category": "AI", "ctaLabel": "طلب عرض" },
+    { "id": "ui-ux-branding", "name": "واجهة المستخدم/التجربة والهوية", "tagline": "واجهات جميلة وعملية في الوقت نفسه.", "description": "من الإطارات السلكية إلى المكوّنات المصقولة، نصمّم أنظمة متاحة ومتسقة وممتعة.", "features": ["Wireframes", "Tokens", "مكتبة مكوّنات", "مراجعة إتاحة"], "deliverables": ["عدة هوية", "نماذج عالية الدقة", "Tokens", "نموذج تفاعلي"], "inputsNeeded": ["الجمهور والنبرة", "المنافسون", "قيود الهوية"], "interactiveIdeas": ["معاينة السمات", "تبديل الخط"], "category": "Design", "ctaLabel": "طلب عرض" },
+    { "id": "cloud-devops", "name": "السحابة وعمليات التطوير", "tagline": "من الحاسوب للإنتاج—قابلية تكرار واعتمادية وأمان.", "description": "نحوّي تطبيقك بالحاويات، ننشئ CI/CD، ونكتب البنية ككود لتصبح النشرات مملة وآمنة.", "features": ["Docker", "CI/CD", "Infra as Code", "مراقبة/تنبيهات"], "deliverables": ["أنابيب CI/CD", "قوالب IaC", "لوحات مراقبة", "كتيبات تشغيل"], "inputsNeeded": ["خيار الاستضافة", "زمن التشغيل/اتفاقية الخدمة", "الميزانية"], "interactiveIdeas": ["محدد وجهة النشر", "قائمة اتفاقية الخدمة"], "category": "Cloud", "ctaLabel": "طلب عرض" },
+    { "id": "data-analytics", "name": "البيانات والتحليلات", "tagline": "حوّل البيانات الخام إلى لوحات وقرارات.", "description": "نعرّف مؤشرات الأداء، نبني الأنابيب، ونسلّم لوحات يستخدمها فريقك فعلاً.", "features": ["نمذجة البيانات", "ETL/ELT", "لوحات مؤشرات", "تنبيه"], "deliverables": ["نماذج بيانات", "أنابيب", "لوحات", "قواعد تنبيه"], "inputsNeeded": ["مصادر البيانات", "تعريف KPIs", "وتيرة التحديث"], "interactiveIdeas": ["محدد KPIs", "معرض لوحات"], "category": "Data", "ctaLabel": "طلب عرض" },
+    { "id": "ecommerce", "name": "التجارة الإلكترونية", "tagline": "واجهات بيع مُهيأة للتحويل والتوسع.", "description": "ننّفذ الكتالوجات والمدفوعات وتدفقات الطلب بسرعة وثقة.", "features": ["كتالوج", "سلة/دفع", "مدفوعات", "عروض ترويجية"], "deliverables": ["واجهة المتجر", "تكامل الدفع", "تتبع الطلب", "أدوات العروض"], "inputsNeeded": ["هيكل الكتالوج", "قواعد الشحن", "مزودو الدفع"], "interactiveIdeas": ["قائمة التحويل", "مخطط العروض"], "category": "Commerce", "ctaLabel": "طلب عرض" },
+    { "id": "maintenance-support", "name": "الصيانة والدعم", "tagline": "تحديثات ومراقبة وتشغيل سلس دائمًا.", "description": "صيانة استباقية مع تحديثات أمنية ونسخ احتياطي وتقارير شهرية واضحة.", "features": ["تصحيحات", "نسخ احتياطي", "مراقبة التوفر", "تقارير"], "deliverables": ["خطة صيانة", "SLA", "مراقبة", "تقرير شهري"], "inputsNeeded": ["سلم التواصل", "نوافذ الصيانة", "البيئات"], "interactiveIdeas": ["محدّد الخطة (أساسي/احترافي/مؤسسي)", "مخطط زمن اتفاقية الحوادث"], "category": "Support", "ctaLabel": "طلب عرض" }
+  ]
+}
+```
+
+---
+
+## 2) Services listing page (no design change)
+
+* Locate the existing Services page/section; if absent, create a page following the current routing pattern (React Router).
+* Read the array from the localized JSON (via `useI18n().lang` → load `en/services.json` or `ar/services.json`).
+* Render a responsive grid of service cards using existing card components and spacing.
+* Each card shows: icon (if you already have lucide), `name`, `tagline`, short `description`, bullets for `features`, and a CTA button “{{ctaLabel}}”.
+* **Clicking a card navigates to** `/services/:slug` where `slug = id`.
+
+---
+
+## 3) Service detail pages (dynamic route)
+
+* Add React Router route: `/services/:slug`.
+* Detail page layout: reuse the marketing/container layout and typography.
+* Sections (localized):
+
+  * Title + tagline
+  * Overview (description)
+  * **What you get** (bullets)
+  * **What we need from you** (bullets)
+  * **Interactive ideas** (collapsed/accordion)
+  * **Location chooser**: `country`, `city`, `mode` (on-site / remote / hybrid)
+  * **Start Request** button (primary)
+* When user clicks **Start Request**:
+
+  * Build a URL to `/contact` with prefilled query params:
+
+    * `?service={{slug}}&lang={{lang}}&country={{country}}&city={{city}}&mode={{mode}}`
+  * Navigate to that URL (no new global nav items added).
+* Add SEO: localized `<title>` + `<meta name="description">` using the service’s text.
+
+---
+
+## 4) Special content for **ERPNext v15** detail
+
+* For `id = "erpnext"`, extend the detail with two extra localized sections:
+
+  * **“ERPNext v15 — What’s new/strong”** (bulleted highlights)
+  * **“Typical hardware guidance”** (table for Small / Mid / Enterprise)
+  * **“Rates”**: show 3 columns (Starter ≤10 users, Standard ≤50, Enterprise 50+) with “Contact us” pricing and included deliverables.
+* Create two MD files to keep long text clean:
+
+  * `/client/src/content/erpnext_v15.en.md`
+  * `/client/src/content/erpnext_v15.ar.md`
+
+**Use this content verbatim:**
+
+`erpnext_v15.en.md`
+
+```
+## ERPNext v15 — Highlights
+- Refreshed Espresso UI for cleaner screens and faster navigation.
+- Faster financial reports generation and general performance improvements.
+- Accounting: auto-create exchange rate revaluation, re-post ledgers without cancellation, un-reconcile payments, improved multi-currency invoicing.
+
+## Typical Hardware Guidance (self-hosted)
+- Small (≤ 10 users): 2 vCPU, 4–8 GB RAM, ≥ 40 GB SSD.
+- Mid (10–50 users): 4 vCPU, 8–16 GB RAM, ≥ 80 GB SSD.
+- Enterprise (50+ users): 8+ vCPU, 16–32 GB RAM, ≥ 160 GB SSD.
+*Notes:* Disk grows with file attachments and backups. SSD recommended. Final sizing depends on modules, traffic, and customizations.
+
+## Rates (Contact us)
+- Starter (≤ 10 users): Implementation + training + basic reports. **Contact us**.
+- Standard (≤ 50 users): Modules setup, migration, custom scripts, dashboards, role-based access. **Contact us**.
+- Enterprise (50+ users): HA/backup strategy, SSO, advanced reporting, admin training, support SLA. **Contact us**.
+```
+
+`erpnext_v15.ar.md`
+
+```
+## ERPNext v15 — أبرز التحسينات
+- واجهة Espresso جديدة لصفحات أوضح وتنقّل أسرع.
+- تسريع توليد التقارير المالية وتحسينات عامة في الأداء.
+- المحاسبة: إنشاء تلقائي لإعادة تقييم سعر الصرف، وإعادة ترحيل القيود دون إلغاء، وإلغاء التسويات، وتحسين الفوترة متعددة العملات.
+
+## إرشادات عتاد نموذجية (استضافة ذاتية)
+- صغير (≤ 10 مستخدمين): 2 vCPU، 4–8 جيجابايت RAM، 40 جيجابايت SSD فأكثر.
+- متوسط (10–50 مستخدمًا): 4 vCPU، 8–16 جيجابايت RAM، 80 جيجابايت SSD فأكثر.
+- مؤسسي (50+ مستخدمًا): 8+ vCPU، 16–32 جيجابايت RAM، 160 جيجابايت SSD فأكثر.
+*ملاحظات:* يزداد التخزين مع المرفقات والنسخ الاحتياطي. يُفضّل SSD. يعتمد الحجم النهائي على الوحدات والحِمل والتخصيصات.
+
+## الأسعار (تواصل معنا)
+- باقة البداية (≤ 10 مستخدمين): تنفيذ + تدريب + تقارير أساسية. **تواصل معنا**.
+- الباقة القياسية (≤ 50 مستخدمًا): إعداد الوحدات، ترحيل، سكربتات مخصصة، لوحات، صلاحيات. **تواصل معنا**.
+- باقة المؤسسات (50+): توافر عالٍ/نسخ احتياطي، SSO، تقارير متقدمة، تدريب إداري، اتفاقية دعم. **تواصل معنا**.
+```
+
+---
+
+## 5) Forms + validation (reuse design)
+
+* Use existing Input/Select components. Add basic validation (country required, mode required).
+* Keep RTL spacing/margins correct when `dir="rtl"` (we already toggle on `<html>`).
+
+---
+
+## 6) QA
+
+* No regressions in Lighthouse vs current marketing pages.
+* Keyboard + screen reader friendly (accordion buttons have `aria-expanded`, form controls have `aria-label` localized).
+* All text swaps instantly when language toggles.
+
+---
+
+## 7) Files to create/touch (adapt to actual folders)
+
+* `/client/src/lib/i18n.tsx` (only if not present)
+* `/client/src/locales/en/services.json`, `/client/src/locales/ar/services.json`
+* `/client/src/content/erpnext_v15.en.md`, `/client/src/content/erpnext_v15.ar.md`
+* Services list page component (existing file or new route)
+* Service detail route: `/services/:slug` (React Router)
+* Contact navigation wiring (no new global nav items)
+
+**Commit message**
+
+```
+feat(services): i18n (EN/AR), service detail routes, location chooser, contact handoff; add ERPNext v15 content
+```
+
+**Output summary (echo in console)**
+
+* Which files created/edited
+* Route added
+* Confirm EN/AR switching and ERPNext v15 extra sections
+
+---
+
+## Notes for ERPNext v15 hardware text (for your awareness)
+
+The “typical hardware guidance” aligns with community docs and guides that commonly cite **2 vCPU, 4 GB RAM, 40+ GB disk as a starting point**, scaling up for more users. Examples include guides and forum posts for ERPNext v15 and Frappe production setups. ([Frappe Forum][1], [Code with Karani][2], [Reddit][3])
+Highlights for v15 (Espresso UI, performance, accounting improvements) are reflected in Frappe’s v15 posts and pages. ([frappe.io][4], [frappeframework.com][5])
+
+---
+
+If you want, I can also add **service-specific FAQs** (EN/AR) and a small **quote estimator** that stays within your current design.
+
+[1]: https://discuss.frappe.io/t/guide-how-to-install-erpnext-v15-on-linux-ubuntu-step-by-step-instructions/111706?utm_source=chatgpt.com "[Guide] How to install ERPNext v15 on Linux Ubuntu (step- ..."
+[2]: https://codewithkarani.com/2023/12/31/how-to-install-erpnext-version-15-in-ubuntu-a-step-by-step-guide/?srsltid=AfmBOorlSt9a6GR6uQEgS9mWVG2GvubYYWxR9COhtDWeAHqXSfAMOuZ1&utm_source=chatgpt.com "How to Install ERPNext Version 15 in Ubuntu 22.04"
+[3]: https://www.reddit.com/r/django/comments/1i9rs3q/complete_devops_guide_for_frappe_framework_and/?utm_source=chatgpt.com "Complete DevOps Guide for Frappe Framework and ..."
+[4]: https://frappe.io/blog/product-updates/v15-erpnext-updates?utm_source=chatgpt.com "V15 updates for ERPNext | Frappe Blog"
+[5]: https://frappeframework.com/version-15?utm_source=chatgpt.com "Version 15"

@@ -1,0 +1,197 @@
+GSC — Build a Modern, Admin-Only CRM (Inbox, SLA/Escalation, RBAC, Audit Log, Realtime, Saved Views, Analytics, Attachments, Tests)
+
+Objectives
+
+Implement a complete admin-only CRM panel at /admin/crm that:
+
+Centralizes client requests into a work-queue/inbox with saved views.
+
+Adds ticket lifecycle with SLA timers and escalation tiers.
+
+Enforces RBAC (admins only), with clean role boundaries.
+
+Records an audit trail for critical actions.
+
+Persists data; supports real-time updates for new tickets/replies.
+
+Supports attachments, search, filters, tags, bulk actions.
+
+Displays a compact analytics overview for admins.
+
+Ships with solid UX/performance and tests.
+
+⚠️ Do not add multi-language now.
+
+1) Routing, RBAC & Seeding (Admins Only)
+
+Ensure AdminRoute protects all admin CRM screens. If missing, create it and gate by user.role === 'admin'.
+
+Seed a default admin (email admin@example.com, password 123) in client/src/data/users.ts. Make authenticateUser return this user with role: 'admin' when creds match.
+
+In client/src/App.tsx, mount:
+
+<Route path="/admin/crm" component={AdminCRM} />
+
+
+Only render the nav link to /admin/crm when isAdmin is true.
+
+2) CRM Inbox (Agent Workspace Patterns)
+
+Create client/src/pages/admin/crm.tsx as the primary workspace:
+
+Left sidebar: Saved Views (My Open, Unassigned, SLA-at-risk, High Priority, All).
+
+Top filters: status, priority, service, assignee, tag, date range; plus a free-text search (title, requester, body).
+
+Center list: paginated table (or virtualized list). Columns: status, priority, subject, requester, assignee, updatedAt, SLA due indicator.
+
+Right panel (when a ticket is selected): conversation timeline (client/admin messages, internal notes), ticket meta (service, tags, attachments, SLA clocks).
+
+Actions: reply, internal note, assign/reassign, change status/priority, add/remove tags, bulk actions on multi-select (assign, status, tag).
+
+Saved Views: Store view configs (filters/sort) under localStorage['gsc_crm_views']. Default views should ship pre-configured.
+
+3) Ticket Model, Lifecycle, SLA & Escalation
+
+Extend ClientRequest to include:
+
+status: 'new'|'open'|'pending-customer'|'waiting'|'resolved'|'closed';
+priority: 'low'|'normal'|'high'|'urgent';
+assigneeId?: string;
+tags?: string[];
+sla: { targetMinutes: number; createdAt: string; dueAt: string; breached?: boolean; paused?: boolean };
+escalation: { tier: 1|2|3; escalatedAt?: string; reason?: string } | null;
+
+
+Add helpers in client/src/data/clientRequests.ts:
+
+setAssignee(id, userId)
+
+setStatus(id, status)
+
+setPriority(id, priority)
+
+addTags(id, tags[]) / removeTag(id, tag)
+
+ensureSLA(id) to compute dueAt = createdAt + targetMinutes.
+
+checkAndMarkSLABreaches() to flag breached when now > dueAt.
+
+escalate(id, nextTier, reason).
+
+Add a SLA ribbon in ticket header (green/orange/red based on time-to-due) and a queue filter: “SLA at risk”.
+
+4) Conversation Timeline, Replies, Internal Notes, Macros
+
+In ticket panel, create a timeline:
+
+type Entry = { id:string; kind:'reply'|'note'|'event'; authorId:string; createdAt:string; body:string; attachments?: Attachment[] };
+
+
+Compose box with tabs: Reply (visible to client) and Internal Note (admins only).
+
+Macros (Canned Replies): client/src/data/macros.ts with simple placeholders (e.g., {{customer_name}}). Insert macro text into compose.
+
+5) Notifications (Realtime + Persistence)
+
+Persist notifications in localStorage['gsc_notifications'] with helpers to add/mark-as-read.
+
+Simulate realtime:
+
+Create a lightweight notificationBus using BroadcastChannel (fallback to setInterval polling) to push new request/new reply signals that update the inbox without page reload.
+
+Show a bell icon with unread count in the admin header; add a “Notifications” drawer with filtering by type.
+
+6) Attachments & File Viewer
+
+Support attachments on client requests and admin replies:
+
+type Attachment = { id:string; name:string; mime:string; size:number; url:string };
+
+
+In the timeline, render file chips; clicking opens a preview modal for PDFs/images; always allow “Download”.
+
+7) Search, Filters, Tags, Bulk Ops, Keyboard UX
+
+Full-text search across subject + body; filter chips are removable.
+
+Tag management UI (add/remove with autocomplete).
+
+Bulk select rows with shift-click; apply bulk assign/status/tag.
+
+Add keyboard shortcuts: J/K to move selection; A assign; R reply; / focus search.
+
+8) Analytics Snapshot (Admin CRM Home)
+
+Create client/src/pages/admin/crm-analytics.tsx (or a top section in /admin/crm) with small KPI cards + 1–2 charts:
+
+KPIs: Open, At-risk (SLA), Avg first response, Avg resolution, Today’s new, Breaches.
+
+Charts: Open vs Resolved (last 30 days) and SLA Breaches by Tier.
+
+Use simple bar/line charts. No i18n now. Favor preattentive visuals (length/position).
+
+9) Audit Log (Immutable Trail)
+
+Create client/src/data/auditLog.ts with append-only entries:
+
+{ id, at, actorId, action:'status-change'|'assign'|'escalate'|'reply'|'note'|'tag-add'|'tag-remove', targetId, meta:{} }
+
+
+Every mutating action writes an audit entry. Add an Audit tab inside the ticket panel to review changes; provide basic filters by actor/action/date.
+
+10) Persistence Layer & API Abstraction
+
+Keep current localStorage approach but route all reads/writes through a data/ module (requests, notifications, audit, macros, views, transactions later). This makes it easy to swap a real backend later without changing UI code.
+
+11) Performance & Reliability
+
+Use pagination or windowed lists for the inbox.
+
+Implement optimistic updates with rollback for common actions (assign, status, tag).
+
+Show skeleton loaders; never block the entire screen.
+
+Add toasts on success/failure; retry failed network-like ops.
+
+12) Testing & QA
+
+Unit tests for helpers: SLA math, escalation, audit logging, filters/saved views.
+
+Component tests for Inbox list, Ticket panel, Compose.
+
+E2E happy path: create request → admin reply → SLA tick → escalate → resolve.
+
+Implementation Notes (for Replit)
+
+Do not implement multi-language now.
+
+Keep all admin CRM routes behind AdminRoute.
+
+Seed data where useful; ensure everything persists to localStorage keys:
+
+gsc_crm_views, gsc_notifications, gsc_audit, gsc_requests, gsc_macros.
+
+Add small developer docs in README.md (how to log in as admin, where CRM lives).
+
+References (design & workflow patterns)
+
+Inbox/agent workspace patterns in customer service CRMs (Microsoft Dynamics 365 guidance). 
+Microsoft Learn
+
+SLA/escalation practices for support desks (Zendesk, Gorgias, InvGate, Wrangle). 
+Zendesk
+Gorgias
+InvGate Blog
+Wrangle
+
+RBAC design guidance (Microsoft Entra, Frontegg, StrongDM). 
+Microsoft Learn
+Frontegg
+StrongDM
+
+Audit log best practices (DigitalGuardian, implementation guides). 
+Digital Guardian
+Medium
+
+Dashboard visualization heuristics (Nielsen Norman Group)

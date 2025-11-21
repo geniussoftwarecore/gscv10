@@ -1,0 +1,147 @@
+Role: You are a meticulous front-end implementer working inside the existing GSC codebase.
+
+Scope (Do & Don’t):
+
+Do:
+
+Wire navigation so that clicking the “Smartphone Application Development” service (the service card/menu item that represents mobile app development) routes to the existing Smartphone Application Development page.
+
+Update this page only to show app details when clicking View Details on any app card.
+
+Remove/disable all pricing content only on this page.
+
+Don’t: Change other service pages, the global theme, shared components, colors, spacing, typography, or animations.
+
+Tasks
+1) Navigation to the page
+
+Locate the service entry for Smartphone Application Development in the services list/landing.
+
+Ensure its click/CTA routes to the Smartphone Application Development page (the file currently rendered for “تطوير تطبيقات الهواتف الذكية”).
+
+Use the project’s existing router (no new routes). If a route alias is needed, map it to this page without changing other routes.
+
+2) “View Details” behavior on this page
+
+In every app card on the Smartphone Application Development page, ensure View Details opens the existing details Drawer/Modal (RTL-friendly) with:
+
+Overview (longDesc)
+
+Key Features (keyFeatures[])
+
+Stack & Integrations (if present)
+
+Timeline (Analysis → Design → Development → Testing → Delivery)
+
+Optional: Images/FAQ if present
+
+Accessibility: focus trap, close via Esc and outside click, return focus to the trigger button, aria-labelledby/aria-describedby.
+
+Performance: lazy-load details content on open (no external network calls).
+
+3) Remove pricing from this page only
+
+Do not render any pricing-related fields or sections on this page (cards and details). Treat fields like price, pricing, pricingNote, cost as non-rendered.
+
+Keep the data fields intact in code (for future use), but never show them in the UI on this page.
+
+Do not modify pricing visibility on other pages.
+
+4) i18n compliance (AR ⇄ EN)
+
+All strings on this page (buttons, headings, filters, details modal labels) must come from i18n keys (no hard-coded Arabic/English in JSX).
+
+Language switch must update all visible text and direction:
+
+ar → dir="rtl", lang="ar"
+
+en → dir="ltr", lang="en"
+
+Persist language choice in localStorage (e.g., gsc:lang) and restore on load.
+
+Use existing i18n setup; if keys are missing, add them to local resource files only.
+
+Acceptance Criteria
+
+Clicking the Smartphone Application Development service navigates to the intended page via the existing router.
+
+On that page, View Details opens a functional, accessible details Drawer/Modal for any app card.
+
+No pricing text, numbers, icons, or sections appear anywhere on this page (cards or details).
+
+i18n toggle updates all texts and direction; choice persists across reloads.
+
+No visual or functional regressions on other pages; theme and shared components remain unchanged.
+
+Notes
+
+Keep current motion/opacity transitions and rounded cards.
+
+Maintain existing CTAs and their links (e.g., “Start Now”, “Discuss App” → contact page).
+
+No external network calls; use local data/assets only.
+
+If you want, I can also provide a tiny checklist of i18n keys to add (EN/AR) for the new/edited strings on this page.
+
+قام بالعمل لمدة 22 ثانية
+
+حاضر يا طه! 👌
+إليك برومبت مختصر ودقيق لـ Replit AI لتنفيذ طلبك:
+
+عند الضغط على عنصر الخدمة «تطوير تطبيقات الهواتف الذكية» في صفحة الخدمات، انتقل إلى صفحة تطوير تطبيقات الهواتف الذكية.
+
+داخل هذه الصفحة، عندما تضغط على زر «عرض التفاصيل» لأي تطبيق، تُفتح لوحة التفاصيل المعتادة.
+
+احذف بالكامل أي نص أو عنصر يتعلق بالسعر أو تفاصيل التسعير داخل هذه الصفحة فقط (لا تغير صفحات أخرى).
+
+برومبت Replit AI (انسخه كما هو)
+
+Role: Front-end implementer تعمل في كود GSC.
+
+Scope:
+
+Do:
+
+اضبط رابط خدمة «تطوير تطبيقات الهواتف الذكية» في صفحة الخدمات ليفتح صفحة تطوير تطبيقات الهواتف الذكية الحالية.
+
+عدّل صفحة تطوير تطبيقات الهواتف الذكية بحيث:
+
+يعمل زر «عرض التفاصيل» في كل بطاقة تطبيق على فتح لوحة التفاصيل الموجودة (Modal/Drawer).
+
+تختفي تمامًا أي أقسام أو حقول أو نصوص متعلقة بالتسعير (مثل price, pricingNote, cost) في هذه الصفحة (البطاقات واللوحات)، مع ترك البيانات المخزنة دون عرضها.
+
+Don’t: لا تغيّر صفحات أخرى أو التصميم العام أو الروابط الحالية (بخلاف ربط هذه الصفحة بالخدمة).
+
+المهام
+
+ربط صفحة الخدمة:
+
+في قائمة الخدمات/الصفحة الرئيسية، تأكد أن اختيار «تطوير تطبيقات الهواتف الذكية» يوجّه إلى الصفحة الخاصة بهذه الخدمة باستخدام الراوتر الموجود.
+
+تفعيل «عرض التفاصيل»:
+
+في صفحة تطوير التطبيقات، اكشف عن زر «عرض التفاصيل» لكل بطاقة (إن لم يكن موجودًا).
+
+عند الضغط، افتح تفاصيل التطبيق في نفس اللوحة المستخدمة سابقًا، مع الحفاظ على أنماط RTL/RTL وتوافقية الوصول (focus trap, Esc لإغلاق، إرجاع التركيز للزر).
+
+إخفاء التسعير:
+
+لا تعرض أي حقول أو عناصر مرتبطة بالسعر في البطاقات أو اللوحة داخل هذه الصفحة.
+
+احتفظ بالحقول في الواجهة البرمجية، لكن لا تُظهرها للمستخدم.
+
+حافظ على الترجمة:
+
+إذا كانت المنصة تستخدم i18n، تابع استخدام المفاتيح نفسها للغة العربية والإنجليزية؛ لا تضف نصوصًا صلبة جديدة.
+
+يجب أن يبقى زر/قائمة تغيير اللغة يعمل كما هو، بحيث يعكس الترجمة والاتجاه (RTL/LTR) بشكل صحيح.
+
+معايير القبول
+
+الضغط على بطاقة خدمة «تطوير تطبيقات الهواتف الذكية» في صفحة الخدمات يحمّل الصفحة الصحيحة.
+
+زر «عرض التفاصيل» في كل بطاقة على هذه الصفحة يفتح لوحة التفاصيل بنفس النمط.
+
+لا يظهر أي محتوى تسعيري في هذه الصفحة (لا أرقام، لا نصوص تخص السعر) بينما تظل البيانات محفوظة.
+
+لا يوجد تأثير على صفحات أخرى أو الروابط القائمة.

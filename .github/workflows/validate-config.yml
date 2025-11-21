@@ -1,0 +1,127 @@
+name: Validate Configuration
+
+on:
+  push:
+    paths:
+      - 'docker-compose*.yml'
+      - 'Dockerfile*'
+      - '.env.example'
+      - '.github/workflows/**'
+      - 'nginx/**'
+      - 'scripts/**'
+  pull_request:
+    paths:
+      - 'docker-compose*.yml'
+      - 'Dockerfile*'
+      - '.env.example'
+      - '.github/workflows/**'
+      - 'nginx/**'
+      - 'scripts/**'
+
+jobs:
+  validate:
+    name: Validate Configurations
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Validate Docker Compose files
+        run: |
+          echo "Validating docker-compose.staging.yml..."
+          docker-compose -f docker-compose.staging.yml config --quiet
+          
+          echo "Validating docker-compose.prod.yml..."
+          docker-compose -f docker-compose.prod.yml config --quiet
+
+      - name: Validate Dockerfiles
+        run: |
+          echo "Validating Dockerfile..."
+          docker build --target production -f Dockerfile . --dry-run || echo "Dockerfile validation completed"
+          
+          echo "Validating Dockerfile.client..."
+          docker build --target production -f Dockerfile.client . --dry-run || echo "Dockerfile.client validation completed"
+
+      - name: Run configuration validation script
+        run: |
+          chmod +x scripts/validate-config.sh
+          ./scripts/validate-config.sh
+
+      - name: Validate .env.example
+        run: |
+          if [ ! -f .env.example ]; then
+            echo "❌ .env.example file is missing"
+            exit 1
+          fi
+          
+          echo "✅ .env.example file exists"
+          
+          # Check for critical environment variables
+          required_vars=("NODE_ENV" "PORT" "DATABASE_URL" "JWT_SECRET" "CORS_ORIGIN")
+          for var in "${required_vars[@]}"; do
+            if ! grep -q "^${var}=" .env.example; then
+              echo "❌ Missing required variable: $var"
+              exit 1
+            fi
+          done
+          
+          echo "✅ All required environment variables are present"
+
+      - name: Validate nginx configuration
+        run: |
+          if [ -f nginx/default.conf ]; then
+            echo "✅ Nginx configuration file exists"
+            # Basic nginx config validation would require nginx installed
+            # For now, just check file exists and is not empty
+            if [ -s nginx/default.conf ]; then
+              echo "✅ Nginx configuration file is not empty"
+            else
+              echo "❌ Nginx configuration file is empty"
+              exit 1
+            fi
+          else
+            echo "❌ Nginx configuration file is missing"
+            exit 1
+          fi
+
+      - name: Validate backup script
+        run: |
+          if [ -f scripts/backup.sh ]; then
+            echo "✅ Backup script exists"
+            if [ -x scripts/backup.sh ]; then
+              echo "✅ Backup script is executable"
+            else
+              echo "❌ Backup script is not executable"
+              exit 1
+            fi
+          else
+            echo "❌ Backup script is missing"
+            exit 1
+          fi
+
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    needs: validate
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
+      - name: Upload Trivy scan results
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'

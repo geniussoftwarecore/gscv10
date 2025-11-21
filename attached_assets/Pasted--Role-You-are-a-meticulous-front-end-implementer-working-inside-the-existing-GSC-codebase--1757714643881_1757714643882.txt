@@ -1,0 +1,61 @@
+**Role:** You are a meticulous front‑end implementer working inside the existing GSC codebase.
+
+**Scope (Do & Don’t):**
+- **Do:** Modify **only** the Mobile App Development service page (the file currently rendered for “تطوير تطبيقات الهواتف الذكية”) to enrich content and interactivity.
+- **Don’t:** Touch any other service pages, navigation, global theme, or shared components. Preserve the current RTL, typography, colors, spacing, and animations.
+
+**Goals:**
+1) Keep the current hero section and tech badges exactly as they are; **retain** the delivery time “4–8 أسابيع”.
+2) Populate and wire the **category filter** (“اختر نوع التطبيق الذي تريده”) with clickable filter chips + a grid of cards for each app type, following the existing design.
+3) Complete the “ما ستحصل عليه” card using the same icons and style with these bullet points (concise and professional):  
+   - دعم فني متواصل  
+   - تسليم في الوقت المحدد  
+   - الاختبارات والتقارير  
+   - التدريب والدعم  
+4) Activate the “كيف نعمل” section with four clear steps:  
+   - 01 تحليل المتطلبات  
+   - 02 التصميم وتجربة المستخدم  
+   - 03 التطوير والتكامل  
+   - 04 الاختبار والتسليم  
+5) Leave the CTA sections unchanged visually, but ensure the links work and integrate with the existing router.
+
+**Content to add (data objects):**
+- Define a local array for the category filter and cards. Each item must include `id`, `category`, `title`, `shortDesc`, `keyFeatures[]`, optional `tag` (e.g., “MVP”, “Enterprise”), and optional `ctaLink`.
+- Categories to include (use these keys in code, Arabic labels in UI):  
+  - `all` (جميع الأنواع)  
+  - `ecommerce` (تجارة إلكترونية)  
+  - `services` (خدمات عند الطلب)  
+  - `education` (تعليم)  
+  - `health` (صحة)  
+  - `fintech` (مالية/مدفوعات)  
+  - `logistics` (توصيل/نقل)  
+  - `media` (وسائط/ترفيه)
+- Provide **at least 2 cards per category** (16–20 cards in total). Each card should have a short title and 3–5 key features, describing business outcomes (سرعة الإطلاق، أمان البيانات، أداء عالي، قابلية التوسّع، دعم ما بعد الإطلاق). Do not repeat the same phrasing.
+
+**Filtering behavior:**
+- Clicking a filter chip updates the grid to show matching cards; “جميع الأنواع” shows all cards.
+- Maintain current motion/opacity transitions and rounded‑xl cards; don’t change the component library.
+
+**Hero & badges:**
+- Keep existing badges (React Native, Flutter, Swift, Kotlin, Firebase) and **don’t** change the design.
+- Keep “مدة التسليم: 4–8 أسابيع” visible with the clock icon.
+
+**Copy tone & lengths:**
+- Arabic, concise, professional, free of repetition.
+- Avoid marketing fluff; focus on business outcomes.
+
+**Links & routing:**
+- Ensure “ابدأ مشروعك الآن” routes to the contact page, and “تصفح خدمات أخرى” routes to the services list, matching existing links.
+- If you include card‑level CTAs, route them to the same contact page.
+
+**Accessibility & performance:**
+- Keep current semantics; ensure buttons have accessible labels, and images/icons have appropriate `alt` or `aria-label` attributes.
+- No external network calls; keep assets and components internal.
+
+**Acceptance Criteria:**
+- Category filter works 100%.
+- At least 16–20 cards distributed across the categories.
+- Sections “ما ستحصل عليه” and “كيف نعمل” are fully implemented with the provided content and icons.
+- Hero, badges, and delivery time remain visually unchanged.
+- CTA links work correctly.
+- No modifications to any other service pages or the general layout.

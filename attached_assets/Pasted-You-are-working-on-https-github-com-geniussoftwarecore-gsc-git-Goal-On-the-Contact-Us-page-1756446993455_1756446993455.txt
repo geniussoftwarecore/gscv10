@@ -1,0 +1,82 @@
+You are working on https://github.com/geniussoftwarecore/gsc.git
+
+Goal: On the **Contact Us** page, there are TWO headers and TWO footers. Keep ONLY ONE canonical **Header** and ONE canonical **Footer**. Remove the duplicates without changing any page content, routes, or backend logic. Ensure the page still matches the Home/Services visual system (same colors, spacing, typography, RTL/i18n).
+
+────────────────────────────────────────────────────────
+0) Scope & Guardrails
+────────────────────────────────────────────────────────
+- Branch: fix/contact-duplicate-header-footer
+- Frontend-only edits in /client.
+- DO NOT delete the shared Header/Footer component files; only remove extra usages on the Contact page.
+- DO NOT change copy, routes, or API calls. Presentation-only fix.
+
+────────────────────────────────────────────────────────
+1) Detect the Contact Route & Duplicates
+────────────────────────────────────────────────────────
+Locate the Contact page component (one of):
+- client/src/pages/Contact.tsx
+- client/src/pages/contact.tsx
+- client/src/app/contact/page.tsx
+- client/src/routes/Contact.tsx
+
+Search INSIDE that file (and its immediate wrappers) for duplicated top/bottom bars:
+- Components possibly used: <Header/>, <Navbar/>, <Topbar/>, <Taskbar/>, and <Footer/>.
+- Count how many header-like components and how many footer-like components are rendered.
+- If the page is wrapped by a global layout (e.g., client/src/components/layout/Layout.tsx or app-wide layout),
+  then the page component MUST NOT import/render Header/Footer directly.
+
+────────────────────────────────────────────────────────
+2) Single Source of Truth for Shell
+────────────────────────────────────────────────────────
+- If your app uses a global layout that already includes <Header/> and <Footer/>:
+  • Keep the layout as the ONLY place where Header/Footer are rendered.
+  • Remove any <Header/>/<Navbar/>/<Topbar/> and <Footer/> instances from the Contact page component.
+- If your app does NOT use a global layout:
+  • Keep exactly ONE <Header/> at the top and ONE <Footer/> at the bottom of Contact.
+  • Remove any second/duplicate instance.
+
+Tip: Typical files
+- Global Marketing Layout: client/src/components/layout/Layout.tsx
+- Header: client/src/components/layout/Header.tsx
+- Footer: client/src/components/layout/Footer.tsx
+
+────────────────────────────────────────────────────────
+3) Normalize Structure & Spacing (match Home/Services)
+────────────────────────────────────────────────────────
+- Contact page must match container/spacing:
+  • container mx-auto px-4 sm:px-6 lg:px-8
+  • Section rhythm: py-12 (mobile) / py-16 (desktop)
+- If duplicate removal changes spacing (e.g., extra top margin was compensating two headers),
+  adjust padding-top/bottom so the page still aligns visually with Home/Services.
+- Keep RTL/i18n behavior unchanged (dir flips at <html> from the provider).
+
+────────────────────────────────────────────────────────
+4) Safety Checks
+────────────────────────────────────────────────────────
+- Do NOT modify imports/exports of Header/Footer files themselves.
+- Do NOT rename components or move shared files.
+- Ensure NO console errors/warnings introduced after removal.
+- Ensure all Contact subsections still render (channels, form, map/info, CTA if present).
+
+────────────────────────────────────────────────────────
+5) Acceptance Criteria
+────────────────────────────────────────────────────────
+- Contact page renders with exactly **one** Header and **one** Footer.
+- Visual alignment (colors/spacing/typography) matches Home/Services.
+- No content loss on Contact (same text and sections).
+- AR/EN toggle still works; <html dir> switches correctly for Arabic.
+- Build passes; TypeScript/ESLint clean; no runtime errors.
+
+────────────────────────────────────────────────────────
+6) Commands & Commits
+────────────────────────────────────────────────────────
+Run:
+- pnpm install
+- pnpm dev
+
+Commits (conventional):
+- fix(contact): remove duplicate Header/Footer and align shell to global layout
+- chore(layout): ensure Contact uses single layout source of truth
+
+After that, open PR: “fix(contact): deduplicate header/footer; align with global layout”
+Attach before/after screenshots (EN/AR, mobile/desktop).

@@ -1,0 +1,142 @@
+0) Goal
+
+Place the logo at:
+
+Preferred: client/public/brand/logo-gsc.svg
+
+Fallback PNG: client/public/brand/logo-gsc.png
+
+Provide two variants:
+
+Navbar (icon-only, no text): actual height 24–28px
+
+Hero (full: icon + text): 56–72px on desktop, 40–48px on mobile
+
+If SVG isn’t available, use a high-res PNG with fixed dimensions to avoid CLS.
+
+Use the attached logo file as the source asset. Create/derive the needed files from it.
+
+1) Assets
+
+Create the folder:
+
+client/public/brand/
+
+
+Save the attached logo into the project:
+
+Full logo (SVG if available): logo-gsc.svg
+
+Fallback full PNG: logo-gsc.png (≥ 1024×1024 for crisp scaling)
+
+Create derived variants:
+
+Navbar icon-only (no text):
+
+logo-gsc-icon.svg
+
+logo-gsc-icon.png
+
+Hero full (icon + text):
+
+Reuse logo-gsc.svg / logo-gsc.png and size via CSS
+
+If the source is PNG-only, keep PNG and set explicit width/height on <img> to prevent layout shifts. If practical, vectorize to SVG; otherwise keep the PNG.
+
+2) Brand Colors (match platform theme)
+
+Ensure the logo colors match the platform’s White + Sky Blue palette already defined in tailwind.config.ts:
+
+Primary sky (accent): brand.sky.accent (e.g., #7CC7FF)
+
+Light sky: brand.sky.base or brand.sky.light
+
+Text/dark: brand.text.primary (e.g., #0F172A)
+
+If using SVG, update fill / gradient stop-color values to match.
+
+3) Components — Usage
+3.1 Navbar — icon-only logo
+
+File: client/src/components/layout/Navbar.tsx
+
+import { Link } from "react-router-dom";
+
+export function NavbarBrand() {
+  return (
+    <Link to="/" className="flex items-center gap-2 h-10" aria-label="GSC Home">
+      <img
+        src="/brand/logo-gsc-icon.svg"
+        onError={(e) => (e.currentTarget.src = "/brand/logo-gsc-icon.png")}
+        alt="GSC"
+        className="h-7 w-auto md:h-8"
+        width={28}
+        height={28}
+      />
+      <span className="hidden md:inline-block font-semibold tracking-wide text-brand.text.primary">
+        Genius Software Core
+      </span>
+    </Link>
+  );
+}
+
+
+Final visual height in Navbar must not exceed 28px.
+
+On small screens, hide the text and keep the icon only.
+
+3.2 Hero — full logo above headline
+
+File: client/src/components/home/HomeHero.tsx
+
+export function HomeHeroBrand() {
+  return (
+    <div className="mx-auto mb-4 md:mb-6 flex items-center justify-center">
+      <img
+        src="/brand/logo-gsc.svg"
+        onError={(e) => (e.currentTarget.src = "/brand/logo-gsc.png")}
+        alt="GSC"
+        className="h-10 w-auto md:h-16"  // ~40px mobile, ~64px desktop
+        width={256}                       // set both dimensions to prevent CLS
+        height={72}
+      />
+    </div>
+  );
+}
+
+
+Mobile: ~40–48px height (h-10 / h-12)
+
+Desktop: 56–72px (md:h-14 / md:h-18)
+
+4) Accessibility & Performance
+
+Always set alt="GSC" (or a descriptive alt).
+
+Fix image dimensions (width/height)—especially for PNG.
+
+No heavy image libraries; rely on Tailwind CSS sizing.
+
+Prepare a dark-mode logo variant later if needed.
+
+5) Acceptance Checklist
+
+Navbar shows a clean icon-only logo at 24–28px height; company name appears on desktop only.
+
+Hero shows the full logo above the headline at 40–48px (mobile) and 56–72px (desktop).
+
+No layout shifts (CLS) on page load.
+
+Logo colors match the platform palette.
+
+No console warnings/errors in dev.
+
+6) Suggested Commits
+
+feat(brand): add logo assets (svg/png) with navbar icon + full hero
+
+feat(navbar): integrate brand icon at 28px with company name
+
+feat(home-hero): place full logo above headline with fixed dimensions
+
+style(theme): align logo colors with white+sky palette

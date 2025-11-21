@@ -1,0 +1,287 @@
+Replit AI — Clean Rebuild (Deduplicate + Consolidate) on Existing Enterprise Resource Planning Service Page
+0) Objective (Do NOT create a new page)
+
+Work only on the already existing page titled “أنظمة تخطيط موارد المؤسسات” (Enterprise Resource Planning).
+
+Remove duplicates from prior edits, then rebuild a single, clean, bilingual section for ERPNext v15 with an interactive modules guide.
+
+Keep the platform style (blue/white/light-green), and support AR=RTL / EN=LTR.
+
+1) Rollback / Cleanup (Deduplication)
+
+Locate the ERP service page (look for “أنظمة تخطيط موارد المؤسسات” or paths including services/erp).
+
+Delete/strip any previously added, duplicated, or partial blocks related to ERPNext v15, including but not limited to:
+
+Previous ERPNext Hero/Overview blocks
+
+Any prior modules grids or drawers/modals
+
+Duplicate FAQ, sticky CTA bars, lead forms
+
+Redundant meta/OG/Schema inserts for this page
+
+Keep the page’s native header/footer and global components.
+
+Ensure there will be exactly one of each of the following after rebuild: ERPNext v15 section, modules grid, sticky CTA, FAQ, and one lead form with anchor #erpnext-lead-form.
+
+2) Rebuild — Single, Consolidated Structure (Top → Bottom)
+
+Insert the following blocks once and in this order. Use anchors as specified.
+
+A) ERPNext v15 — Hero id="erpnext-v15"
+
+Headlines:
+
+AR: حوِّل عملياتك مع ERPNext v15 — نظام ERP مرن، شامل، مفتوح المصدر.
+
+EN: Transform Your Operations with ERPNext v15 — Flexible, Comprehensive, Open-Source ERP.
+
+Intro:
+
+AR: حلّ ERP متكامل للمحاسبة والمبيعات والمشتريات والمخزون والتصنيع والموارد البشرية والمشاريع، قابل للتخصيص وسريع النشر وبكلفة تنافسية.
+
+EN: A full-stack ERP for Accounting, Sales, Buying, Inventory, Manufacturing, HR, and Projects—customizable, fast to deploy, and cost-effective.
+
+CTAs (two):
+Request a Demo / اطلب عرضًا توضيحيًا → scroll to #erpnext-lead-form
+Get a Quote / اطلب عرض سعر → scroll to #erpnext-lead-form
+
+Optional mockup image (optimized WebP).
+
+B) Overview (concise)
+
+AR: ERPNext v15 يوفّر نواة مالية قوية وسلاسل إمداد واضحة، مع تقارير مرنة وملكية بيانات كاملة ونشر محلي/سحابي/هجين.
+
+EN: ERPNext v15 offers a solid financial core and clear supply chains with flexible reporting, full data ownership, and on-prem/cloud/hybrid deployment.
+
+C) Interactive Modules Guide id="erpnext-modules"
+
+UI:
+
+Filter chips: Core | Industry Domains, plus search box (filters cards live).
+
+Responsive grid (3–4 columns desktop, 1–2 mobile).
+
+On card click → right Drawer (preferred) or Modal with AR/EN content based on site language.
+
+Inside Drawer: Documentation link, Request Demo, Request a Quote (both scroll to #erpnext-lead-form).
+
+Groups & Cards:
+
+Core (17): Accounting; Selling; CRM; Buying; Stock; Manufacturing; Projects; HR & Payroll; Support/Helpdesk; Assets; Quality; Maintenance; Subscriptions; POS/Retail; Website & eCommerce; Payments & Banking; Communication.
+
+Industry Domains (4): Healthcare; Education; Agriculture; Non Profit.
+
+Drawer Content (AR/EN) — concise bullets:
+
+Accounting:
+
+AR: دليل حسابات متعدد، فواتير بيع/شراء، أبعاد محاسبية، قيود، ضرائب، مطابقة بنكية، تقارير مالية.
+
+EN: CoA, Sales/Purchase Invoices, Accounting Dimensions, Journals, Taxes, Bank Reconciliation, Financials.
+
+Selling:
+
+AR: عروض، أوامر بيع، قوائم أسعار، قواعد خصم، ضرائب/شحن، توافر مخزون.
+
+EN: Quotations, Sales Orders, Price Lists, Pricing Rules, Taxes/Shipping, Stock availability.
+
+CRM:
+
+AR: عملاء محتملون، فرص، مراحل، بريد، مهام، تقارير أداء.
+
+EN: Leads, Opportunities, pipeline, email, assignments, performance.
+
+Buying:
+
+AR: موردون، RFQ، عروض، مقارنة، أوامر شراء، استلام، فواتير.
+
+EN: Suppliers, RFQs, quotations, comparisons, POs, receipts, invoices.
+
+Stock:
+
+AR: مستودعات، تحويلات، دفعات/تسلسلات، تقييم، إعادة الطلب.
+
+EN: Warehouses, transfers, batches/serials, valuation, reorders.
+
+Manufacturing:
+
+AR: BOM، أوامر تصنيع، بطاقات عمل، تخطيط مواد، محطات، كلفة.
+
+EN: BOMs, Work Orders, Job Cards, MRP, Workstations, costing.
+
+Projects:
+
+AR: مشاريع، مهام، Timesheets، فوترة وقت/معالم، جانت/كانبان.
+
+EN: Projects, tasks, timesheets, time/milestone billing, Gantt/Kanban.
+
+HR & Payroll:
+
+AR: ملفات موظف، حضور/إجازات، شفتات، هياكل ورواتب، مطالبات، تقييم.
+
+EN: Employee, attendance/leave, shifts, salary structures/slips, claims, appraisals.
+
+Support/Helpdesk:
+
+AR: تذاكر، SLA، تصعيد، قاعدة معرفة، رضا العملاء.
+
+EN: Tickets, SLAs, escalation, knowledge base, CSAT.
+
+Assets:
+
+AR: تسجيل، إهلاك، نقل، ضمان/صيانة، إعادة تقييم/تخلّص.
+
+EN: Registry, depreciation, transfer, warranty/maintenance, reval/disposal.
+
+Quality:
+
+AR: خطط وفحوصات، عينات، عدم مطابقة، إجراءات تصحيحية.
+
+EN: Plans & inspections, sampling, nonconformance, CAPA.
+
+Maintenance:
+
+AR: وقائي، زيارات، أوامر شغل، قطع غيار، سجلات أعطال.
+
+EN: Preventive, field visits, work orders, spares, failure logs.
+
+Subscriptions:
+
+AR: خطط دورية، فوترة تلقائية، تجديد، Proration/Credit، تنبيهات.
+
+EN: Plans, auto-invoicing, renewals, proration/credits, reminders.
+
+POS/Retail:
+
+AR: ملفات POS، وضع Offline، إرجاعات، إقفال صندوق، مزامنة.
+
+EN: POS profiles, offline, returns, cashier closing, sync.
+
+Website & eCommerce:
+
+AR: صفحات/مدونة، كتالوج، سلة/دفع، حساب عميل، SEO.
+
+EN: Pages/blog, catalog, cart/checkout, customer portal, SEO.
+
+Payments & Banking:
+
+AR: قيود مدفوعات، طلبات دفع، حسابات ومطابقة بنكية، تحصيل.
+
+EN: Payment entries/requests, bank accounts & reconciliation, collections.
+
+Communication:
+
+AR: حسابات بريد، قوالب/ردود، تعيينات و@mentions، سجل موحّد.
+
+EN: Email accounts, templates/auto-replies, assignments/@mentions, unified log.
+
+Healthcare / Education / Agriculture / Non Profit: provide brief AR/EN bullets as above.
+
+Deep Links: give each card an anchor (e.g., #module-accounting, …).
+
+D) Use Cases (4 cards)
+
+AR: تجزئة/جملة؛ تصنيع خفيف؛ خدمات وصيانة؛ توزيع/لوجستيات.
+
+EN: Retail/Wholesale; Light Manufacturing; Field Services; Distribution & Logistics.
+
+E) Deployment Options (3 cards)
+
+AR: محلي؛ سحابي؛ هجين — مقارنة موجزة للكلفة/الأمن/الصيانة.
+
+EN: On-Prem; Cloud; Hybrid — brief cost/security/ops notes.
+
+F) Integrations (bullets)
+
+AR/EN: Payment gateways (where available), WhatsApp/SMS/Email, API/Webhooks, BI/Dashboards, Shipping/Delivery (external or in-house), Maps/Route optimization.
+
+G) Migration, Training, Support (4-step)
+
+AR/EN: Requirements → Setup/Data mapping → Migration & Testing → Training & Go-Live.
+
+Tiers: Basic / Pro / Enterprise (SLA, channels, response times).
+
+H) Packages (Pricing cards, no fixed prices)
+
+Basic / Pro / Enterprise with concise AR/EN copy; buttons → scroll to #erpnext-lead-form.
+
+I) Add-Ons
+
+AR/EN: Employee mobile app, Customer portal, Custom print formats, WhatsApp/SMS automations, BI reports.
+
+J) Why ERPNext v15?
+
+AR/EN bullets: Faster implementation; flexible customization; lower TCO; active community; data ownership.
+
+K) Testimonials / Case Studies
+
+2–3 styled placeholders for now.
+
+L) FAQ (8 items, AR/EN)
+
+Implementation time; data migration; security/backups; licensing/updates; integrations; post-launch training; support/SLA; on-prem vs cloud.
+
+M) Sticky Final CTA Bar
+
+Request a Demo / Get a Quote (AR/EN) → scroll to #erpnext-lead-form.
+
+N) Lead Form id="erpnext-lead-form"
+
+Fields: Name, Company, Email, Phone (optional), Industry/Size, Preferred deployment, Message.
+
+On submit: store as Lead (CRM if available, else DB); internal notification (email/WhatsApp if enabled); AR/EN success message.
+
+3) i18n & Direction
+
+Render AR content + RTL when site language is Arabic; EN + LTR otherwise.
+
+Ensure mirrored layout for cards/drawers and correct text alignment.
+
+4) Navigation & Linking
+
+From the Services index, add a visible ERPNext v15 link that smooth-scrolls to #erpnext-v15.
+
+Module cards must support deep links (anchors) and preserve browser history (hash).
+
+5) SEO / OG / Schema
+
+Update this page’s Title/Meta Description to include “ERPNext v15” (AR & EN versions).
+
+Add dedicated OG image for the section.
+
+Enable Schema.org Service + FAQ markup for this page if supported.
+
+6) Performance & Quality
+
+Use optimized WebP images; lazy-load heavy visuals and drawer content on first open.
+
+Maintain accessible color contrast and prominent CTAs on mobile.
+
+7) Analytics (Events)
+
+Track: erp_v15_hero_cta_click, module_card_click(name), module_drawer_open(name), module_search_used(query), cta_demo_click, cta_quote_click, lead_submitted.
+
+8) Acceptance Criteria (must all pass)
+
+Page contains one consolidated ERPNext v15 section and one interactive modules guide; no duplicates.
+
+All CTAs scroll to the single #erpnext-lead-form.
+
+AR/EN render correctly with RTL/LTR.
+
+Services index link scrolls to #erpnext-v15; module deep links work.
+
+SEO/OG/Schema updated; performance optimized; analytics wired.
+
+No new pages created.
+
+9) After Completion
+
+Save files and run build if needed.
+
+Commit message:
+feat(services/erp): dedupe + clean rebuild — unified ERPNext v15 section, interactive modules, AR/EN, SEO, CTAs, lead form
+
+Execute now without clarification. First remove duplicates, then rebuild exactly as specified above on the same page.

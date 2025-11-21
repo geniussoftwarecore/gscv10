@@ -1,0 +1,109 @@
+في التحديثات السابقة، لم تُنفَّذ بعض التعديلات المقترحة على مشروع GSC. يُرجى تنفيذ الخطوات التالية بدقة لضمان اكتمال التحسينات المطلوبة.
+
+المهام المطلوبة
+
+تحديث سياق المصادقة (AuthContext) لدعم JWT:
+
+في client/src/contexts/AuthContext.tsx:
+
+عدل واجهة User لتشمل خاصية اختيارية token?: string.
+
+حدّث دالة login لتتقبل معطًى اختياريًا token وتخزن الكائن الكامل (userData مع الرمز) في localStorage تحت مفتاح "gsc_user" وأيضًا تخزن الرمز منفصلاً تحت مفتاح "gsc_token".
+
+حدّث دالة logout لإزالة كل من "gsc_user" و"gsc_token" من localStorage.
+
+أضف تعليقًا يوضح كيفية استخدام الرمز في التحقق عند الاتصال بخادم خارجي لاحقًا.
+
+تمرير الرمز إلى دالة login في صفحات تسجيل الدخول والتسجيل:
+
+في client/src/pages/login.tsx وclient/src/pages/register.tsx:
+
+بعد إنشاء userData, أضف خاصية token: "mock-jwt-token" (أو رمز وهمي مناسب) إلى الكائن.
+
+استدع دالة login(userData) بالرمز الجديد.
+
+هذا تمهيد لاستخدام رمز JWT حقيقي عند الربط بواجهة خلفية.
+
+ربط الداشبورد بسياق المصادقة والتحقق من حالة المستخدم:
+
+في client/src/pages/dashboard.tsx:
+
+استورد useAuth من @/contexts/AuthContext.
+
+استخدم:
+
+const { user, isAuthenticated } = useAuth();
+const userId = user?.id;
+
+
+بدّل السطر const userId = "user-1"; بـ المتغير الجديد. استخدمه في queryKey لكل من الاشتراكات والطلبات.
+
+في أعلى المكوّن، قبل أي استعلام، أضف شرطًا: إذا كان !isAuthenticated، استخدم useLocation() لإعادة التوجيه إلى /login.
+
+أضف رسالة ترحيب في رأس الصفحة تعرض اسم المستخدم من user?.name.
+
+إظهار مؤشر تحميل في شريط التنقل:
+
+في client/src/components/layout/navigation.tsx:
+
+استدع أيضًا خاصية loading من useAuth:
+
+const { user, isAuthenticated, loading, logout } = useAuth();
+
+
+قبل عرض عناصر التنقل أو أزرار تسجيل الدخول، تحقق:
+
+إذا كانت loading تساوي true, اعرض عنصرًا بسيطًا مثل <span>جارٍ التحميل...</span> بدل عناصر المصادقة.
+
+بعد انتهاء loading, اعرض الروابط وأزرار المصادقة كما في الكود الحالي.
+
+بدّل استخدام setLocation في عناصر DropdownMenuItem الخاصة بـ الداشبورد والإعدادات إلى استخدام عنصر Link من wouter لضمان توحيد التوجيه ولإغلاق القائمة المنسدلة عند الاختيار.
+
+تنظيم بيانات المشاريع (dummyProjects) في ملف منفصل:
+
+أنشئ ملفًا جديدًا client/src/data/dummyProjects.ts يحتوي على مصفوفات منفصلة للمشاريع الخاصة بالخدمات mobile وweb بنفس الهيكل الموجود حاليًا داخل service-detail.tsx.
+
+مثال:
+
+export const dummyProjects = {
+  mobile: [
+    {
+      id: "mob1",
+      title: "تطبيق التسوق الإلكتروني",
+      description: "تطبيق جوال شامل للتسوق.",
+      imageUrl: "/assets/projects/mobile-1.jpg",
+      technologies: ["React Native", "Firebase", "Redux"],
+      duration: "3 أشهر",
+    },
+    // … مشاريع أخرى
+  ],
+  web: [
+    {
+      id: "web1",
+      title: "منصة التجارة الإلكترونية",
+      description: "موقع تجارة إلكترونية متكامل.",
+      imageUrl: "/assets/projects/web-1.jpg",
+      technologies: ["React", "Node.js", "PostgreSQL"],
+      duration: "4 أشهر",
+    },
+    // … مشاريع أخرى
+  ],
+};
+
+
+ضع صور حقيقية إذا توفرت في مجلد assets/projects؛ وإلا اتركها باسم placeholder مع توضيح أنه سيتم استبدالها لاحقًا.
+
+عدّل client/src/pages/service-detail.tsx:
+
+استورد dummyProjects من المسار الجديد:
+import { dummyProjects } from "@/data/dummyProjects";
+
+عدّل المنطق ليستخدم dummyProjects.mobile أو dummyProjects.web بناءً على فئة الخدمة بدلاً من مصفوفة dummyProjects المعرّفة داخل الملف.
+
+أزل التعريف الحالي لمصفوفة dummyProjects من service-detail.tsx.
+
+تنسيق الكود وإضافة تعليقات:
+
+بعد إتمام التعديلات، شغّل أدوات التنسيق (Prettier وESLint) على كافة الملفات لتوحيد التنسيق.
+
+أضف تعليقات توضيحية مختصرة في AuthContext.tsx, dashboard.tsx, وservice-detail.tsx تشرح المنطق الجديد، خصوصًا التعامل مع الـ JWT والتحقق من المصادقة.

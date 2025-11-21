@@ -1,0 +1,172 @@
+You are working on https://github.com/geniussoftwarecore/gsc.git
+
+Goal: Redesign the FOOTER on the Home page to fully match the new Home design—same spacing scale, typography, and brand colors—using the EXISTING logo and palette. Keep it bilingual (AR/EN) with RTL awareness, accessible, and production-ready.
+
+────────────────────────────────────────────────────────
+1) Scope & Constraints
+────────────────────────────────────────────────────────
+- ONLY touch footer-related code and any minimal shared tokens/hooks needed to render it correctly.
+- DO NOT invent new colors. Use the existing Tailwind palette / CSS variables already defined in the project.
+- Keep the current logo as-is (no visual edits). If multiple logo variants exist, use the compact/icon variant in the footer.
+- Maintain light, modern look consistent with the refreshed Home page sections.
+
+────────────────────────────────────────────────────────
+2) File Structure (create if missing)
+────────────────────────────────────────────────────────
+- Footer component:
+  • client/src/components/layout/Footer.tsx
+- Localization keys:
+  • client/src/locales/en.json
+  • client/src/locales/ar.json
+- (If not already present) shared tokens/utilities:
+  • client/src/providers/i18n.tsx  (use existing if created earlier)
+  • Use t('...') for all strings.
+
+────────────────────────────────────────────────────────
+3) Footer Content Model
+────────────────────────────────────────────────────────
+Layout = 4 columns on desktop, 2 on tablet, 1 on mobile.
+A) Brand / About:
+   - Small logo (icon-only if available) + short localized blurb (1–2 lines).
+   - “Get a Demo” button (small), same style as site primary CTA but scaled down for footer.
+
+B) Services:
+   - Localized list of key services (5–7 max), each as a link.
+
+C) Resources & Policies:
+   - Localized list: Documentation/Blog (if applicable), Terms, Privacy, Cookie Policy.
+
+D) Contact & Social:
+   - Localized contact lines: email, phone.
+   - Social icons row (external links). Use existing icon set (lucide or current). Icons should have accessible labels.
+
+Bottom bar (below a divider):
+   - Left: © {currentYear} GSC. All rights reserved. (localized)
+   - Right: Language toggle (AR/EN) mirroring header behavior.
+
+────────────────────────────────────────────────────────
+4) Visual & Interaction Specs
+────────────────────────────────────────────────────────
+- Container width, section spacing, and grid gutters must match the Home sections (use the same Tailwind utilities).
+- Background: use a subtle brand-compliant background (e.g., brand-tinted 50/100) that complements the Home CTA and sections; DO NOT introduce new colors.
+- Typography: match Home font sizes/weights (e.g., headings ~text-lg/semibold, lists ~text-sm).
+- Links: default state = brand-600 text; hover = underline + a slightly darker/lighter brand tone (already in palette).
+- Dividers: use an existing neutral/brand border color token (e.g., border-gray-200/300 or brand-200 if defined).
+- Buttons: use existing primary/secondary classes. Size = small; rounded = consistent with site radius (e.g., rounded-xl/2xl).
+- RTL: When lang='ar', ensure columns reverse logically (start/end padding/margins flip). Use logical Tailwind classes or RTL variants.
+
+────────────────────────────────────────────────────────
+5) Accessibility
+────────────────────────────────────────────────────────
+- All icons must have aria-label or sr-only text.
+- Ensure sufficient color contrast for text/links vs. background.
+- Focus states visible for links and buttons (use existing focus ring tokens).
+
+────────────────────────────────────────────────────────
+6) Localization Keys (add to en.json & ar.json)
+────────────────────────────────────────────────────────
+"footer": {
+  "aboutTitle": "About GSC",
+  "aboutText": "We build modern, bilingual business platforms—web, mobile, and integrated CRM/ERP—tailored for your growth.",
+  "cta": "Get a Demo",
+  "servicesTitle": "Services",
+  "services": {
+    "webApps": "Web Applications",
+    "mobileApps": "Mobile Applications",
+    "crmErp": "CRM & ERP",
+    "integrations": "Integrations",
+    "brandingUi": "Branding & UI",
+    "devops": "DevOps & CI/CD"
+  },
+  "resourcesTitle": "Resources",
+  "resources": {
+    "docs": "Documentation",
+    "blog": "Blog",
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy",
+    "cookies": "Cookie Policy"
+  },
+  "contactTitle": "Contact",
+  "contact": {
+    "email": "Email",
+    "phone": "Phone"
+  },
+  "socialTitle": "Follow us",
+  "copyright": "All rights reserved.",
+  "language": "Language"
+}
+
+(Provide natural Arabic equivalents in ar.json; ensure right-to-left phrasing reads natively.)
+
+────────────────────────────────────────────────────────
+7) Component Implementation (Footer.tsx)
+────────────────────────────────────────────────────────
+- Import t(), current lang, and dir from the i18n provider.
+- Wrapper: <footer role="contentinfo" className="..."> with container and responsive grid:
+  • Mobile: grid-cols-1 gap-y-8
+  • Tablet (md): grid-cols-2
+  • Desktop (lg/xl): grid-cols-4
+- Column A (Brand):
+  • Small logo image (e.g., /brand/logo-icon.svg or existing compact asset) with fixed height ~24–32px.
+  • <p>{t('footer.aboutText')}</p>
+  • Small primary button linking to demo/contact page.
+
+- Column B (Services):
+  • <h3>{t('footer.servicesTitle')}</h3>
+  • <ul> mapped from services keys; each <a> points to real routes or TODO anchors.
+
+- Column C (Resources/Policies):
+  • <h3>{t('footer.resourcesTitle')}</h3>
+  • <ul> docs/blog/terms/privacy/cookies links.
+
+- Column D (Contact & Social):
+  • <h3>{t('footer.contactTitle')}</h3>
+  • Email (mailto:), phone (tel:)
+  • Social row: icons with aria-label="Twitter", "LinkedIn", etc., target="_blank" rel="noopener".
+
+- Divider line (border-t) then bottom bar:
+  • Left: © {new Date().getFullYear()} GSC — {t('footer.copyright')}
+  • Right: Language toggle (AR/EN) that calls setLang('ar'|'en'); reflect dir on <html> as already implemented.
+
+- Ensure all strings use t('...'). No hard-coded text.
+
+────────────────────────────────────────────────────────
+8) Styling Details (Tailwind)
+────────────────────────────────────────────────────────
+- Use the same container width class as Home (e.g., container mx-auto px-4 sm:px-6 lg:px-8).
+- Spacing: section py-12 (mobile) / py-16 (desktop), column gaps gap-8…gap-12.
+- Headings: text-base to text-lg, font-semibold; lists: text-sm.
+- Background: use an existing neutral/brand token (e.g., bg-[var(--brand-50)] or bg-gray-50 if defined in palette).
+- Text: use text-[var(--fg-muted)] / text-gray-600 equivalents already present.
+- Link hover/active states must mirror navbar/home link styles.
+
+────────────────────────────────────────────────────────
+9) Wiring & Imports
+────────────────────────────────────────────────────────
+- Ensure the Footer is included in the root layout or Home page layout (wherever the current footer lives). Replace the old footer import.
+- Verify no duplicated footers across routes. Keep a single canonical footer component.
+- Confirm routes exist for footer links; where pages are not yet implemented, keep TODO comments but leave anchors stable.
+
+────────────────────────────────────────────────────────
+10) QA Checklist (Acceptance Criteria)
+────────────────────────────────────────────────────────
+- Visual consistency with the new Home (spacing, typography, colors) ✅
+- AR/EN switch updates ALL footer texts instantly (no reload) ✅
+- dir switches to rtl for Arabic and all alignment looks correct ✅
+- Logo crisp at small size; alt text present ✅
+- Links keyboard-focusable with visible focus styles ✅
+- No new colors introduced; audits pass (ESLint/TypeScript) ✅
+- Lighthouse (local) on the Home footer area shows no CLS from late-loading assets ✅
+
+────────────────────────────────────────────────────────
+11) Commits
+────────────────────────────────────────────────────────
+- feat(footer): redesign footer to match new home visual system
+- feat(i18n): add footer localization keys (en/ar)
+- chore(assets): ensure compact logo variant referenced in footer
+- refactor(layout): mount new Footer component in root layout
+
+Run:
+- pnpm install
+- pnpm dev
+Test AR/EN toggles, RTL layout, mobile → desktop breakpoints. Adjust spacing to perfectly match Home rhythm.

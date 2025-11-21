@@ -1,0 +1,209 @@
+0) Context (read before execution)
+
+Project: geniussoftwarecore/gsc
+
+Tech stack: Vite + TypeScript + Tailwind CSS + shadcn/ui + framer-motion
+
+Goal: Create/update the “Metrics / Our Numbers” section on the home page (KPIs + simple trends), fully aligned with the White + Sky Blue brand palette, interactive and lightweight.
+
+Use the color tokens defined in tailwind.config.ts (brand.bg, brand.sky.light, brand.sky.base, brand.sky.accent, brand.text.*).
+Do not add heavy chart libraries — only inline SVG / CSS and framer-motion animations.
+
+1) Section Placement
+
+Open the home page file (e.g., client/src/pages/index.tsx or equivalent route).
+
+Add a new section titled “Our Numbers” with anchor id="metrics" for possible navbar linking.
+
+Place the section right after “Our Work” or in a visually consistent spot on the page.
+
+2) Data Source
+
+Create a data file:
+
+client/src/data/home_metrics.ts
+
+Export an array of metric objects like:
+
+export type Metric = {
+  id: string;
+  title_ar: string;
+  title_en: string;
+  value: number;
+  suffix?: string;        // e.g. %, +
+  delta?: number;         // change value
+  deltaDir?: "up" | "down" | "flat";
+  periodKey?: "7d" | "30d" | "90d";
+  trend?: number[];       // sparkline data
+  caption_ar?: string;
+  caption_en?: string;
+};
+
+export const HOME_METRICS: Metric[] = [
+  { id: "delivered", title_ar: "مشاريع مُسلَّمة", title_en: "Projects Delivered", value: 128, suffix: "+", delta: 12, deltaDir: "up", periodKey: "30d", trend: [5,7,6,8,9,10,12], caption_ar:"آخر 30 يوم", caption_en:"Last 30 days" },
+  { id: "reduceCost", title_ar: "خفض التكاليف", title_en: "Cost Reduction", value: 22, suffix: "%", delta: 3, deltaDir: "up", periodKey: "90d", trend: [15,16,16,18,19,20,22], caption_ar:"آخر 90 يوم", caption_en:"Last 90 days" },
+  { id: "csat", title_ar: "رضا العملاء", title_en: "Client Satisfaction", value: 4.8, suffix: "/5", delta: 0.2, deltaDir: "up", periodKey: "30d", trend: [4.4,4.5,4.6,4.6,4.7,4.7,4.8] },
+  { id: "timeToMarket", title_ar: "تسريع الإطلاق", title_en: "Time-to-Market Gain", value: 38, suffix: "%", delta: 2, deltaDir: "up", periodKey: "30d", trend: [20,22,25,28,30,34,38] }
+];
+
+3) Components
+
+Under client/src/components/metrics/ create:
+
+useCountUp.ts (Hook)
+
+Animates numbers from 0 → final value when section enters viewport.
+
+Uses requestAnimationFrame + IntersectionObserver.
+
+Sparkline.tsx
+
+Simple inline SVG sparkline (100% width, ~40px height).
+
+Line colored brand.sky.accent + final point marker.
+
+No external chart libraries.
+
+DeltaBadge.tsx
+
+Small badge for ▲ / ▼ / → depending on deltaDir.
+
+Styles:
+
+up: dark text, sky-light background.
+
+down: slate/red tone.
+
+flat: neutral slate.
+
+Shows % or numeric delta.
+
+MetricCard.tsx
+
+Card using shadcn/ui or custom Tailwind styles:
+
+Background bg-white, border brand.sky.base, soft shadow.
+
+Title (localized), animated number with count-up, suffix, DeltaBadge, Sparkline, short caption.
+
+Animated entrance with framer-motion.
+
+HomeMetricsSection.tsx
+
+Accepts metrics: Metric[].
+
+Section title + subtitle from i18n.
+
+Responsive grid: 1 column (mobile) → 2 → 4 (desktop).
+
+Optional toggle for periods (7d/30d/90d).
+
+Tooltip (title attribute) for deltas/values.
+
+4) i18n and RTL/LTR
+
+Localize section texts in i18n JSON:
+
+home.metrics.title.en = "Our Numbers"
+
+home.metrics.title.ar = "أرقامنا"
+
+home.metrics.subtitle.en = "A quick snapshot of impact KPIs from recent work."
+
+home.metrics.subtitle.ar = "مؤشرات أداء مختصرة تعكس أثر حلولنا."
+
+Switch dir="rtl" for Arabic and ltr for English.
+
+Flip icons if necessary in RTL.
+
+5) Styling
+
+Section background: bg-white.
+
+Light divider: brand.sky.light.
+
+Titles: brand.text.primary.
+
+Secondary text: brand.text.muted.
+
+Interactive states: brand.sky.accent.
+
+Ensure AA contrast compliance.
+
+6) Motion & Interactivity
+
+count-up triggered once on scroll-in via IntersectionObserver.
+
+framer-motion for card entrance:
+
+initial={{ opacity: 0, y: 12 }}
+
+whileInView={{ opacity: 1, y: 0 }}
+
+viewport={{ once: true, amount: 0.3 }}
+
+Sparkline optional stroke-dashoffset animation for progressive reveal.
+
+7) Performance
+
+No heavy libraries.
+
+Inline SVGs only.
+
+Memoize sparkline paths.
+
+Fix card heights to avoid CLS.
+
+8) Accessibility
+
+H2 for section, H3 for metric titles.
+
+aria-label describing sparkline trends (Up/Down/Flat).
+
+Period toggle buttons with screen-reader text.
+
+Full keyboard navigation + focus states.
+
+9) Integration
+
+In index.tsx import:
+
+HOME_METRICS from data/home_metrics.ts
+
+HomeMetricsSection from components/metrics/HomeMetricsSection
+
+Add <HomeMetricsSection metrics={HOME_METRICS} /> into the homepage layout.
+
+10) Testing (Acceptance Criteria)
+
+Responsive grid: 1 → 2 → 4.
+
+Count-up works once on entry.
+
+DeltaBadge reflects direction and color.
+
+Sparkline renders from trend array.
+
+i18n works with RTL/LTR.
+
+No dev console errors.
+
+11) Delivery (Commits & PR)
+
+Suggested commits:
+
+feat(home-metrics): add data & components (count-up, sparkline, delta-badge)
+
+feat(home): integrate HomeMetricsSection with white+sky theme
+
+chore(i18n): add home.metrics keys (ar/en)
+
+Open PR titled:
+
+Home Metrics: interactive KPIs (count-up + sparkline) aligned with white+sky theme
+
+12) Optional Notes
+
+Add small “See More Results” button → /portfolio or future reports.
+
+Backend integration can later be added (GET /api/metrics/home), but keep static for now.

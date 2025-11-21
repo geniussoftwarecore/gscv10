@@ -1,0 +1,148 @@
+Add a customer management system, payment integrations, notifications, and improved order handling to the GSC platform
+
+General description
+
+We want to expand the GSC platform to include an admin dashboard to manage client orders and feedback, an integrated notification system between administrators and clients, payment options via credit card and local Yemeni e-wallets, the ability to upload files when contacting us, and display of service fees and subscription durations in the client dashboard.
+
+Required tasks
+1. Create a customer management system and admin dashboard
+
+Define data models for client requests and feedback:
+
+Create a new file client/src/data/clientRequests.ts containing a model for requests and suggestions submitted by clients, for example:
+
+export interface ClientRequest {
+  id: string;
+  userId: string;
+  serviceId: string;
+  type: 'request' | 'suggestion' | 'comment';
+  title: string;
+  description: string;
+  attachments?: string[]; // links to uploaded files
+  status: 'new' | 'in-progress' | 'answered';
+  createdAt: string;
+  updatedAt: string;
+}
+
+export const clientRequests: ClientRequest[] = [];
+
+
+Add helper functions to add a new request and to change its status so that it can be used later via contexts or React Query.
+
+Admin Dashboard:
+
+Create a new page client/src/pages/admin/dashboard.tsx (accessible via /admin/dashboard).
+
+Use components like Tabs or Table to display the list of new requests and suggestions, with the ability to change their status (e.g. “New”, “In Progress”, “Replied”).
+
+Add a section on the same page to display quick statistics (number of new requests, number of completed requests, etc.).
+
+Link the page to the authentication context so that only users with the “admin” role can access it.
+
+Link requests from the services page and contact page:
+
+In service-detail.tsx, add a button or a new form within the “Work We’ve Done” section or near the pricing plan that allows the client to submit a custom project request or comment/suggestion. The form should include fields like title, description, and file attachments (see point 5 below).
+
+When the form is submitted, insert a new entry into clientRequests with a new status and trigger a notification (see notifications section).
+
+2. Integrate payment options
+
+Set up a payment form:
+
+Create a generic PaymentForm component in client/src/components/ui/payment-form.tsx that accepts service or subscription data (e.g. planId, amount, currency).
+
+Add inputs for credit card data (card number, expiry date, CVV). These details will later be sent to a real payment gateway; for now, store them in state and print them in the console.
+
+Integrate Yemeni e-wallets:
+
+Add additional payment options in the same form to allow the user to choose between:
+
+Jaib – site link: http://e-jaib.com/
+
+Cash – https://www.cash.com.ye/ar
+
+Jawali – https://www.jawali.com.ye/
+
+Floosak (Kuraimi Bank) – https://www.yk-bank.com/ar/Personal/e-wallet/floosak
+
+One Cash – https://onecashye.com/
+
+When selecting any of these wallets, display a button that directs the user to open the link in a new window to complete the payment, while saving the order status (e.g. paymentPending) until payment is manually confirmed by the administrators.
+
+Currency options:
+
+Add a currency selector to the payment page (e.g. “US Dollar” or “Yemeni Rial”). Use Intl.NumberFormat to format numbers according to the selected currency.
+
+Store the chosen currency in state or context for use in other places.
+
+3. Notifications system
+
+Create a notifications context:
+
+Create a file client/src/contexts/NotificationContext.tsx using createContext to manage the list of notifications. A notification might include:
+
+export interface Notification {
+  id: string;
+  userId: string; // the owner of the notification (client or admin)
+  type: 'new-request' | 'reply' | 'payment' | 'general';
+  message: string;
+  read: boolean;
+  createdAt: string;
+}
+
+
+Add functions like addNotification, markAsRead, and getNotificationsForUser.
+
+Display notifications in the UI:
+
+In the navigation bar or dashboard, add a bell icon showing the count of unread notifications. Clicking it opens a list of notifications.
+
+In the admin dashboard, create a section showing new notifications (such as new requests or pending payments) and allow the admin to mark them as read.
+
+Trigger notifications on interactions:
+
+When a client submits a new request from the service page or contact page, call addNotification to create an admin notification of type new-request.
+
+When the admin responds to the request, create a notification for the client of type reply.
+
+4. Improve contact page and file upload ability
+
+Add a file upload field:
+
+In client/src/pages/contact.tsx or the equivalent page, add <input type="file" multiple accept=".pdf,.doc,.docx,.png,.jpg"/>.
+
+Store the selected files in a useState<File[]>.
+
+When submitting the form, upload the files to a temporary folder (you can use FormData and upload to a mock API), or simply print the list of files in the console and add their links to ClientRequest.attachments.
+
+Add additional fields:
+
+Add fields like “Type of service requested” (dropdown), “Estimated budget”, “Execution time”, etc.
+
+Include these data in the ClientRequest when submitting.
+
+5. Display service fees and subscription durations in the client dashboard
+
+Add a “Transactions” section in the client dashboard:
+
+In client/src/pages/dashboard.tsx, add a new tab such as “Transactions” or “My Payments”.
+
+Display a table containing the service/package name, the amount paid, the payment method, the date, and the subscription duration (if any). These details can come from the subscriptions data returned by the API (or from placeholder data for now).
+
+Use Intl.DateTimeFormat to display the start and end dates of the subscription.
+
+6. Enhance roles and permissions
+
+Add a role property to the user:
+
+Update the User interface in AuthContext to include role: 'admin' | 'client'.
+
+When logging in, save the user’s role in userData. An admin user will see the admin dashboard, while a normal user will only see their own dashboard.
+
+Protect routes:
+
+Create a PrivateRoute component that checks whether isAuthenticated is true before rendering a page, and an AdminRoute component that also checks if the role is admin.
+
+Expected result
+
+After implementing these tasks, the GSC platform will have an integrated customer and order management system, a functional admin dashboard, payment options via credit cards and local e-wallets, the ability for users to upload files with their requests, and a comprehensive notification system. Users will also see their payment and subscription details in their dashboard, and administrators will have full control over client interactions and payments.

@@ -1,0 +1,136 @@
+You are working on https://github.com/geniussoftwarecore/gsc.git
+
+Goal: Add EXACTLY TWO new services to the Services page while keeping the Home visual system (same colors, spacing, typography, cards, buttons, RTL/i18n). DO NOT break existing content or routes. Target total services count = 7. If current count ≠ 5, append the two services anyway and leave a PR note (do NOT remove anything).
+
+────────────────────────────────────────────────────────
+0) Scope & Guardrails
+────────────────────────────────────────────────────────
+- Branch: feat/services-add-two-items
+- Frontend-only changes in /client.
+- DO NOT: remove/reorder existing services, change existing copy/keys, introduce new colors, or add libraries.
+- YES: append two service entries + render them using the same Services grid/cards used today.
+
+────────────────────────────────────────────────────────
+1) Locate Services Route & Data Source
+────────────────────────────────────────────────────────
+- Find the Services page component (examples):
+  • client/src/pages/Services.tsx
+  • client/src/pages/services.tsx
+  • client/src/app/services/page.tsx
+- Identify where the services list comes from:
+  • i18n (e.g., t('services.items')) OR
+  • local array/constant (e.g., SERVICES[]).
+- DO NOT modify or rename existing keys/items. Only APPEND two items.
+
+────────────────────────────────────────────────────────
+2) Append Two Services (EN + AR i18n)
+────────────────────────────────────────────────────────
+If services are i18n-driven, MERGE the following JSON blocks into the end of the existing array at:
+- client/src/locales/en.json → services.items
+- client/src/locales/ar.json → services.items
+
+EN (append these two objects):
+{
+  "key": "desktopApps",
+  "slug": "desktop-apps",
+  "icon": "Monitor",
+  "title": "Desktop Application Development",
+  "desc": "Robust desktop software for Windows (and cross-platform when needed).",
+  "bullets": [
+    ".NET (WPF/WinUI) or Electron per use-case",
+    "Local DB sync and secure file handling",
+    "Native OS integration (printing, devices)",
+    "Auto-updates and release channels"
+  ],
+  "cta": "Learn more"
+},
+{
+  "key": "smartMobileSolutions",
+  "slug": "smart-mobile-solutions",
+  "icon": "Smartphone",
+  "title": "Smart Mobile Solutions",
+  "desc": "End-to-end smart solutions for smartphones: integrations, SDKs, and device-level features.",
+  "bullets": [
+    "Payments, maps, camera, biometrics",
+    "SDK integrations and native modules",
+    "Enterprise distribution and MDM policies",
+    "Optimization, profiling, crash analytics"
+  ],
+  "cta": "Learn more"
+}
+
+AR (append these two objects, wording exactly as below):
+{
+  "key": "desktopApps",
+  "slug": "desktop-apps",
+  "icon": "Monitor",
+  "title": "برمجة وتطوير برامج سطح المكتب",
+  "desc": "برمجيات مكتبية قوية لأنظمة ويندوز (وممكن عبر الأنظمة عند الحاجة).",
+  "bullets": [
+    ".NET ‏(WPF/WinUI) أو Electron وفق الحالة",
+    "مزامنة قاعدة بيانات محلية ومعالجة ملفات آمنة",
+    "تكامل عميق مع النظام (طباعة، أجهزة)",
+    "تحديثات تلقائية وقنوات إصدارات"
+  ],
+  "cta": "اعرف المزيد"
+},
+{
+  "key": "smartMobileSolutions",
+  "slug": "smart-mobile-solutions",
+  "icon": "Smartphone",
+  "title": "الحلول الذكية والبرمجية للهواتف الذكية",
+  "desc": "حلول متكاملة للهواتف الذكية: تكاملات وSDKات وميزات على مستوى الجهاز.",
+  "bullets": [
+    "مدفوعات وخرائط وكاميرا وبصمات/بيومتريكس",
+    "دمج SDKات ووحدات أصلية",
+    "توزيع مؤسسي وسياسات إدارة الأجهزة (MDM)",
+    "تحسين الأداء وتتبع الأعطال والتحليلات"
+  ],
+  "cta": "اعرف المزيد"
+}
+
+Notes:
+- icon uses your existing icon system (e.g., lucide-react). If icons differ, map “Monitor” and “Smartphone” to the closest available.
+- Ensure slugs are unique and kebab-case.
+
+If services are array-driven (not i18n), append equivalent TS objects in the same structure/file. DO NOT touch existing entries.
+
+────────────────────────────────────────────────────────
+3) Render in the Existing Grid (Presentation Only)
+────────────────────────────────────────────────────────
+- Use the SAME Services grid/cards as current implementation (no redesign here).
+- The two appended items must automatically appear with identical styling (rounded-2xl, shadows, hover, etc.).
+- Ensure the grid remains responsive:
+  • xl: 3 columns, md: 2, sm: 1 (or exactly what the page already uses).
+
+────────────────────────────────────────────────────────
+4) RTL/i18n & SEO
+────────────────────────────────────────────────────────
+- No new i18n keys besides the two items above.
+- Verify AR/EN toggling updates titles/desc/bullets/CTA for the new items.
+- dir must flip to rtl for Arabic (handled globally by provider).
+- Keep meta/title of the page unchanged.
+
+────────────────────────────────────────────────────────
+5) Acceptance Criteria
+────────────────────────────────────────────────────────
+- Services total = 7 items (existing + the two new ones). If not originally 5, still append and add a PR note.
+- No changes to existing items (content/order/routes untouched).
+- New cards look identical to existing cards (same colors, typography, spacing, hover).
+- AR/EN switch works for the two new items; RTL layout correct.
+- TypeScript/ESLint/build pass.
+
+────────────────────────────────────────────────────────
+6) Commands & Commits
+────────────────────────────────────────────────────────
+Run:
+- pnpm install
+- pnpm dev
+
+Commits (conventional):
+- feat(services): append two new services (desktopApps, smartMobileSolutions)
+- feat(i18n): add EN/AR copy for the two services
+- chore(services): verify layout/RTL/i18n without altering existing items
+
+Open PR: “feat(services): add two services to reach 7 items (no changes to existing)”
+Attach screenshots (EN & AR, mobile & desktop) showing the two new services in the grid.

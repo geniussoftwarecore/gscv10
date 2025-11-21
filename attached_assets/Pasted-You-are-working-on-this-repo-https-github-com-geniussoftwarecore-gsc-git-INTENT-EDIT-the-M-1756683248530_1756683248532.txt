@@ -1,0 +1,178 @@
+You are working on this repo: https://github.com/geniussoftwarecore/gsc.git
+
+INTENT
+- EDIT the “Mobile App Development” service so that clicking its details opens a new, highly interactive detail page.
+- The page should follow a QQ-like pattern: sticky device mockup on one side + scrolling slide sections on the other (smooth transitions).
+- IMPORTANT: keep the platform’s existing theme, fonts, colors, spacing, and UI components. DO NOT copy assets from qq.com; use our own brand and tokens only.
+
+CONSTRAINTS
+- Frontend-only inside /client.
+- No new dependencies.
+- Keep i18n + RTL fully working (Arabic/English).
+- Preserve existing routes/APIs; only add the detail route if missing.
+
+────────────────────────────────────────────────────────
+0) Branch & Stack
+────────────────────────────────────────────────────────
+- Create branch: feat/mobile-apps-detail-qq-pattern
+- Read /client/package.json and confirm the stack (React/Router or Next, Tailwind, shadcn/ui, etc.). Use existing components/tokens only.
+- Note the detected stack in PR description.
+
+────────────────────────────────────────────────────────
+1) Routing: detail page for Mobile Apps
+────────────────────────────────────────────────────────
+- Create/confirm a route for: /services/mobile-apps
+  • If React Router: add <Route path="/services/mobile-apps" element={<MobileAppsDetail/>} />
+  • If Next pages: client/src/pages/services/mobile-apps.tsx
+  • If Next app router: client/src/app/services/mobile-apps/page.tsx
+- Ensure the “View Details” action on the Mobile App card points to this route.
+
+────────────────────────────────────────────────────────
+2) Page layout (QQ-inspired, same theme)
+────────────────────────────────────────────────────────
+Component: MobileAppsDetail
+
+A) Hero (sticky container parent)
+- Two-column layout (md+): left column sticky device mockup; right column scrollable content sections.
+- On mobile: stack vertically; device mockup above content.
+- Use same brand font, color tokens, radius (rounded-2xl), and shadow patterns.
+
+B) Sticky device mockup (left)
+- Build a neutral “phone frame” with CSS (rounded rectangle, inner shadow) or reuse an existing mockup component if present.
+- The mockup stays sticky (position: sticky; top: theme spacing), while right side slides change.
+- Inside the phone, rotate screenshots/illustrations using our own SVG or brand-compliant placeholders (do NOT use QQ assets).
+
+C) Scroll Slides (right)
+- 5 short sections (slide1..slide5). Each slide fades/slide-translates into view as the user scrolls.
+- Use existing motion solution:
+  • If framer-motion exists: use it for fade/translate on viewport.
+  • Else: CSS transitions + intersection observer hook already in the codebase if available.
+- Each slide has: small overline, h2, paragraph (from i18n), optional minimal icon (reuse lucide/react icons if present).
+
+D) Navigation dots & keyboard
+- Add vertical dots (right side on desktop, bottom on mobile). Clicking a dot scrolls to the slide.
+- Each dot has aria-label (e.g., “Go to Performance”).
+- Keyboard: up/down (or PgUp/PgDn) navigate; focusable buttons with visible focus-ring.
+
+E) Reduced motion & accessibility
+- Respect prefers-reduced-motion: disable heavy transitions and just snap to sections.
+- Provide alt text for images, proper heading hierarchy (one h1).
+
+────────────────────────────────────────────────────────
+3) Theming & tokens (DO NOT change)
+────────────────────────────────────────────────────────
+- Reuse tailwind tokens/classes used elsewhere (colors, spacing, shadows).
+- Reuse Button/Card from our UI kit (e.g., shadcn/ui). Keep same border radii and shadows.
+- Keep images widths/heights to avoid CLS; use loading="lazy" where appropriate.
+
+────────────────────────────────────────────────────────
+4) i18n content (append only)
+────────────────────────────────────────────────────────
+Files:
+- client/src/locales/en/services.json
+- client/src/locales/ar/services.json
+
+Ensure these keys exist and are wired on the page:
+
+EN (merge under services.items.mobileApps):
+{
+  "title": "Mobile App Development",
+  "tagline": "Beautiful, fast, and ready for the stores.",
+  "details": "We design and build high-quality Android and iOS apps—from discovery and UX to secure APIs, offline-first experiences, and store releases...",
+  "detailPage": {
+    "heroCta": "Start your mobile project",
+    "slides": {
+      "slide1": { "overline": "Performance", "title": "Snappy, smooth, and battery-friendly", "body": "We profile startup, animations, and network calls to keep your app responsive across devices." },
+      "slide2": { "overline": "Offline-first", "title": "Works anywhere", "body": "Resilient offline flows, background sync, and conflict handling so users keep moving." },
+      "slide3": { "overline": "Secure APIs", "title": "Security by design", "body": "OAuth2/PKCE, encrypted storage, and permission flows that protect users and data." },
+      "slide4": { "overline": "Observability", "title": "Know what’s happening", "body": "Analytics, crash monitoring, and feature flags to ship safely and learn fast." },
+      "slide5": { "overline": "Releases", "title": "Predictable delivery", "body": "CI/CD pipelines, staged rollouts, and store submissions with clean release notes." }
+    }
+  }
+}
+
+AR (merge under services.items.mobileApps):
+{
+  "title": "تطوير تطبيقات الموبايل",
+  "tagline": "تجربة مبهرة وسريعة وجاهزة للنشر.",
+  "details": "نصمّم ونبني تطبيقات أندرويد و iOS عالية الجودة—من التحليل وتجربة المستخدم إلى واجهات برمجة آمنة وتجربة تعمل دون إنترنت ونشر المتجر...",
+  "detailPage": {
+    "heroCta": "ابدأ مشروع الموبايل",
+    "slides": {
+      "slide1": { "overline": "الأداء", "title": "سلاسة واستجابة وعمر بطارية أفضل", "body": "نقيس بدء التشغيل والرسوم المتحركة والاتصال لنحافظ على سلاسة التطبيق على مختلف الأجهزة." },
+      "slide2": { "overline": "دون إنترنت", "title": "يعمل في أي مكان", "body": "تدفّقات مرنة دون إنترنت، مزامنة في الخلفية، ومعالجة تعارضات ليكمل المستخدم عمله." },
+      "slide3": { "overline": "أمن الواجهات", "title": "أمان بالتصميم", "body": "OAuth2/PKCE وتخزين مُشفّر ومسارات أذونات تحمي المستخدم والبيانات." },
+      "slide4": { "overline": "الرصد", "title": "تعرف على ما يحدث", "body": "تحليلات وتتبع الأعطال وميزات تحت رايات لتسليم آمن وتعلّم سريع." },
+      "slide5": { "overline": "الإصدارات", "title": "تسليم متوقّع", "body": "خطوط CI/CD وإصدارات مُرحّلة ونشر المتجر مع ملاحظات إصدار واضحة." }
+    }
+  }
+}
+
+Also add to common i18n (if not present):
+EN: { "buttons": { "viewDetails": "View Details", "getStarted": "Get Started" } }
+AR: { "buttons": { "viewDetails": "عرض التفاصيل", "getStarted": "ابدأ الآن" } }
+
+────────────────────────────────────────────────────────
+5) Services list: link to detail
+────────────────────────────────────────────────────────
+- In client/src/sections/services/ServicesGrid.tsx:
+  • Ensure the Mobile App card shows the “View Details” button using t('buttons.viewDetails').
+  • Link to "/services/mobile-apps".
+  • Keep cards compact (line-clamp details to 2–3 lines).
+
+────────────────────────────────────────────────────────
+6) Implementation notes (pseudo-structure)
+────────────────────────────────────────────────────────
+<main className="container ...">
+  {/* HERO WRAPPER acts as sticky container on desktop */}
+  <section className="relative grid md:grid-cols-2 gap-8 py-16">
+    {/* LEFT: sticky phone mockup */}
+    <div className="md:sticky md:top-24 self-start">
+      <PhoneMockup>
+        {/* Swap inner screenshots subtly as active slide changes */}
+      </PhoneMockup>
+    </div>
+
+    {/* RIGHT: slides */}
+    <div className="space-y-24">
+      {slides.map((s, i) => (
+        <Slide
+          key={i}
+          overline={t(`services.items.mobileApps.detailPage.slides.slide${i+1}.overline`)}
+          title={t(`services.items.mobileApps.detailPage.slides.slide${i+1}.title`)}
+          body={t(`services.items.mobileApps.detailPage.slides.slide${i+1}.body`)}
+        />
+      ))}
+      <div className="mt-10">
+        <Button aria-label={t('buttons.getStarted')}>{t('buttons.getStarted')}</Button>
+      </div>
+    </div>
+
+    {/* NAV DOTS (position absolute on desktop, bottom on mobile) */}
+    <NavDots count={5} activeIndex={active} onJump={scrollToIndex} />
+  </section>
+</main>
+
+- Use position: sticky; top uses existing spacing vars.
+- Animate slides with existing motion lib (if present); else a small intersection observer to add CSS classes on enter.
+- Respect prefers-reduced-motion: disable transforms, keep fade-only or no animation.
+
+────────────────────────────────────────────────────────
+7) QA Checklist
+────────────────────────────────────────────────────────
+- Detail page at /services/mobile-apps matches site theme (fonts, colors, radii, shadows).
+- Sticky mockup works on md+; mobile stacks correctly.
+- Slides animate in as you scroll; nav dots jump to slides; keyboard accessible.
+- EN/AR translations load; RTL mirrors layout and transitions gracefully.
+- No new deps; build/lint/type-check pass; no CLS.
+
+────────────────────────────────────────────────────────
+8) Commits & PR
+────────────────────────────────────────────────────────
+- feat(service-mobile): QQ-like sticky/slide detail page for Mobile Apps (EN/AR, RTL)
+- feat(services): wire “View Details” to /services/mobile-apps
+- refactor(i18n): add mobileApps.detailPage slides and CTA labels
+- perf(a11y): reduced-motion fallback, focus rings, and line-clamp
+
+Run: pnpm dev
+Open PR with screenshots (desktop/mobile; EN/AR).

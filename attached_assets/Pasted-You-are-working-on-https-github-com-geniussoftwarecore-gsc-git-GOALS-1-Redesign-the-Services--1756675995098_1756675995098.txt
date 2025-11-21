@@ -1,0 +1,193 @@
+You are working on https://github.com/geniussoftwarecore/gsc.git
+
+GOALS
+1) Redesign the Services screen with compact, interactive cards:
+   - Smaller footprint, responsive grid, subtle motion/hover, and a short “tagline” line under the service name.
+   - No bullet lists/accordions on the Services screen.
+2) Clicking any service opens a dedicated Service Detail page with professional content (overview paragraphs, sections, FAQs), using existing i18n and RTL.
+
+CONSTRAINTS
+- Keep the Home/brand visual system (colors, spacing, typography, rounded-2xl, shadows, hover).
+- Frontend-only in /client. No backend or API shape changes. No new libraries.
+- Preserve existing service keys & slugs. If keys differ, map via a small normalization util (see below).
+- Bilingual (EN/AR) with correct RTL behavior.
+
+────────────────────────────────────────────────────────
+0) Branch & Setup
+────────────────────────────────────────────────────────
+- Create branch: feat/services-interactive-cards-and-detail
+- Run: pnpm install
+
+────────────────────────────────────────────────────────
+1) Data Model (i18n) — Add “tagline” & ensure “details”
+────────────────────────────────────────────────────────
+Files:
+- client/src/locales/en/services.json
+- client/src/locales/ar/services.json
+
+For each existing service item, ensure these fields exist (APPEND ONLY):
+- title (already present)
+- short (if used today) — keep as-is
+- tagline (NEW — 1 short line that “feels” the service)
+- details (EXISTS from earlier task; if missing, add now)
+- slug (keep if already used; otherwise keep slugs in code)
+
+Seed “tagline” suggestions (merge by key; do not rename keys):
+
+EN:
+- mobileApps.tagline: "Beautiful, fast, and ready for the stores."
+- webApps.tagline: "Scalable, secure, and SEO-friendly web."
+- desktopApps.tagline: "Reliable desktop tools with native power."
+- designGraphics.tagline: "Cohesive identity, delightful interfaces."
+- paidAdsMarketing.tagline: "Growth-focused campaigns with clear ROI."
+- erpnextV15.tagline: "Streamlined operations on ERPNext v15."
+- mobileSolutions.tagline: "Device integrations that just work."
+
+AR:
+- mobileApps.tagline: "تجربة مبهرة وسريعة وجاهزة للنشر."
+- webApps.tagline: "ويب آمن وقابل للتوسّع ومناسب للـSEO."
+- desktopApps.tagline: "أدوات مكتبية موثوقة بقوة تكاملات النظام."
+- designGraphics.tagline: "هوية متماسكة وتجارب واجهة مُمتعة."
+- paidAdsMarketing.tagline: "نمو واضح العائد عبر حملات مُحكمة."
+- erpnextV15.tagline: "تشغيل مُبسّط على ERPNext v15."
+- mobileSolutions.tagline: "تكاملات أجهزة تعمل بسلاسة."
+
+If any keys differ (legacy names), do not delete them. Add a normalization util in step 2.
+
+────────────────────────────────────────────────────────
+2) Normalization Helper (if legacy keys exist)
+────────────────────────────────────────────────────────
+Create: client/src/lib/services-normalize.ts
+
+export const TERM_MAP: Record<string,string> = {
+  "mobile apps":"mobileApps",
+  "android & ios":"mobileApps",
+  "web apps":"webApps",
+  "desktop apps":"desktopApps",
+  "ui/ux":"designGraphics",
+  "branding":"designGraphics",
+  "paid ads":"paidAdsMarketing",
+  "performance marketing":"paidAdsMarketing",
+  "erpnext":"erpnextV15",
+  "erpnext v15":"erpnextV15",
+  "smart mobile solutions":"mobileSolutions",
+  "mobile enablement":"mobileSolutions",
+  // AR common variants
+  "تطبيقات الموبايل":"mobileApps",
+  "تطبيقات الويب":"webApps",
+  "برامج سطح المكتب":"desktopApps",
+  "تصميم الهوية":"designGraphics",
+  "إعلانات ممولة":"paidAdsMarketing",
+  "التسويق الأدائي":"paidAdsMarketing",
+  "erpnext v15":"erpnextV15",
+  "الحلول الذكية":"mobileSolutions"
+};
+
+export function toCanonicalKey(nameOrKey: string) {
+  const k = (nameOrKey || "").trim().toLowerCase();
+  return TERM_MAP[k] || nameOrKey;
+}
+
+Use toCanonicalKey() anywhere the UI looks up services by key.
+
+────────────────────────────────────────────────────────
+3) Services Screen — Compact Interactive Cards
+────────────────────────────────────────────────────────
+File: client/src/sections/services/ServicesGrid.tsx (or equivalent)
+
+A) Layout
+- Responsive grid:
+  • sm: grid-cols-1
+  • md: grid-cols-2
+  • lg: grid-cols-3
+- Card style: same as Home (rounded-2xl, existing shadow/hover). Keep icons/images if present.
+- Spacing: container mx-auto px-4 sm:px-6 lg:px-8; section py-12 / py-16.
+
+B) Content per card (NO bullet lists here)
+- Title (service name)
+- Tagline (NEW, 1 short line under title)
+- (Optional) short/summary line if already used
+- Details (the paragraph you added earlier) — truncated to 2–3 lines with CSS line-clamp (if you already use line clamping tokens).
+- Primary action (button or whole-card clickable) → navigates to Service Detail route.
+
+C) Motion & Interactions
+- Subtle hover lift/scale (use the same motion pattern used elsewhere; if framer-motion present, reuse it; otherwise CSS hover scale/translate).
+- Entire card clickable (role="link", aria-label with service title).
+- Keyboard support: Enter/Space activates.
+
+D) Remove legacy lists on Services screen
+- Stop rendering features/deliverables/inputsNeeded/interactiveIdeas here (comment out or guard with `if (false)`).
+
+E) RTL/i18n
+- Use t(...) for all texts; verify direction flips correctly.
+
+────────────────────────────────────────────────────────
+4) Routing — Service Detail Page
+────────────────────────────────────────────────────────
+Detect routing system:
+- If using React Router: add route /services/:slug
+- If using Next.js pages: client/src/pages/services/[slug].tsx
+- If using Next.js app router: client/src/app/services/[slug]/page.tsx
+
+Implement a single detail page component that:
+- Reads :slug from the router.
+- Maps slug → canonical key (reverse map kept alongside service list or in the i18n, or via a small map in code).
+- Loads EN/AR content from i18n: title, tagline, details (required).
+- Optional sections below as PARAGRAPHS (avoid bullets to match your style):
+  • “What you’ll achieve” — 1 short paragraph
+  • “How we deliver” — 1 short paragraph
+  • “Timeline & handoff” — 1 short paragraph
+- Optional FAQ (2–3 items). If you must list, use short Q/A blocks (no bullets).
+- Breadcrumb (Home / Services / {title})
+- CTA button (contact / request a quote) if already exists in your components.
+
+SEO/meta:
+- Use existing head provider to set <title> and meta description from i18n (title + tagline).
+
+Accessibility:
+- Single <h1> for the page; section headings h2/h3.
+- Ensure focus order and skip links (if present) remain valid.
+
+────────────────────────────────────────────────────────
+5) Minimal i18n template for details page (append to i18n)
+────────────────────────────────────────────────────────
+For each service, add optional detail-page subsection keys (EN/AR). Keep texts concise (2–4 lines each). EXAMPLE for mobileApps:
+
+en.services.items.mobileApps.detailPage = {
+  "achieve": "Launch an app users love: fast onboarding, smooth flows, and robust telemetry so you can iterate with confidence.",
+  "delivery": "We follow a milestone-based plan with regular demos, CI/CD pipelines, and automated QA to keep releases predictable.",
+  "timeline": "We define a clear scope, MVP-first plan, and handover with docs, training, and post-launch support."
+}
+
+ar.services.items.mobileApps.detailPage = {
+  "achieve": "أطلق تطبيقًا يحبه المستخدمون: دخول سريع، تدفّقات سلسة، وتتبّع قوي لقياس الأداء واتخاذ القرار.",
+  "delivery": "نلتزم بخطة مراحل مع عروض دورية، CI/CD واختبارات مؤتمتة لضمان إصدارات متوقّعة.",
+  "timeline": "نحدّد نطاقًا واضحًا وخطة MVP أولًا وتسليمًا بوثائق وتدريب ودعم ما بعد الإطلاق."
+}
+
+Repeat for other services with similarly short, professional paragraphs.
+
+────────────────────────────────────────────────────────
+6) QA — Acceptance Criteria
+────────────────────────────────────────────────────────
+- Services screen shows compact interactive cards:
+  • Title → Tagline → (short if exists) → truncated details paragraph.
+  • No bullet lists/accordions visible.
+  • Card hover/motion matches site style; whole-card click and keyboard activation work.
+- Clicking a card routes to a Service Detail page (/:slug) with:
+  • H1 title, tagline, details (full), and 2–3 short sections (achieve/delivery/timeline).
+  • EN/AR swap updates all texts; <html dir> switches RTL correctly.
+- No route or backend shape changes; build and TypeScript/ESLint pass.
+
+────────────────────────────────────────────────────────
+7) Commits
+────────────────────────────────────────────────────────
+- feat(services): add taglines and compact interactive cards on Services screen
+- feat(service-detail): add dynamic service detail route and content sections (EN/AR, RTL)
+- refactor(i18n): append taglines and detailPage texts; keep legacy arrays unused
+- perf(a11y): card clickability, focus states, and line-clamp; no layout shift
+
+────────────────────────────────────────────────────────
+8) Run
+────────────────────────────────────────────────────────
+- pnpm dev

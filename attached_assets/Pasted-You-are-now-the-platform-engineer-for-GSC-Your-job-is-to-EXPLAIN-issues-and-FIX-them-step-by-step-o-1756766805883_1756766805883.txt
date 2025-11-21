@@ -1,0 +1,470 @@
+You are now the platform engineer for GSC. Your job is to EXPLAIN issues and FIX them step-by-step on the repo below. 
+After EACH phase:
+- Print a short summary of what changed
+- Show a concise `git diff` (or list modified files if diff is large)
+- Run the necessary commands to verify (build/test/run)
+- Then CONTINUE to the next phase
+
+Repository: https://github.com/geniussoftwarecore/gsc.git
+
+================================================================
+PHASE 0 — Setup
+================================================================
+0.1 Clone the repository and cd into it
+- git clone https://github.com/geniussoftwarecore/gsc.git
+- cd gsc
+
+0.2 Create a working branch
+- git checkout -b chore/restructure-monorepo
+
+0.3 Enable pnpm
+- corepack enable
+- corepack prepare pnpm@latest --activate
+- pnpm -v
+
+Acceptance:
+- New branch created
+- pnpm available
+
+================================================================
+PHASE 1 — Monorepo structure (apps / packages)
+================================================================
+Issue: Inconsistent structure and duplicate migrations lead to confusion and schema drift.
+Goal: Use workspaces with a clear layout:
+  /apps/client  ← Web client
+  /apps/api     ← API server
+  /packages/db  ← Drizzle schema + migrations (single source of truth)
+  /packages/ui  ← Shared UI/components (optional)
+
+1.1 Create folders if they don’t exist:
+- mkdir -p apps/client apps/api packages/db packages/ui
+
+1.2 Create/Update root package.json with workspaces & common scripts:
+Create/replace gsc/package.json with:
+{
+  "name": "gsc",
+  "private": true,
+  "packageManager": "pnpm@9.6.0",
+  "workspaces": ["apps/*", "packages/*"],
+  "scripts": {
+    "dev:client": "pnpm --filter ./apps/client dev",
+    "build:client": "pnpm --filter ./apps/client build",
+    "dev:api": "pnpm --filter ./apps/api dev",
+    "build:api": "pnpm --filter ./apps/api build",
+    "db:generate": "pnpm --filter ./packages/db drizzle-kit generate",
+    "db:migrate": "pnpm --filter ./packages/db drizzle-kit migrate",
+    "db:studio": "pnpm --filter ./packages/db drizzle-kit studio",
+    "start:all": "concurrently -k \"pnpm dev:api\" \"pnpm dev:client\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0",
+    "drizzle-kit": "^0.24.0",
+    "typescript": "^5.5.0",
+    "tsx": "^4.16.0"
+  }
+}
+
+1.3 Move current client code to apps/client
+- Relink imports/paths if needed
+
+1.4 Move current server code to apps/api
+- If no server exists, we will create Express in PHASE 5
+
+1.5 Commit:
+- git add -A
+- git commit -m "chore: setup workspaces and base monorepo structure"
+
+Acceptance:
+- Workspaces enabled
+- Client code under apps/client
+- Server code under apps/api
+
+================================================================
+PHASE 2 — Unify Drizzle migrations in packages/db
+================================================================
+Issue: Multiple migration folders cause schema drift.
+Goal: Single source of truth in packages/db.
+
+2.1 Add Drizzle basics
+Create packages/db/src/schema.ts:
+export const _placeholder = {};
+
+Create packages/db/drizzle.config.ts:
+import { defineConfig } from "drizzle-kit";
+export default defineConfig({
+  schema: "./packages/db/src/schema.ts",
+  out: "./packages/db/migrations",
+  dialect: "postgresql",
+  dbCredentials: { url: process.env.DATABASE_URL! }
+});
+
+2.2 Move any existing migrations into packages/db/migrations
+- Remove old/duplicate migration folders elsewhere
+
+2.3 Install dependencies at workspace root:
+- pnpm -w add drizzle-orm pg
+
+2.4 Generate & migrate (ok if no changes yet):
+- pnpm db:generate || true
+- pnpm db:migrate || true
+
+2.5 Commit:
+- git add -A
+- git commit -m "chore(db): unify migrations under packages/db"
+
+Acceptance:
+- Only one migrations folder: packages/db/migrations
+- Drizzle config points to packages/db/src/schema.ts
+
+================================================================
+PHASE 3 — Cross-platform npm/tsx scripts (replace bash)
+================================================================
+Issue: Bash scripts break on Windows.
+Goal: npm/tsx scripts that work everywhere.
+
+3.1 In apps/api/package.json add:
+{
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "seed:demo": "tsx scripts/seed.ts",
+    "admin:create": "tsx scripts/create-admin.ts"
+  }
+}
+
+3.2 Ensure minimal files exist:
+- mkdir -p apps/api/scripts
+- touch apps/api/scripts/seed.ts apps/api/scripts/create-admin.ts
+- If missing TS setup:
+  - pnpm -w add -D typescript tsx @types/node
+  - npx tsc --init
+
+3.3 Commit:
+- git add -A
+- git commit -m "chore(api): add cross-platform npm scripts"
+
+Acceptance:
+- No bash dependency for seeding/admin/migrate
+- `pnpm dev:api` & `pnpm build:api` work
+
+================================================================
+PHASE 4 — Centralized i18n + RTL/LTR switching
+================================================================
+Issue: Partial translations; page direction doesn’t switch.
+Goal: Central i18n with language detection and dynamic `dir`.
+
+4.1 Install client deps:
+- pnpm add --filter ./apps/client react-i18next i18next i18next-browser-languagedetector
+
+4.2 Create files:
+apps/client/src/i18n.ts
+--------------------------------
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
+import LanguageDetector from "i18next-browser-languagedetector";
+import ar from "./locales/ar.json";
+import en from "./locales/en.json";
+
+i18n
+  .use(LanguageDetector)
+  .use(initReactI18next)
+  .init({
+    resources: { ar: { translation: ar }, en: { translation: en } },
+    fallbackLng: "en",
+    interpolation: { escapeValue: false }
+  });
+
+export default i18n;
+--------------------------------
+
+Create:
+- apps/client/src/locales/ar.json  (Navbar/Hero/Services/Footer base strings)
+- apps/client/src/locales/en.json  (same keys in English)
+
+4.3 Initialize in entry point:
+- In apps/client/src/main.(ts|tsx): `import "./i18n";`
+
+4.4 Switch direction in root App:
+--------------------------------
+import { useEffect } from "react";
+import i18n from "./i18n";
+useEffect(() => {
+  document.documentElement.dir = i18n.language === "ar" ? "rtl" : "ltr";
+}, [i18n.language]);
+--------------------------------
+
+4.5 Replace hardcoded strings with t("key") for Navbar/Hero/Services/Footer.
+
+4.6 Commit:
+- git add -A
+- git commit -m "feat(i18n): centralized i18n and dynamic RTL/LTR"
+
+Acceptance:
+- Language toggle updates text AND document direction
+- All top-level UI strings come from JSON
+
+================================================================
+PHASE 5 — Secure API server (Express) or harden existing server
+================================================================
+Issue: Missing documented API entrypoints and security middlewares.
+Goal: Minimal Express with helmet/cors/rate-limit (or apply to existing server).
+
+5.1 If no server exists, create one:
+- pnpm --filter ./apps/api add express cors helmet express-rate-limit
+
+apps/api/src/index.ts
+--------------------------------
+import express from "express";
+import helmet from "helmet";
+import cors from "cors";
+import rateLimit from "express-rate-limit";
+
+const app = express();
+app.use(helmet());
+app.use(cors({ origin: process.env.CORS_ORIGIN || "*", credentials: true }));
+app.use(express.json());
+app.use(rateLimit({ windowMs: 15*60*1000, max: 100 }));
+
+app.get("/health", (_, res) => res.json({ ok: true }));
+
+const port = Number(process.env.PORT || 8080);
+app.listen(port, () => console.log("API on " + port));
+--------------------------------
+
+5.2 Commit:
+- git add -A
+- git commit -m "feat(api): secured express baseline (helmet/cors/rate-limit)"
+
+Note: If using Argon2 in Docker (Alpine), prefer Node base image `node:20-bookworm` or install build toolchain.
+
+Acceptance:
+- API responds at /health
+- CORS & security middlewares active
+
+================================================================
+PHASE 6 — Clear .env.example
+================================================================
+Issue: Scattered env vars; no single example file.
+Goal: One .env.example covering API & client.
+
+6.1 Create gsc/.env.example:
+# API
+DATABASE_URL=postgres://postgres:postgres@localhost:5432/gsc
+PORT=8080
+CORS_ORIGIN=http://localhost:5173
+NODE_ENV=development
+# Argon2 (example)
+ARGON2_TIME_COST=3
+ARGON2_MEMORY_COST=4096
+
+# CLIENT
+VITE_API_BASE_URL=http://localhost:8080
+VITE_DEFAULT_LOCALE=ar
+
+6.2 Copy to .env locally (do NOT commit secrets)
+6.3 Commit:
+- git add -A
+- git commit -m "docs: add consolidated .env.example"
+
+Acceptance:
+- Single source for required envs
+- Client uses VITE_* vars
+
+================================================================
+PHASE 7 — Brand assets organization
+================================================================
+Issue: Dispersed assets and inconsistent sizes.
+Goal: Central brand folder and consistent usage.
+
+7.1 Create folder:
+- mkdir -p apps/client/public/brand/
+
+7.2 Add:
+- logo-gsc.svg        ← Navbar (icon only, 24–28px height)
+- logo-gsc-full.svg   ← Hero (icon + text, 56–72px desktop, 40–48px mobile)
+
+7.3 Update imports in Navbar/Hero to:
+- /brand/logo-gsc.svg
+- /brand/logo-gsc-full.svg
+
+7.4 Commit:
+- git add -A
+- git commit -m "chore(assets): centralize brand assets and wire up navbar/hero"
+
+Acceptance:
+- Single place for brand assets
+- Correct sizes applied in UI
+
+================================================================
+PHASE 8 — Docker + Nginx (SPA fallback) + Compose
+================================================================
+Issue: Multi-service boot without healthchecks and missing SPA fallback.
+Goal: Build client → serve via Nginx; separate API; Postgres DB; SPA fallback.
+
+8.1 Nginx config → nginx/app.conf:
+server {
+  listen 80;
+  server_name _;
+  location /api/ {
+    proxy_pass http://api:8080/;
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+  }
+  location / {
+    root /usr/share/nginx/html;
+    try_files $uri /index.html;
+  }
+}
+
+8.2 Client Dockerfile → apps/client/Dockerfile:
+FROM node:20-bookworm AS build
+WORKDIR /app
+COPY . .
+RUN pnpm install --frozen-lockfile
+RUN pnpm build
+
+FROM nginx:1.27-alpine
+COPY --from=build /app/dist /usr/share/nginx/html
+COPY ../../nginx/app.conf /etc/nginx/conf.d/default.conf
+
+8.3 API Dockerfile → apps/api/Dockerfile:
+FROM node:20-bookworm
+WORKDIR /app
+COPY package*.json ./
+COPY tsconfig*.json ./
+COPY src ./src
+RUN pnpm install --frozen-lockfile
+RUN pnpm build || true
+EXPOSE 8080
+CMD ["pnpm","start"]
+
+8.4 Compose → docker-compose.yml (root):
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: gsc
+    healthcheck:
+      test: ["CMD-SHELL","pg_isready -U postgres -d gsc"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  api:
+    build: ./apps/api
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@db:5432/gsc
+      PORT: 8080
+      CORS_ORIGIN: http://localhost
+    expose:
+      - "8080"
+
+  web:
+    build: ./apps/client
+    depends_on:
+      - api
+    ports:
+      - "80:80"
+
+8.5 Build & run:
+- docker compose build --no-cache
+- docker compose up -d
+- docker compose exec api pnpm db:migrate || true
+- Open http://localhost
+
+8.6 Commit:
+- git add -A
+- git commit -m "feat(docker): nginx spa fallback & compose for api/web/db"
+
+Acceptance:
+- Visiting http://localhost serves SPA
+- API reachable through Nginx `/api/`
+- DB healthcheck gating API startup
+
+================================================================
+PHASE 9 — Services pages (Index + Detail) with i18n
+================================================================
+Issue: Clicking a service should open a localized detail page.
+Goal: Route set for services + content from JSON (ar/en).
+
+9.1 Content files:
+- apps/client/src/content/services/ar.json
+- apps/client/src/content/services/en.json
+Recommended fields: slug, title, subtitle, description, features[], ctaLabel
+
+9.2 Create routes (React Router or your router):
+- `/services` → list all services from current language JSON
+- `/services/:slug` → show one service details
+
+9.3 Wire “View details” buttons to `/services/:slug`
+
+9.4 Commit:
+- git add -A
+- git commit -m "feat(services): index & detail pages backed by i18n JSON"
+
+Acceptance:
+- Services list localized
+- Detail pages localized and navigable
+
+================================================================
+PHASE 10 — Minimal CI (GitHub Actions)
+================================================================
+Issue: No automated build checks.
+Goal: CI to build client & API before merging.
+
+10.1 Create .github/workflows/ci.yml:
+name: ci
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with: { version: 9 }
+      - uses: actions/setup-node@v4
+        with: { node-version: 20, cache: 'pnpm' }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm -r build
+
+10.2 Commit:
+- git add -A
+- git commit -m "ci: add basic build workflow"
+
+Acceptance:
+- CI runs on PR/push
+- Both apps build successfully
+
+================================================================
+PHASE 11 — README (Production Runbook)
+================================================================
+Issue: No single, clear deployment path.
+Goal: Concise runbook for dev & prod.
+
+11.1 Update README.md with:
+- Requirements (Node 20, pnpm, Docker)
+- .env setup (reference .env.example)
+- Dev commands (dev:client, dev:api, start:all)
+- Production via Docker Compose
+- How to run DB migrations
+
+11.2 Final commit & push PR:
+- git add -A
+- git commit -m "docs: production runbook and usage notes"
+- git push -u origin chore/restructure-monorepo
+
+Acceptance:
+- README includes a clear end-to-end path
+- Branch ready for PR review
+
+===============================================================
+At the end of each phase:
+- Run `git status`
+- Print: "PHASE X DONE ✅" and "NEXT → PHASE Y"
+===============================================================

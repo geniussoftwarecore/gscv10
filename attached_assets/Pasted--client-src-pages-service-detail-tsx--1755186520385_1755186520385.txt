@@ -1,0 +1,96 @@
+يحتوي ملف client/src/pages/service-detail.tsx على صفحة تفاصيل الخدمة. ضمنها يوجد قسم يعرض باقات الأسعار للمستخدمين
+raw.githubusercontent.com
+. نريد حذف هذا القسم بالكامل وإظهار قسم يعرض أعمالاً سابقة (ببيانات وهمية في الوقت الحالي) وذلك فقط إذا كانت الخدمة من نوع “تطبيقات الهواتف الذكية” أو “تطوير المواقع والمنصات”. في الخدمات الأخرى، يجب أن يبقى قسم باقات الأسعار كما هو.
+
+الخطوات المطلوبة من Riplet.ai
+
+فتح الملف client/src/pages/service-detail.tsx.
+
+إضافة منطق لتحديد إذا ما كان ينبغي استبدال الباقات بالأعمال:
+داخل المكوّن ServiceDetail، بعد جلب بيانات الخدمة، أضف متغيرًا مثل:
+
+const showProjectsInsteadOfPlans =
+  service?.category === "mobile" || service?.category === "web";
+
+
+حيث mobile تمثل قسم تطبيقات الهواتف الذكية وweb تمثل قسم تطوير المواقع والمنصات.
+
+إضافة بيانات وهمية للمشاريع: عرّف مصفوفة dummyProjects داخل نفس المكوّن. مثال:
+
+const dummyProjects = [
+  {
+    id: "proj1",
+    title: "تطبيق جوال 1",
+    description: "وصف مختصر لمشروع تطبيق جوال.",
+    imageUrl: "/placeholder-mobile.jpg",
+  },
+  {
+    id: "proj2",
+    title: "تطبيق جوال 2",
+    description: "وصف مختصر لمشروع تطبيق جوال آخر.",
+    imageUrl: "/placeholder-mobile.jpg",
+  },
+  {
+    id: "proj3",
+    title: "تطبيق جوال 3",
+    description: "وصف مختصر لمشروع تطبيق جوال ثالث.",
+    imageUrl: "/placeholder-mobile.jpg",
+  },
+];
+
+
+لاحقاً يمكن استبدال هذه البيانات بمشاريع حقيقية.
+
+تغليف قسم باقات الأسعار بشرط: اجعل قسم “باقات الأسعار” الذي يبدأ بالعنوان <h2>باقات الأسعار</h2>
+raw.githubusercontent.com
+ محاطًا بشرط إظهار فقط إذا كانت showProjectsInsteadOfPlans تساوي false:
+
+{!showProjectsInsteadOfPlans && (
+  // الكود الحالي لقسم الباقات كما هو
+)}
+
+
+إضافة قسم الأعمال: أسفل أو فوق قسم الباقات (حسب التصميم)، أضف شرطًا يقوم بإظهار قسم جديد إذا كانت showProjectsInsteadOfPlans تساوي true:
+
+{showProjectsInsteadOfPlans && (
+  <section className="py-16 lg:py-24 bg-white">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <AnimatedText className="text-center mb-16">
+        <h2 className="text-4xl lg:text-5xl font-bold text-secondary mb-6">
+          أعمال قمنا بعملها
+        </h2>
+        <p className="text-xl text-gray-600">
+          إليك بعض المشاريع المنجزة في هذا المجال.
+        </p>
+      </AnimatedText>
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {dummyProjects.map((proj, index) => (
+          <AnimatedCard
+            key={proj.id}
+            delay={index * 0.1}
+            className="p-6 bg-white shadow-lg rounded-lg"
+          >
+            <CardContent className="p-0">
+              <img
+                src={proj.imageUrl}
+                alt={proj.title}
+                className="w-full h-40 object-cover mb-4 rounded-md"
+              />
+              <h3 className="text-2xl font-bold mb-2 text-secondary">
+                {proj.title}
+              </h3>
+              <p className="text-gray-600 mb-4">{proj.description}</p>
+            </CardContent>
+          </AnimatedCard>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+
+الحفاظ على باقي الأقسام كما هي: يجب أن تبقى أقسام عملية العمل والتقنيات المستخدمة وغيرها كما هي دون تعديل.
+
+النتيجة المتوقعة
+
+بعد تطبيق هذه التعديلات، عند دخول المستخدم إلى تفاصيل إحدى الخدمات من فئة تطبيقات الهواتف الذكية أو تطوير المواقع والمنصات، سيظهر له قسم “أعمال قمنا بعملها” بدلاً من قسم “باقات الأسعار”. في الفئات الأخرى سيستمر عرض الباقات الحالية بشكل طبيعي.

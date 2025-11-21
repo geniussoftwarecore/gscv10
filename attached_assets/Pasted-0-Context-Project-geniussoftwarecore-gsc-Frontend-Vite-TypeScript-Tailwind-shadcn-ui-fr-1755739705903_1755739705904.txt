@@ -1,0 +1,167 @@
+0) Context
+
+Project: geniussoftwarecore/gsc
+
+Frontend: Vite + TypeScript + Tailwind + shadcn/ui + framer-motion + i18n (ar/en) + RTL/LTR
+
+Brand colors: White + Sky Blue (defined in tailwind.config.ts: brand.sky.*, brand.text.*).
+
+1) Assets
+
+Add the company logo to the frontend:
+
+client/public/brand/logo-gsc.svg (preferred)
+
+client/public/brand/logo-gsc.png (fallback)
+
+Provide two versions:
+
+Navbar: simplified, icon only, height ~24–28px.
+
+Hero: full logo (icon + text), ~56–72px on desktop, ~40–48px on mobile.
+
+Use SVG when possible for crisp scaling; fallback to PNG with fixed dimensions to prevent CLS.
+
+2) Navbar Update
+
+File: client/src/components/layout/Navbar.tsx
+
+Place the logo (icon only) next to the company name:
+
+Container: className="flex items-center gap-2 h-10"
+
+Logo: className="h-7 w-auto md:h-8"
+
+Text (desktop only):
+
+className="hidden md:inline-block font-semibold tracking-wide text-brand.text.primary"
+
+Text: Genius Software Core
+
+Link logo to /.
+
+Add “Subscribe Now” button (if not already) and a new “Start Your Project” button:
+
+“Subscribe Now” → /services (later /pricing).
+
+“Start Your Project” → /services.
+
+Styles:
+
+“Subscribe Now” → ghost/secondary style.
+
+“Start Your Project” → primary outline → hover filled with brand.sky.accent.
+
+Add subtle framer-motion animations for logo + buttons.
+
+Responsive: On mobile, hide the text and show icon only.
+
+3) Logo Placement Above Hero
+
+File: client/src/components/home/HomeHero.tsx
+
+Add the full logo directly under the Navbar and above the hero headline “We transform your ideas into effective digital products.”
+
+<div className="mx-auto mb-4 md:mb-6 flex items-center justify-center">
+  <img src="/brand/logo-gsc.svg" alt="GSC" className="h-14 w-auto md:h-16" />
+</div>
+
+4) Digital Effects Around Logo
+
+Folder: client/src/components/brand/
+
+BrandParticles.tsx
+
+Floating squares inspired by the logo grid.
+
+Animated using framer-motion (fade, hover, randomized delay).
+
+Colors: brand.sky.base → brand.sky.accent.
+
+Keep it minimal: ~12–16 particles.
+
+BrandGlow.tsx
+
+Glow effect behind logo:
+
+Absolute div, gradient from light to sky blue, blurred.
+
+Size responsive: h-40 w-40 md:h-56 md:w-56.
+
+DigitalGrid.tsx (optional)
+
+Subtle dotted grid background below hero.
+
+Integration in Hero:
+
+Wrap logo in <div className="relative"> and layer BrandGlow and BrandParticles behind it.
+
+5) Add “Start Your Project” Button Next to “Subscribe Now” in Hero
+
+Place both buttons side by side in hero CTA area.
+
+“Start Your Project” → /services.
+
+i18n keys:
+
+home.hero.cta.startProject = “Start Your Project”
+
+home.hero.cta.subscribe = “Subscribe Now”
+
+6) i18n & RTL/LTR
+
+Add translation keys:
+
+{
+  "nav": { "subscribe": "Subscribe Now", "startProject": "Start Your Project" },
+  "home": {
+    "hero": {
+      "cta": {
+        "startProject": "Start Your Project",
+        "subscribe": "Subscribe Now"
+      },
+      "brand": { "alt": "GSC" }
+    }
+  }
+}
+
+
+RTL: reverse button order (Start Project → Subscribe).
+
+LTR: normal order (Subscribe → Start Project).
+
+7) Accessibility & Performance
+
+alt="GSC" for logos.
+
+Fixed image dimensions to avoid CLS.
+
+aria-label for buttons.
+
+Ensure sufficient contrast (AA compliant).
+
+Use framer-motion only; no heavy animation libraries.
+
+8) Acceptance Criteria
+
+Navbar shows logo (icon + company name on desktop).
+
+Hero displays full logo above headline with glow + particles.
+
+Buttons “Subscribe Now” + “Start Your Project” both link to /services.
+
+RTL/LTR directions are respected.
+
+Console free of warnings/errors in dev.
+
+9) Suggested Commits
+
+feat(navbar): add GSC logo with brand colors + company name
+
+feat(home-hero): add logo above headline with glow & particles
+
+feat(cta): add 'Start Your Project' button linking to /services
+
+chore(i18n): add nav and hero CTA keys (ar/en)
+
+style(theme): refine white+sky accents and motion polish

@@ -1,0 +1,40 @@
+Here are direct Replit AI commands to implement the full CRM system inside the existing project you have uploaded to Replit (no GitHub integration needed):
+
+Step 1 – Project Analysis "Analyze the current project structure and list all files and main functionalities. Summarize the tech stack used and identify where new CRM features can be integrated."
+
+Step 2 – Database Setup "Add CRM-related database tables and models to support: Leads, Contacts, Accounts, Opportunities, Tasks, and Support Tickets. Ensure proper relationships (one-to-many, many-to-many) are defined."
+
+Step 3 – User Authentication & Roles "Implement role-based access control for Admin, Sales, Support, and Client roles. Add a user management panel for admins to create, edit, and deactivate users."
+
+Step 4 – CRM Core Features "Add modules for:
+
+1. Leads Management – Create, update, convert leads to contacts.
+
+
+2. Contacts – Store detailed client info and communication history.
+
+
+3. Accounts – Link multiple contacts to a single organization.
+
+
+4. Opportunities – Track deals with stages and values.
+
+
+5. Tasks – Assign to team members with deadlines and status.
+
+
+6. Support Tickets – Client can create tickets, support can respond and close them."
+
+
+
+Step 5 – Dashboard & Reporting "Create a dashboard showing KPIs: number of leads, deals in pipeline, tasks pending, support tickets by status. Add charts and filters for date ranges."
+
+Step 6 – Notifications System "Implement in-app and email notifications for task assignments, deal stage changes, and new support tickets."
+
+Step 7 – Search & Filters "Add advanced search and filtering for all CRM modules (by name, date, status, assigned user)."
+
+Step 8 – UI/UX Enhancement "Update the interface with a professional CRM layout, navigation menu, and responsive design. Use consistent colors and icons."
+
+Step 9 – Testing "Add unit and integration tests for all new CRM features to ensure functionality and prevent regressions."
+
+Step 10 – Final Review "Review all added features, ensure they integrate smoothly, and optimize code for performance and security."

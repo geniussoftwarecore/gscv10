@@ -1,0 +1,191 @@
+Replit AI — Execute now on the existing page: Enterprise Resource Planning (ERP)
+
+Short brief:
+Update the already existing service page titled “أنظمة تخطيط موارد المؤسسات” (Enterprise Resource Planning) to add a full section about ERPNext v15. Do not create a new page—update the current page in place. Follow the sequence below, keep the platform’s current design (blue/white/light-green), and support Arabic RTL and English LTR.
+
+0) Locate the target page (do NOT create a new page)
+
+Search the project for the service page with the Arabic title “أنظمة تخطيط موارد المؤسسات” or a path containing services, erp, enterprise-resource-planning.
+
+Once found:
+
+Do not change the original service title used in the navbar/services index.
+
+Inside this page, add a dedicated ERPNext v15 subsection using the content below.
+
+If the page is built from sections/components: reuse the same Hero/Section/Card/FAQ/CTA components. If not available, create simple sections that visually match the existing platform style.
+
+1) Language and direction
+
+The page must be bilingual: show Arabic (RTL) when the site language is Arabic, and English (LTR) for English (use the existing i18n system; if it doesn’t exist, add a simple language toggle at the top).
+
+Ensure proper alignment and direction for menus, cards, and text.
+
+2) Content structure within the page (top → bottom)
+
+Add the following inside the existing “Enterprise Resource Planning” page under a clear subsection title ERPNext v15:
+
+A) ERPNext v15 Hero
+
+Headlines:
+
+AR: حوِّل عملياتك مع ERPNext v15 — نظام ERP مرن، شامل، مفتوح المصدر.
+
+EN: Transform Your Operations with ERPNext v15 — Flexible, Comprehensive, Open-Source ERP.
+
+Short intro paragraph:
+
+AR: حلّ ERP متكامل للمحاسبة والمبيعات والمشتريات والمخزون والتصنيع والموارد البشرية والمشاريع، قابل للتخصيص وسريع النشر وبكلفة تنافسية.
+
+EN: A full-stack ERP for Accounting, Sales, Buying, Inventory, Manufacturing, HR, and Projects—customizable, fast to deploy, and cost-effective.
+
+Two CTAs:
+
+AR: اطلب عرضًا توضيحيًا and اطلب عرض سعر → both smooth-scroll to the lead form section (anchor: #erpnext-lead-form)
+
+EN: Request a Demo and Get a Quote → same scrolling behavior
+
+B) Overview
+
+AR (3 lines): ERPNext v15 يوفّر نواة مالية قوية، سلاسل إمداد واضحة، وأدوات تصنيع ومشاريع واشتراكات. تملّك بياناتك، وخصّص نماذج الطباعة والتقارير وسير العمل، وانشر محليًا أو على السحابة.
+
+EN: ERPNext v15 provides a solid financial core, clear supply chains, and tools for manufacturing, projects, and subscriptions. Own your data, tailor print formats, reports, and workflows, and deploy on-prem or in the cloud.
+
+C) Modules — card grid (10 cards)
+
+AR: الحسابات، المبيعات، المشتريات، المخزون، التصنيع، المشاريع والمهام، الموارد البشرية والرواتب، الدعم/Helpdesk، الاشتراكات والفوترة، الضرائب والتقارير.
+
+EN: Accounts, Selling, Buying, Stock, Manufacturing, Projects & Tasks, HR & Payroll, Support/Helpdesk, Subscriptions & Billing, Taxes & Reports.
+Each card: icon + title + 1-2 line description.
+
+D) Use Cases (4 cards)
+
+AR: تجزئة/جملة، تصنيع خفيف، خدمات وصيانة، توزيع ولوجستيات.
+
+EN: Retail/Wholesale, Light Manufacturing, Field Services, Distribution & Logistics.
+
+E) Deployment options (3 compare cards)
+
+AR: محلي (On-Premise)، سحابي (Cloud)، هجين (Hybrid) — نقاط موجزة للكلفة/الأمن/الصيانة.
+
+EN: On-Prem, Cloud, Hybrid — short notes on cost/security/ops.
+
+F) Integrations (bulleted list)
+
+AR/EN: Payment gateways (where available), WhatsApp/SMS/Email notifications, API/Webhooks for data exchange, BI/Dashboards, Shipping/Delivery (external providers or in-house drivers), Maps/Route optimization for delivery trips.
+
+G) Migration, Training, and Support
+
+AR/EN 4-step flow: Requirements analysis → Setup/Data mapping → Migration & Testing → Training & Go-Live, with support tiers Basic/Pro/Enterprise (SLA) and response channels.
+
+H) Packages (pricing cards without fixed prices)
+
+Basic: Standard setup + Accounts/Selling/Buying/Stock + Basic training.
+
+Pro: Moderate customizations + Workflows + Extra reports + Limited integrations + Extended training.
+
+Enterprise: Deep customizations + Multiple integrations + BI + Advanced security + Priority support.
+Provide AR/EN copies for each card. Each card button → “Request a Quote” / “اطلب عرض سعر” → scrolls to #erpnext-lead-form.
+
+I) Add-Ons
+
+AR/EN: Employee mobile app, Customer portal, Custom print formats, WhatsApp/SMS automations, BI reports.
+
+J) Why ERPNext v15? (quick comparison)
+
+AR/EN compact highlights vs. traditional ERPs: fast implementation, flexible customization, low TCO, active community, data ownership.
+
+K) Testimonials / Case Studies
+
+Add 2–3 styled placeholder slides for now (to be replaced later with real content).
+
+L) FAQ (8 items)
+
+AR/EN short Q&As:
+
+Expected implementation time?
+
+How do we migrate data?
+
+Security and backups?
+
+Licensing and updates?
+
+Integrations with current systems?
+
+Post-launch training?
+
+Technical support & SLA?
+
+On-prem vs. cloud?
+
+M) Strong final CTA (Sticky)
+
+Bottom sticky bar showing اطلب عرضًا توضيحيًا / اطلب عرض سعر and Request a Demo / Get a Quote, both scrolling to #erpnext-lead-form.
+
+N) Lead form (same page)
+
+Location: bottom of the same page with anchor id="erpnext-lead-form".
+
+Fields: Name, Company, Email, Phone (optional), Industry/Size, Preferred deployment option, Message.
+
+On submit:
+
+Store as Lead in the site’s CRM/leads (if available), else persist to the site DB.
+
+Send an internal notification to our team (email/WhatsApp if enabled).
+
+Show a clear AR/EN success message.
+
+3) Link from the services index
+
+In the general Services list (if there’s a general card for “Enterprise Resource Planning”), add a visible text/button “ERPNext v15” that links (or smooth-scrolls) to the ERPNext v15 subsection inside the same page (anchor), not a new page.
+
+4) SEO / Open Graph / Schema
+
+Update meta title and description to include “ERPNext v15” in both AR and EN.
+
+Add a dedicated OG image for this section (reuse existing brand assets).
+
+Enable Schema.org Service + FAQ for this page if supported.
+
+5) Performance and quality
+
+Use existing WebP assets or create optimized variants; enable lazy-loading for large images/testimonial sliders.
+
+Make sure color contrast is accessible and CTAs are prominent on mobile.
+
+6) Analytics and conversions
+
+Bind click events for Request Demo / Get a Quote / Lead Submitted to the platform’s analytics (e.g., Google Analytics).
+
+7) Acceptance criteria (reject the task if any point is missing)
+
+The existing “Enterprise Resource Planning” page now contains a complete ERPNext v15 subsection with items A → N above.
+
+Buttons smooth-scroll to #erpnext-lead-form and work for both AR and EN.
+
+Content renders RTL in Arabic and LTR in English.
+
+SEO/OG/Schema updated.
+
+The services index includes a clear ERPNext v15 link that jumps to the subsection within the same page.
+
+No unnecessary new pages. No raw placeholder code visible to end users.
+
+8) If the framework differs
+
+If the project uses Next.js/React/Vue: reuse the page’s existing components.
+
+If the page is static HTML: add the sections with clear anchors, including erpnext-lead-form.
+
+In all cases: match the platform’s current design and language options.
+
+9) After completion
+
+Save all modified files, then run the project build if required.
+
+Commit message:
+feat(services/erp): add full ERPNext v15 section + AR/EN content, CTA anchors, SEO, FAQ, lead form
+
+Important: Execute now without clarification questions. Do not create a new page. Update the existing page, and insert the full ERPNext v15 subsection with the scrolling CTAs, services index anchor, bilingual content, SEO, FAQ, and lead form exactly as specified above.

@@ -1,0 +1,145 @@
+You are working on https://github.com/geniussoftwarecore/gsc.git
+
+Goal: Apply the EXACT same UI/UX system used on the Services page (and the refreshed Home) to EVERY page in the project. Unify colors, spacing, typography, cards, buttons, animations, and RTL/i18n behavior. Do NOT change routes, data, copy, or back-end logic—this is a PRESENTATION refactor.
+
+────────────────────────────────────────────────────────
+0) Scope, Guardrails, and Branch
+────────────────────────────────────────────────────────
+- Create branch: feat/site-wide-ui-alignment
+- Frontend-only changes in /client (and crm_ui if present).
+- DO NOT:
+  • change existing content order/wording/URLs
+  • introduce new colors or design tokens
+  • add new libraries unless they already exist
+  • alter API calls, models, or business logic
+- YES:
+  • reuse the exact visual language from Services/Home across all pages
+  • centralize shared primitives and tokens where missing
+  • ensure full AR/EN + RTL support
+
+────────────────────────────────────────────────────────
+1) Discover All Pages & Layouts
+────────────────────────────────────────────────────────
+- Enumerate routes and page files. Typical locations:
+  • client/src/pages/** or client/src/app/** or client/src/routes/**
+  • crm_ui/** for CRM/app screens (if present)
+- In PR description, paste a checklist of all pages found (marketing, auth/forms, app/CRM).
+- DO NOT rename routes. Keep the same navigation structure.
+
+────────────────────────────────────────────────────────
+2) Use the Services/Home Design System as the Canon
+────────────────────────────────────────────────────────
+- Ensure the following exist (create if missing; reuse what Services/Home already use):
+  • Layout wrappers:
+    - client/src/components/layout/Header.tsx (global)
+    - client/src/components/layout/Footer.tsx (global)
+    - client/src/components/layout/Layout.tsx (marketing pages)
+    - client/src/components/layout/AppLayout.tsx (app/CRM pages with side/top nav)
+  • UI primitives (reuse):
+    - client/src/components/ui/{Button.tsx, Card.tsx, Section.tsx, PageHeader.tsx, Container.tsx}
+    - client/src/components/ui/form/{Input.tsx, Select.tsx, Textarea.tsx, Checkbox.tsx, Switch.tsx}
+    - client/src/components/ui/{Modal.tsx, Toast.tsx, Tooltip.tsx} if already present
+  • Styling tokens:
+    - client/src/styles/tokens.css (or Tailwind theme.extend). Use the SAME radius, shadows, spacing, and color tokens already used on Services/Home.
+  • i18n/RTL:
+    - client/src/providers/i18n.tsx with lang, setLang, t(), dir, and <html lang/dir> wiring
+  • Motion:
+    - framer-motion usage identical to Services/Home (subtle reveal/hover)
+
+Guardrail: DO NOT invent new colors. Reuse brand palette and existing variables only.
+
+────────────────────────────────────────────────────────
+3) Page Archetypes & How to Align Them
+────────────────────────────────────────────────────────
+A) Marketing/Content pages (e.g., About, Pricing, Portfolio, Contact, etc.)
+- Wrap with <Layout> (Header + Footer).
+- At top, use <PageHeader> matching Services/Home style (title, optional lead, breadcrumb).
+- Structure content into <Section> blocks with the same vertical rhythm as Services/Home:
+  • container mx-auto px-4 sm:px-6 lg:px-8
+  • py-12 (mobile) / py-16 (desktop)
+- Cards, buttons, links, and dividers: reuse identical variants from Services/Home.
+- Portfolio pages: use the same gallery/lightbox pattern used on Services/Home (if present).
+
+B) Auth / Contact / Form pages
+- Centered layout or two-column hero + form, matching Services/Home spacing.
+- Replace ad-hoc inputs with shared form components (Input/Select/Textarea/etc.).
+- Buttons use the same primary/secondary variants and sizes used on Services/Home.
+- Validation messages and success toasts follow the same styles.
+- No content changes—only style.
+
+C) App/CRM pages (tables, dashboards, details)
+- Wrap with <AppLayout>.
+- Apply the same typography scale, card radius (e.g., rounded-2xl), shadows, and paddings.
+- Tables:
+  • Create a shared DataTable wrapper (if not already) with header/footer spacing, hover, selection, pagination aligned to Services/Home token scale.
+  • Filter/search bars reuse Input/Select; buttons match variants.
+- Detail views:
+  • Card sections with consistent titles, spacing, and subtle dividers like Services/Home.
+- Empty states:
+  • Use the same brand-tinted illustration/placeholder style and CTA button.
+
+────────────────────────────────────────────────────────
+4) RTL/i18n Consistency
+────────────────────────────────────────────────────────
+- Ensure ALL visible UI strings on every page are driven by i18n or pass through t() if already structured that way.
+- Do NOT rewrite copy. If a string is hard-coded and not localized, extract it to i18n using the exact same text.
+- Verify <html dir> flips to rtl for Arabic; align paddings/margins and icon/chevron directions logically.
+
+────────────────────────────────────────────────────────
+5) Visual Details to Mirror Services/Home
+────────────────────────────────────────────────────────
+- Spacing rhythm: identical to Services/Home (no one-off margins).
+- Typography: headings/lead/body sizes and weights must match.
+- Buttons: same shapes, radii, focus-ring, hover/active states.
+- Cards: same radius/shadow/depth and hover micro-interactions.
+- Links: same color/hover/underline rules.
+- Background tints and dividers: reuse the exact tokens used by Services/Home.
+- Images: add width/height and loading="lazy" to avoid CLS.
+
+────────────────────────────────────────────────────────
+6) Performance, A11y, and Code Health
+────────────────────────────────────────────────────────
+- Lighthouse (local) target: Performance ≥ 90 on key pages; no layout shifts.
+- Semantic headings/landmarks (main/nav/footer).
+- Visible focus states on all interactive elements.
+- No color-only status cues; include text/icons where relevant.
+- Remove dead styles; dedupe repeated paddings via <Section>/<Container>.
+- TypeScript/ESLint: no errors introduced.
+
+────────────────────────────────────────────────────────
+7) Concrete Edits (apply to actual files you find)
+────────────────────────────────────────────────────────
+- Replace ad-hoc page shells with <Layout> or <AppLayout>.
+- Inject <PageHeader> at top of content pages with the existing page title/lead (no wording changes).
+- Swap legacy buttons/inputs/cards with shared UI primitives.
+- Align table headers/cells/filters to Services/Home spacing and typography.
+- Use the same framer-motion patterns on section reveal and card hover (if already used).
+
+────────────────────────────────────────────────────────
+8) QA Checklist (Acceptance Criteria)
+────────────────────────────────────────────────────────
+- All pages visually match the Services/Home system: same container width, spacing, typography, buttons, cards, shadows, link styles.
+- AR/EN toggle works on every page; <html dir> flips correctly to rtl for Arabic.
+- No content/route changes; same data and navigation as before.
+- Tables/forms/empty states share the same look-and-feel as Services/Home.
+- No new colors or libraries.
+- Build passes; TypeScript/ESLint clean.
+
+────────────────────────────────────────────────────────
+9) Commands & Commits
+────────────────────────────────────────────────────────
+Run:
+- pnpm install
+- pnpm dev
+
+Commits (conventional):
+- feat(layout): add Layout/AppLayout and unify container/section rhythm across pages
+- refactor(ui): replace legacy buttons/cards/inputs with shared primitives (Services/Home style)
+- refactor(pages): align About/Pricing/Portfolio/Contact/etc. to Services/Home visual system
+- refactor(crm): align tables, filters, details to Services/Home tokens
+- feat(i18n): extract hard-coded UI strings without changing wording
+- chore(styles): centralize tokens (radius/shadows/spacing) reusing existing palette
+- perf(a11y): fix CLS/focus/RTL across pages
+
+Open PR: “feat: site-wide UI alignment to Services/Home design”
+Attach screenshots (EN+AR, mobile+desktop) for each page before/after.

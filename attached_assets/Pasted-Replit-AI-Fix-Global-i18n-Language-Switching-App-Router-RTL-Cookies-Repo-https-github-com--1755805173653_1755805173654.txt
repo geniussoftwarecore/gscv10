@@ -1,0 +1,235 @@
+Replit AI — Fix Global i18n Language Switching (App Router, RTL, Cookies)
+
+Repo: https://github.com/geniussoftwarecore/gsc.git
+Stack assumption: Next.js 14 (App Router) + React 18 + Tailwind.
+Current bug: The language switcher in the top navbar only changes the navbar texts. The rest of the app stays in the previous language.
+Goal: Make language selection (ar / en) switch the entire platform instantly and persist across routes & reloads, including correct RTL/LTR direction.
+
+Do exactly this
+1) Install & set up next-intl
+
+Install:
+
+pnpm add next-intl
+
+
+Create client/i18n/request.ts:
+
+import {getRequestConfig} from 'next-intl/server';
+
+export default getRequestConfig(async ({locale}) => ({
+  locale,
+  messages: (await import(`../locales/${locale}.json`)).default
+}));
+
+
+Create client/middleware.ts (root of client/):
+
+import createMiddleware from 'next-intl/middleware';
+
+export default createMiddleware({
+  locales: ['ar', 'en'],
+  defaultLocale: 'ar',
+  localePrefix: 'always'
+});
+
+export const config = {
+  matcher: ['/((?!_next|.*\\..*).*)']
+};
+
+
+Locale messages: add client/locales/ar.json and client/locales/en.json (merge existing keys if present). Move all hardcoded UI strings used across the platform into these files (Navbar, pages, forms, buttons, validation messages, etc.). Keep keys stable, e.g.:
+
+// ar.json
+{
+  "brand.name": "genius software core",
+  "nav.home": "الرئيسية",
+  "nav.services": "الخدمات",
+  "nav.erp": "أنظمة ERP",
+  "nav.contact": "تواصل معنا",
+  "auth.login": "تسجيل الدخول",
+  "auth.signup": "إنشاء حساب",
+  "hero.title": "حلول تقنية و ERP تُسرّع نمو أعمالك"
+}
+
+// en.json
+{
+  "brand.name": "genius software core",
+  "nav.home": "Home",
+  "nav.services": "Services",
+  "nav.erp": "ERP",
+  "nav.contact": "Contact",
+  "auth.login": "Login",
+  "auth.signup": "Create Account",
+  "hero.title": "Tech & ERP solutions to accelerate your growth"
+}
+
+2) App Router with locale segment
+
+Restructure the app routes to be locale-prefixed:
+
+client/app/[locale]/layout.tsx
+client/app/[locale]/page.tsx
+
+
+In client/app/[locale]/layout.tsx, wrap the tree with NextIntlClientProvider and set dir on <html>:
+
+import {NextIntlClientProvider} from 'next-intl';
+import {unstable_setRequestLocale, getTranslations} from 'next-intl/server';
+import '../globals.css';
+
+export const runtime = 'nodejs';
+
+export function generateStaticParams() {
+  return [{locale: 'ar'}, {locale: 'en'}];
+}
+
+export default async function RootLayout({
+  children,
+  params: {locale}
+}: {children: React.ReactNode; params: {locale: 'ar' | 'en'}}) {
+  unstable_setRequestLocale(locale);
+  const messages = (await import(`../../locales/${locale}.json`)).default;
+  const dir = locale === 'ar' ? 'rtl' : 'ltr';
+
+  return (
+    <html lang={locale} dir={dir} suppressHydrationWarning>
+      <body>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          {/* Mount Navbar here so it gets locale & dir */}
+          {/* @ts-expect-error Server Component boundary if needed */}
+          {children}
+        </NextIntlClientProvider>
+      </body>
+    </html>
+  );
+}
+
+
+Move the homepage into client/app/[locale]/page.tsx and use translations with getTranslations (server) or useTranslations (client).
+
+3) Navbar language switcher → route-based + cookie persistence
+
+Update the Navbar switcher component (e.g. client/components/navbar/Navbar.tsx) to:
+
+Read current locale from usePathname() and useParams() (App Router).
+
+When user selects ar or en, replace the locale segment in the current path and router.push() to the new path.
+
+Also set a cookie NEXT_LOCALE (next-intl respects it via middleware).
+
+"use client";
+import {usePathname, useRouter} from "next/navigation";
+import {useLocale} from "next-intl";
+import Cookies from "js-cookie";
+
+export default function LanguageSwitcher() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const locale = useLocale();
+
+  function switchTo(nextLocale: 'ar'|'en') {
+    if (nextLocale === locale) return;
+    const segments = pathname.split('/').filter(Boolean);
+    // Expect path like /ar/... or /en/...
+    if (segments[0] === 'ar' || segments[0] === 'en') {
+      segments[0] = nextLocale;
+    } else {
+      segments.unshift(nextLocale);
+    }
+    const nextPath = '/' + segments.join('/');
+    Cookies.set('NEXT_LOCALE', nextLocale, {expires: 365});
+    router.push(nextPath);
+  }
+
+  return (
+    <div className="flex items-center gap-2">
+      <button
+        onClick={() => switchTo('ar')}
+        className={`text-sm ${locale==='ar'?'font-bold underline':''}`}
+        aria-current={locale==='ar'?'true':undefined}
+      >العربية</button>
+      <span className="opacity-50">|</span>
+      <button
+        onClick={() => switchTo('en')}
+        className={`text-sm ${locale==='en'?'font-bold underline':''}`}
+        aria-current={locale==='en'?'true':undefined}
+      >English</button>
+    </div>
+  );
+}
+
+
+Ensure the Navbar and all pages/components use useTranslations('...') or t('key') so changing the locale re-renders texts across the app, not only the navbar.
+
+4) Replace hardcoded strings with useTranslations
+
+In any client component:
+
+"use client";
+import {useTranslations} from 'next-intl';
+
+export default function HeroTitle() {
+  const t = useTranslations();
+  return <h1 className="...">{t('hero.title')}</h1>;
+}
+
+
+In server components:
+
+import {getTranslations} from 'next-intl/server';
+export default async function Page() {
+  const t = await getTranslations();
+  return <h1>{t('hero.title')}</h1>;
+}
+
+
+Convert form labels, validations, toasts, empty-states, table headers, and button texts to use translation keys.
+
+5) Direction (RTL/LTR) & Tailwind
+
+Direction is controlled at <html dir={...}> in [locale]/layout.tsx.
+
+Use Tailwind rtl:* and ltr:* utilities where spacing must flip (e.g., rtl:space-x-reverse, rtl:text-right).
+
+6) Persist & default locale
+
+middleware.ts already redirects to /ar by default and reads NEXT_LOCALE cookie.
+
+Verify first visit goes to the cookie locale if present; otherwise defaultLocale.
+
+7) QA & tests (must pass)
+
+Toggling language in the navbar updates:
+
+All page texts (hero, sections, buttons, forms).
+
+Document lang and dir attributes.
+
+Breadcrumbs, table headers, validation messages.
+
+Deep links: Switching language keeps the same route (only the locale segment changes).
+
+Refresh after switching: Language persists (cookie).
+
+Both SSR and client components show correct language.
+
+RTL spacing & alignment correct in Arabic.
+
+No hydration warnings; no TypeScript/ESLint errors.
+
+8) Git
+
+Branch: fix/global-i18n-switch
+
+Commit: fix(i18n): locale-prefixed routes, next-intl provider, cookie persistence, full-app translations
+
+Acceptance Criteria
+
+Selecting العربية/English changes the entire platform’s UI immediately, not just the navbar.
+
+Locale is route-prefixed (/ar/... or /en/...), persisted via cookie, and respected on reload.
+
+<html lang> and dir reflect the chosen locale.
+
+All major UI surfaces use translation keys (no hardcoded strings left in the affected pages).

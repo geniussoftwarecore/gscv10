@@ -1,0 +1,140 @@
+You are working on https://github.com/geniussoftwarecore/gsc.git
+
+Goal: Redesign the **Contact Us** page to EXACTLY match the visual system used on the Home/Services pages:
+- SAME brand colors/logo, spacing rhythm, typography scale, cards/buttons, shadows, micro-animations, and RTL/i18n behavior.
+- PRESENTATION ONLY. Do NOT change routes, copy, or back-end logic.
+
+────────────────────────────────────────────────────────
+0) Scope & Guardrails
+────────────────────────────────────────────────────────
+- Create branch: feat/contact-page-refresh
+- Frontend-only in /client (and minimal shared tokens/hooks if needed).
+- DO NOT:
+  • invent new colors or add new libraries
+  • change API endpoints, data models, or existing copy
+- YES:
+  • reuse Home/Services primitives and tokens
+  • ensure AR/EN + RTL work like Home
+
+────────────────────────────────────────────────────────
+1) Detect Route & Wrap with Layout
+────────────────────────────────────────────────────────
+- Locate the Contact page route (one of):
+  • client/src/pages/Contact.tsx
+  • client/src/pages/contact.tsx
+  • client/src/app/contact/page.tsx
+- Wrap with the same site Layout used by Home/Services: <Header /> + <main /> + <Footer />
+- Use identical container & spacing:
+  • container mx-auto px-4 sm:px-6 lg:px-8
+  • section vertical rhythm: py-12 (mobile) / py-16 (desktop)
+
+────────────────────────────────────────────────────────
+2) Components to Create/Update (presentation only)
+────────────────────────────────────────────────────────
+Create under: client/src/sections/contact/
+
+A) PageHeaderContact.tsx
+- Breadcrumb (Home / Contact)
+- <h1> page title (reuse existing title text; do NOT rewrite)
+- Optional short lead if it already exists; otherwise omit (no new copy).
+- Background/decoration matches the Home/Services header style (no new colors).
+
+B) ContactChannels.tsx
+- Two-column grid (stack on mobile) showing existing channels (use current content):
+  • Email (mailto:), Phone (tel:), Address, Working Hours, Social links
+- Use existing icon system (e.g., lucide-react if already present). No new icon libs.
+- Each item is a small Card with the same radius/shadow used on Services.
+
+C) ContactForm.tsx
+- Left column: form; right column: map/info (see D). On mobile: stacked.
+- Fields (keep existing labels/fields if present; otherwise use these names but DO NOT change server/API):
+  • Name, Email, Phone (optional), Company (optional)
+  • Subject (Select if you already use one; otherwise a Text input)
+  • Message (Textarea)
+- Validation: required for Name/Email/Message; HTML5 validation + minimal TS checks.
+- Submit button uses the SAME primary Button variant as Home/Services.
+- Loading state (disabled + spinner) and Success/Error states:
+  • Success → show the same Toast/Alert pattern used site-wide
+  • Error → readable message, keep values, focus first error
+- IMPORTANT: If a contact API already exists, POST to it (same URL/method/body). Do NOT change its shape.
+  If none exists, implement a temporary no-op handler that logs and shows success, with a TODO comment.
+
+D) ContactMapOrInfo.tsx (non-interactive)
+- If you already have a map image or static embed, style it to match card radius/shadow.
+- If nothing exists, use a BRAND-TINTED placeholder Card with address text. DO NOT add new map libraries.
+
+E) ContactCTA.tsx (optional)
+- If the page already has a CTA, restyle it to match the Home CTA strip (same background tint and buttons).
+- If not present, SKIP (no new copy).
+
+Compose the page:
+<PageHeaderContact /> → <ContactChannels /> → <ContactForm /> (+ <ContactMapOrInfo />) → (optional) <ContactCTA />
+
+────────────────────────────────────────────────────────
+3) Reuse the Same UI System
+────────────────────────────────────────────────────────
+- Import shared primitives from Home/Services:
+  • client/src/components/ui/{Button.tsx, Card.tsx, Section.tsx, PageHeader.tsx, Container.tsx}
+  • client/src/components/ui/form/{Input.tsx, Select.tsx, Textarea.tsx}
+- Keep card radius (e.g., rounded-2xl), shadow depth, and link/hover styles identical to Services.
+- Add subtle framer-motion reveals (if already used) for section/card entrance and button hover.
+
+────────────────────────────────────────────────────────
+4) i18n & RTL (no copy changes)
+────────────────────────────────────────────────────────
+- Use the same i18n provider (client/src/providers/i18n.tsx).
+- Do NOT alter existing wording. If some labels are hard-coded and not localized, extract them to i18n using the exact same text.
+- Ensure <html dir> flips to rtl for Arabic and that paddings/margins/chevrons align correctly.
+
+Sample keys ONLY if needed (keep texts identical to current if they already exist):
+en.json:
+{
+  "contact": {
+    "title": "Contact Us",
+    "lead": "We’ll get back to you as soon as possible.",
+    "form": { "name": "Name", "email": "Email", "phone": "Phone", "company": "Company", "subject": "Subject", "message": "Message", "send": "Send" },
+    "channels": { "email": "Email", "phone": "Phone", "address": "Address", "hours": "Working hours" },
+    "success": "Your message has been sent.",
+    "error": "Something went wrong. Please try again."
+  }
+}
+ar.json:
+{
+  "contact": {
+    "title": "تواصل معنا",
+    "lead": "سنعاود الرد عليك في أسرع وقت ممكن.",
+    "form": { "name": "الاسم", "email": "البريد الإلكتروني", "phone": "الهاتف", "company": "الشركة", "subject": "الموضوع", "message": "الرسالة", "send": "إرسال" },
+    "channels": { "email": "البريد", "phone": "الهاتف", "address": "العنوان", "hours": "ساعات العمل" },
+    "success": "تم إرسال رسالتك بنجاح.",
+    "error": "حدث خطأ ما. حاول مرة أخرى."
+  }
+}
+
+────────────────────────────────────────────────────────
+5) Accessibility, Performance, and QA
+────────────────────────────────────────────────────────
+- One <h1> for the page; section headings h2/h3.
+- Labels tied to inputs; aria-describedby for errors; visible focus rings same as Home.
+- Buttons/links keyboard accessible; adequate color contrast.
+- Images/map placeholders get width/height + loading="lazy" to avoid CLS.
+- Acceptance Criteria:
+  • Visual parity with Home/Services (container, spacing, typography, cards, buttons, shadows)
+  • AR/EN toggle updates ALL Contact texts; <html dir> flips correctly to rtl
+  • Form posts to the existing endpoint (or no-op with TODO), shows success/error states
+  • No new colors/libs; TypeScript/ESLint/build pass
+
+────────────────────────────────────────────────────────
+6) Commands & Commits
+────────────────────────────────────────────────────────
+Run:
+- pnpm install
+- pnpm dev
+
+Commits (conventional):
+- feat(contact): restyle Contact page to match Home/Services visual system
+- refactor(ui): reuse Button/Card/Section/PageHeader and form inputs
+- feat(i18n): extract existing hard-coded labels for Contact (no copy changes)
+- perf(a11y): add lazy images/map placeholder, focus states, RTL fixes
+
+Open PR: “feat(contact): align Contact Us page with Home/Services design”
+Attach screenshots (EN+AR, mobile+desktop), including form success and error states.

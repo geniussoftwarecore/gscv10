@@ -1,0 +1,715 @@
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Genius Software Core - حلول برمجية ذكية</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'cairo': ['Cairo', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary': '#4DA6FF',
+                        'primary-dark': '#007BFF',
+                        'secondary': '#343A40',
+                        'light-gray': '#F8F9FA',
+                    }
+                }
+            }
+        };
+    </script>
+</head>
+<body class="font-cairo bg-white">
+    <!-- @COMPONENT: Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <div class="text-2xl font-bold text-secondary">
+                        <span class="text-primary">GENIUS</span>
+                        <div class="text-sm text-gray-600">SOFTWARE CORE</div>
+                    </div>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:block">
+                    <div class="flex items-center space-x-8 space-x-reverse">
+                        <a href="#home" class="text-secondary hover:text-primary transition-colors duration-300 font-medium">الرئيسية</a>
+                        <a href="#about" class="text-secondary hover:text-primary transition-colors duration-300 font-medium">من نحن</a>
+                        <a href="#services" class="text-secondary hover:text-primary transition-colors duration-300 font-medium">خدماتنا</a>
+                        <a href="#portfolio" class="text-secondary hover:text-primary transition-colors duration-300 font-medium">أعمالنا</a>
+                        <a href="#contact" class="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary-dark transition-colors duration-300 font-medium">تواصل معنا</a>
+                    </div>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button type="button" class="text-secondary hover:text-primary" id="mobile-menu-button">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Mobile Navigation Menu -->
+            <div class="md:hidden hidden" id="mobile-menu">
+                <div class="px-2 pt-2 pb-3 space-y-1 bg-white border-t">
+                    <a href="#home" class="block px-3 py-2 text-secondary hover:text-primary transition-colors duration-300">الرئيسية</a>
+                    <a href="#about" class="block px-3 py-2 text-secondary hover:text-primary transition-colors duration-300">من نحن</a>
+                    <a href="#services" class="block px-3 py-2 text-secondary hover:text-primary transition-colors duration-300">خدماتنا</a>
+                    <a href="#portfolio" class="block px-3 py-2 text-secondary hover:text-primary transition-colors duration-300">أعمالنا</a>
+                    <a href="#contact" class="block px-3 py-2 text-secondary hover:text-primary transition-colors duration-300">تواصل معنا</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- @END_COMPONENT: Navigation -->
+
+    <!-- @COMPONENT: Hero Section -->
+    <section id="home" class="bg-gradient-to-br from-light-gray to-white py-16 lg:py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="text-center lg:text-right">
+                    <h1 class="text-4xl lg:text-6xl font-bold text-secondary mb-6 leading-tight">
+                        حلول برمجية <span class="text-primary">ذكية</span><br>
+                        لأعمالك
+                    </h1>
+                    <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+                        نحن شركة برمجيات متخصصة في تقديم مجموعة واسعة من الخدمات لمساعدة أعمالك على النمو والازدهار في العصر الرقمي
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                        <a href="#contact" class="bg-primary text-white px-8 py-4 rounded-lg hover:bg-primary-dark transition-all duration-300 text-lg font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+                            ابدأ مشروعك الآن
+                        </a>
+                        <a href="#portfolio" class="border-2 border-primary text-primary px-8 py-4 rounded-lg hover:bg-primary hover:text-white transition-all duration-300 text-lg font-medium">
+                            استعرض أعمالنا
+                        </a>
+                    </div>
+                </div>
+                <div class="lg:order-first order-last">
+                    <!-- Professional workspace illustration -->
+                    <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=600" alt="Modern office workspace with computers and design tools" class="rounded-2xl shadow-2xl w-full h-auto" />
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: Hero Section -->
+
+    <!-- @COMPONENT: Services Section -->
+    <section id="services" class="py-16 lg:py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl lg:text-5xl font-bold text-secondary mb-6">خدماتنا المتخصصة</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">نقدم مجموعة شاملة من الحلول البرمجية والتقنية المتطورة</p>
+            </div>
+            
+            <!-- @MAP: services.map(service => ( -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Mobile App Development -->
+                <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-primary group">
+                    <div class="text-primary text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-secondary mb-4">تطبيقات الهواتف الذكية</h3>
+                    <p class="text-gray-600 mb-6 leading-relaxed">تطوير تطبيقات احترافية لأنظمة Android و iOS بأحدث التقنيات والمعايير العالمية</p>
+                    <div class="text-primary font-semibold hover:text-primary-dark cursor-pointer">
+                        اعرف المزيد <i class="fas fa-arrow-left mr-2"></i>
+                    </div>
+                </div>
+
+                <!-- Web Development -->
+                <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-primary group">
+                    <div class="text-primary text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-secondary mb-4">تطوير المواقع والمنصات</h3>
+                    <p class="text-gray-600 mb-6 leading-relaxed">إنشاء مواقع ومنصات إلكترونية متطورة وسريعة الاستجابة بتقنيات حديثة</p>
+                    <div class="text-primary font-semibold hover:text-primary-dark cursor-pointer">
+                        اعرف المزيد <i class="fas fa-arrow-left mr-2"></i>
+                    </div>
+                </div>
+
+                <!-- Graphic Design -->
+                <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-primary group">
+                    <div class="text-primary text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-secondary mb-4">تصميم الجرافيكس</h3>
+                    <p class="text-gray-600 mb-6 leading-relaxed">تصميم الشعارات والهوية البصرية والمواد التسويقية بأسلوب إبداعي ومميز</p>
+                    <div class="text-primary font-semibold hover:text-primary-dark cursor-pointer">
+                        اعرف المزيد <i class="fas fa-arrow-left mr-2"></i>
+                    </div>
+                </div>
+
+                <!-- Digital Marketing -->
+                <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-primary group">
+                    <div class="text-primary text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-bullhorn"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-secondary mb-4">التسويق الإلكتروني</h3>
+                    <p class="text-gray-600 mb-6 leading-relaxed">استراتيجيات تسويق رقمية متقدمة وحملات إعلانية فعالة لزيادة المبيعات</p>
+                    <div class="text-primary font-semibold hover:text-primary-dark cursor-pointer">
+                        اعرف المزيد <i class="fas fa-arrow-left mr-2"></i>
+                    </div>
+                </div>
+
+                <!-- Smart Solutions -->
+                <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-primary group">
+                    <div class="text-primary text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-secondary mb-4">الحلول الذكية</h3>
+                    <p class="text-gray-600 mb-6 leading-relaxed">حلول برمجية خاصة ومخصصة للهواتف الذكية باستخدام الذكاء الاصطناعي</p>
+                    <div class="text-primary font-semibold hover:text-primary-dark cursor-pointer">
+                        اعرف المزيد <i class="fas fa-arrow-left mr-2"></i>
+                    </div>
+                </div>
+
+                <!-- ERPNext Systems -->
+                <div class="bg-gradient-to-br from-primary to-primary-dark p-8 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 text-white group">
+                    <div class="text-white text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">أنظمة ERPNext</h3>
+                    <p class="text-gray-100 mb-6 leading-relaxed">تطبيق وتخصيص أنظمة إدارة الموارد المؤسسية الشاملة لتنظيم أعمالك</p>
+                    <div class="text-white font-semibold hover:text-gray-200 cursor-pointer">
+                        اعرف المزيد <i class="fas fa-arrow-left mr-2"></i>
+                    </div>
+                </div>
+            </div>
+            <!-- @END_MAP -->
+        </div>
+    </section>
+    <!-- @END_COMPONENT: Services Section -->
+
+    <!-- @COMPONENT: About Section -->
+    <section id="about" class="py-16 lg:py-24 bg-light-gray">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <!-- Team collaboration image -->
+                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=600" alt="Professional team working together on software development" class="rounded-2xl shadow-2xl w-full h-auto" />
+                </div>
+                <div>
+                    <h2 class="text-4xl lg:text-5xl font-bold text-secondary mb-6">من نحن</h2>
+                    <p class="text-xl text-gray-600 mb-8 leading-relaxed">
+                        نحن في <span class="text-primary font-semibold">Genius Software Core</span> فريق من المطورين والمصممين المبدعين الذين يسعون لتقديم حلول برمجية متطورة ومبتكرة تساعد عملاءنا على تحقيق أهدافهم وتطوير أعمالهم.
+                    </p>
+                    
+                    <div class="grid md:grid-cols-2 gap-6 mb-8">
+                        <div class="text-center p-6 bg-white rounded-xl shadow-lg">
+                            <div class="text-3xl font-bold text-primary mb-2">5+</div>
+                            <div class="text-gray-600">سنوات خبرة</div>
+                        </div>
+                        <div class="text-center p-6 bg-white rounded-xl shadow-lg">
+                            <div class="text-3xl font-bold text-primary mb-2">100+</div>
+                            <div class="text-gray-600">مشروع منجز</div>
+                        </div>
+                        <div class="text-center p-6 bg-white rounded-xl shadow-lg">
+                            <div class="text-3xl font-bold text-primary mb-2">50+</div>
+                            <div class="text-gray-600">عميل راضي</div>
+                        </div>
+                        <div class="text-center p-6 bg-white rounded-xl shadow-lg">
+                            <div class="text-3xl font-bold text-primary mb-2">24/7</div>
+                            <div class="text-gray-600">دعم فني</div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="#contact" class="bg-primary text-white px-8 py-4 rounded-lg hover:bg-primary-dark transition-all duration-300 text-lg font-medium text-center shadow-lg hover:shadow-xl">
+                            ابدأ مشروعك معنا
+                        </a>
+                        <a href="#portfolio" class="border-2 border-primary text-primary px-8 py-4 rounded-lg hover:bg-primary hover:text-white transition-all duration-300 text-lg font-medium text-center">
+                            شاهد أعمالنا
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: About Section -->
+
+    <!-- @COMPONENT: Portfolio Section -->
+    <section id="portfolio" class="py-16 lg:py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl lg:text-5xl font-bold text-secondary mb-6">معرض أعمالنا</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto mb-8">مجموعة مختارة من مشاريعنا المميزة والناجحة</p>
+                
+                <!-- Portfolio Filter -->
+                <div class="flex flex-wrap justify-center gap-4 mb-12">
+                    <button class="portfolio-filter active bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary-dark transition-colors duration-300 font-medium" data-filter="all">
+                        جميع المشاريع
+                    </button>
+                    <button class="portfolio-filter bg-gray-200 text-secondary px-6 py-3 rounded-lg hover:bg-primary hover:text-white transition-colors duration-300 font-medium" data-filter="mobile">
+                        تطبيقات الهواتف
+                    </button>
+                    <button class="portfolio-filter bg-gray-200 text-secondary px-6 py-3 rounded-lg hover:bg-primary hover:text-white transition-colors duration-300 font-medium" data-filter="web">
+                        مواقع الإنترنت
+                    </button>
+                    <button class="portfolio-filter bg-gray-200 text-secondary px-6 py-3 rounded-lg hover:bg-primary hover:text-white transition-colors duration-300 font-medium" data-filter="design">
+                        تصميم جرافيكي
+                    </button>
+                    <button class="portfolio-filter bg-gray-200 text-secondary px-6 py-3 rounded-lg hover:bg-primary hover:text-white transition-colors duration-300 font-medium" data-filter="erp">
+                        أنظمة ERP
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Portfolio Grid -->
+            <!-- @MAP: projects.map(project => ( -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Mobile App Project -->
+                <div class="portfolio-item mobile group cursor-pointer" data-category="mobile">
+                    <div class="relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+                        <!-- E-commerce mobile app interface -->
+                        <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&h=400" alt="Modern mobile app interface design with clean UI" class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div class="absolute bottom-4 left-4 right-4">
+                                <h3 class="text-white text-xl font-bold mb-2">تطبيق التجارة الإلكترونية</h3>
+                                <p class="text-gray-200 text-sm">تطبيق شامل للتسوق الإلكتروني بواجهة حديثة</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Web Development Project -->
+                <div class="portfolio-item web group cursor-pointer" data-category="web">
+                    <div class="relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+                        <!-- Corporate website design -->
+                        <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&h=400" alt="Professional website layout displayed on laptop screen" class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div class="absolute bottom-4 left-4 right-4">
+                                <h3 class="text-white text-xl font-bold mb-2">موقع شركة مؤسسية</h3>
+                                <p class="text-gray-200 text-sm">موقع إلكتروني احترافي لشركة عقارية كبرى</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Graphic Design Project -->
+                <div class="portfolio-item design group cursor-pointer" data-category="design">
+                    <div class="relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+                        <!-- Brand identity design showcase -->
+                        <img src="https://images.unsplash.com/photo-1558655146-d09347e92766?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&h=400" alt="Creative brand identity design with logos and color palette" class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div class="absolute bottom-4 left-4 right-4">
+                                <h3 class="text-white text-xl font-bold mb-2">هوية بصرية متكاملة</h3>
+                                <p class="text-gray-200 text-sm">تصميم هوية بصرية شاملة لمطعم فاخر</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ERP System Project -->
+                <div class="portfolio-item erp group cursor-pointer" data-category="erp">
+                    <div class="relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+                        <!-- ERP dashboard interface -->
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&h=400" alt="Complex dashboard interface with charts and data visualization" class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div class="absolute bottom-4 left-4 right-4">
+                                <h3 class="text-white text-xl font-bold mb-2">نظام ERP متقدم</h3>
+                                <p class="text-gray-200 text-sm">نظام إدارة موارد مؤسسية لشركة صناعية</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile App Project 2 -->
+                <div class="portfolio-item mobile group cursor-pointer" data-category="mobile">
+                    <div class="relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+                        <!-- Healthcare mobile app -->
+                        <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&h=400" alt="Healthcare mobile application interface on smartphone" class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div class="absolute bottom-4 left-4 right-4">
+                                <h3 class="text-white text-xl font-bold mb-2">تطبيق الرعاية الصحية</h3>
+                                <p class="text-gray-200 text-sm">تطبيق طبي لحجز المواعيد والاستشارات</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Web Development Project 2 -->
+                <div class="portfolio-item web group cursor-pointer" data-category="web">
+                    <div class="relative overflow-hidden rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+                        <!-- E-learning platform -->
+                        <img src="https://images.unsplash.com/photo-1501504905252-473c47e087f8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=600&h=400" alt="Educational platform interface with video courses and learning materials" class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300" />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div class="absolute bottom-4 left-4 right-4">
+                                <h3 class="text-white text-xl font-bold mb-2">منصة التعلم الإلكتروني</h3>
+                                <p class="text-gray-200 text-sm">منصة شاملة للكورسات والتدريب أونلاين</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- @END_MAP -->
+            
+            <div class="text-center mt-12">
+                <a href="#contact" class="bg-primary text-white px-8 py-4 rounded-lg hover:bg-primary-dark transition-all duration-300 text-lg font-medium shadow-lg hover:shadow-xl">
+                    اطلب مشروعك الآن
+                </a>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: Portfolio Section -->
+
+    <!-- @COMPONENT: Testimonials Section -->
+    <section class="py-16 lg:py-24 bg-light-gray">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl lg:text-5xl font-bold text-secondary mb-6">آراء عملائنا</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">شهادات حقيقية من عملاء راضين عن خدماتنا</p>
+            </div>
+            
+            <!-- @MAP: testimonials.map(testimonial => ( -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+                    <div class="flex items-center mb-6">
+                        <div class="text-yellow-400 text-2xl mr-4">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-6 leading-relaxed text-lg">
+                        "تجربة ممتازة مع فريق Genius Software Core. أنجزوا تطبيق متجرنا الإلكتروني بجودة عالية وفي الوقت المحدد."
+                    </p>
+                    <div class="flex items-center">
+                        <div>
+                            <h4 class="font-bold text-secondary">أحمد محمد</h4>
+                            <p class="text-gray-500">مدير عام - شركة التجارة الذكية</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+                    <div class="flex items-center mb-6">
+                        <div class="text-yellow-400 text-2xl mr-4">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-6 leading-relaxed text-lg">
+                        "فريق محترف ومبدع. ساعدونا في تطوير موقعنا الإلكتروني وتحسين حضورنا الرقمي بشكل ملحوظ."
+                    </p>
+                    <div class="flex items-center">
+                        <div>
+                            <h4 class="font-bold text-secondary">سارة أحمد</h4>
+                            <p class="text-gray-500">مديرة التسويق - مجموعة الإبداع</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300">
+                    <div class="flex items-center mb-6">
+                        <div class="text-yellow-400 text-2xl mr-4">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-6 leading-relaxed text-lg">
+                        "نظام ERP الذي طوروه لنا غير طريقة عملنا تماماً. الآن نحن أكثر تنظيماً وكفاءة."
+                    </p>
+                    <div class="flex items-center">
+                        <div>
+                            <h4 class="font-bold text-secondary">محمد علي</h4>
+                            <p class="text-gray-500">المدير التنفيذي - مصنع الرواد</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- @END_MAP -->
+        </div>
+    </section>
+    <!-- @END_COMPONENT: Testimonials Section -->
+
+    <!-- @COMPONENT: Contact Section -->
+    <section id="contact" class="py-16 lg:py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl lg:text-5xl font-bold text-secondary mb-6">تواصل معنا</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">نحن هنا لمساعدتك في تحقيق أهدافك. تواصل معنا الآن لمناقشة مشروعك</p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-12">
+                <!-- Contact Form -->
+                <div class="bg-light-gray p-8 rounded-2xl">
+                    <h3 class="text-2xl font-bold text-secondary mb-6">أرسل لنا رسالة</h3>
+                    <form class="space-y-6" data-implementation="Handle form submission and validation">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="name" class="block text-secondary font-medium mb-2">الاسم الكامل</label>
+                                <input type="text" id="name" name="name" data-bind="form.name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors duration-300" placeholder="أدخل اسمك الكامل" required>
+                            </div>
+                            <div>
+                                <label for="email" class="block text-secondary font-medium mb-2">البريد الإلكتروني</label>
+                                <input type="email" id="email" name="email" data-bind="form.email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors duration-300" placeholder="example@email.com" required>
+                            </div>
+                        </div>
+                        
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label for="phone" class="block text-secondary font-medium mb-2">رقم الهاتف</label>
+                                <input type="tel" id="phone" name="phone" data-bind="form.phone" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors duration-300" placeholder="+966 XX XXX XXXX">
+                            </div>
+                            <div>
+                                <label for="service" class="block text-secondary font-medium mb-2">الخدمة المطلوبة</label>
+                                <select id="service" name="service" data-bind="form.service" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors duration-300">
+                                    <option value="">اختر الخدمة</option>
+                                    <option value="mobile">تطبيقات الهواتف الذكية</option>
+                                    <option value="web">تطوير المواقع</option>
+                                    <option value="design">تصميم الجرافيكس</option>
+                                    <option value="marketing">التسويق الإلكتروني</option>
+                                    <option value="smart">الحلول الذكية</option>
+                                    <option value="erp">أنظمة ERPNext</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label for="message" class="block text-secondary font-medium mb-2">رسالتك</label>
+                            <textarea id="message" name="message" rows="6" data-bind="form.message" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors duration-300" placeholder="اكتب تفاصيل مشروعك أو استفسارك هنا..." required></textarea>
+                        </div>
+                        
+                        <button type="submit" data-event="click:handleSubmit" class="w-full bg-primary text-white py-4 px-8 rounded-lg hover:bg-primary-dark transition-all duration-300 text-lg font-medium shadow-lg hover:shadow-xl">
+                            إرسال الرسالة <i class="fas fa-paper-plane mr-2"></i>
+                        </button>
+                    </form>
+                </div>
+                
+                <!-- Contact Information -->
+                <div class="space-y-8">
+                    <div>
+                        <h3 class="text-2xl font-bold text-secondary mb-6">معلومات التواصل</h3>
+                        <div class="space-y-6">
+                            <div class="flex items-center p-6 bg-light-gray rounded-xl hover:shadow-lg transition-all duration-300">
+                                <div class="text-primary text-3xl ml-4">
+                                    <i class="fas fa-phone"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-secondary mb-1">رقم الهاتف</h4>
+                                    <p class="text-gray-600" data-mock="true">+966 XX XXX XXXX</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center p-6 bg-light-gray rounded-xl hover:shadow-lg transition-all duration-300">
+                                <div class="text-primary text-3xl ml-4">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-secondary mb-1">البريد الإلكتروني</h4>
+                                    <p class="text-gray-600" data-mock="true">info@geniussoftwarecore.com</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center p-6 bg-light-gray rounded-xl hover:shadow-lg transition-all duration-300">
+                                <div class="text-primary text-3xl ml-4">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-secondary mb-1">العنوان</h4>
+                                    <p class="text-gray-600" data-mock="true">الرياض، المملكة العربية السعودية</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Social Media Links -->
+                    <div>
+                        <h4 class="text-xl font-bold text-secondary mb-4">تابعنا على</h4>
+                        <div class="flex space-x-4 space-x-reverse">
+                            <a href="#" class="bg-green-500 text-white p-4 rounded-full hover:bg-green-600 transition-colors duration-300 shadow-lg hover:shadow-xl">
+                                <i class="fab fa-whatsapp text-xl"></i>
+                            </a>
+                            <a href="#" class="bg-blue-500 text-white p-4 rounded-full hover:bg-blue-600 transition-colors duration-300 shadow-lg hover:shadow-xl">
+                                <i class="fab fa-telegram-plane text-xl"></i>
+                            </a>
+                            <a href="#" class="bg-blue-600 text-white p-4 rounded-full hover:bg-blue-700 transition-colors duration-300 shadow-lg hover:shadow-xl">
+                                <i class="fab fa-linkedin-in text-xl"></i>
+                            </a>
+                            <a href="#" class="bg-gray-800 text-white p-4 rounded-full hover:bg-gray-900 transition-colors duration-300 shadow-lg hover:shadow-xl">
+                                <i class="fab fa-github text-xl"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: Contact Section -->
+
+    <!-- @COMPONENT: Footer -->
+    <footer class="bg-secondary text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Company Info -->
+                <div class="lg:col-span-2">
+                    <div class="text-3xl font-bold mb-4">
+                        <span class="text-primary">GENIUS</span>
+                        <div class="text-xl text-gray-300">SOFTWARE CORE</div>
+                    </div>
+                    <p class="text-gray-300 mb-6 leading-relaxed">
+                        نحن شركة برمجيات متخصصة في تقديم حلول تقنية متطورة ومبتكرة تساعد أعمالك على النمو والتطور في العصر الرقمي.
+                    </p>
+                    <div class="flex space-x-4 space-x-reverse">
+                        <a href="#" class="text-gray-300 hover:text-primary transition-colors duration-300">
+                            <i class="fab fa-facebook-f text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-primary transition-colors duration-300">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-primary transition-colors duration-300">
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-primary transition-colors duration-300">
+                            <i class="fab fa-linkedin-in text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Services -->
+                <div>
+                    <h3 class="text-xl font-bold mb-6">خدماتنا</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#services" class="text-gray-300 hover:text-primary transition-colors duration-300">تطبيقات الهواتف</a></li>
+                        <li><a href="#services" class="text-gray-300 hover:text-primary transition-colors duration-300">تطوير المواقع</a></li>
+                        <li><a href="#services" class="text-gray-300 hover:text-primary transition-colors duration-300">تصميم الجرافيكس</a></li>
+                        <li><a href="#services" class="text-gray-300 hover:text-primary transition-colors duration-300">التسويق الرقمي</a></li>
+                        <li><a href="#services" class="text-gray-300 hover:text-primary transition-colors duration-300">الحلول الذكية</a></li>
+                        <li><a href="#services" class="text-gray-300 hover:text-primary transition-colors duration-300">أنظمة ERPNext</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Quick Links -->
+                <div>
+                    <h3 class="text-xl font-bold mb-6">روابط سريعة</h3>
+                    <ul class="space-y-3">
+                        <li><a href="#home" class="text-gray-300 hover:text-primary transition-colors duration-300">الرئيسية</a></li>
+                        <li><a href="#about" class="text-gray-300 hover:text-primary transition-colors duration-300">من نحن</a></li>
+                        <li><a href="#services" class="text-gray-300 hover:text-primary transition-colors duration-300">خدماتنا</a></li>
+                        <li><a href="#portfolio" class="text-gray-300 hover:text-primary transition-colors duration-300">أعمالنا</a></li>
+                        <li><a href="#contact" class="text-gray-300 hover:text-primary transition-colors duration-300">تواصل معنا</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-600 mt-12 pt-8 text-center">
+                <p class="text-gray-300">
+                    &copy; 2024 <span class="text-primary">Genius Software Core</span>. جميع الحقوق محفوظة.
+                </p>
+            </div>
+        </div>
+    </footer>
+    <!-- @END_COMPONENT: Footer -->
+
+    <!-- JavaScript for Interactivity -->
+    <script>
+        (function() {
+            // Mobile menu toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+            
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                        // Close mobile menu if open
+                        if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                            mobileMenu.classList.add('hidden');
+                        }
+                    }
+                });
+            });
+            
+            // Portfolio filtering
+            const portfolioFilters = document.querySelectorAll('.portfolio-filter');
+            const portfolioItems = document.querySelectorAll('.portfolio-item');
+            
+            portfolioFilters.forEach(filter => {
+                filter.addEventListener('click', function() {
+                    const filterValue = this.getAttribute('data-filter');
+                    
+                    // Update active filter button
+                    portfolioFilters.forEach(btn => {
+                        btn.classList.remove('active', 'bg-primary', 'text-white');
+                        btn.classList.add('bg-gray-200', 'text-secondary');
+                    });
+                    this.classList.add('active', 'bg-primary', 'text-white');
+                    this.classList.remove('bg-gray-200', 'text-secondary');
+                    
+                    // Filter portfolio items
+                    portfolioItems.forEach(item => {
+                        if (filterValue === 'all' || item.getAttribute('data-category') === filterValue) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+            
+            // Form submission handling
+            const contactForm = document.querySelector('form');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    // TODO: Implement form submission logic
+                    alert('شكراً لتواصلك معنا! سنقوم بالرد عليك في أقرب وقت ممكن.');
+                });
+            }
+            
+            // Scroll animations (intersection observer)
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe elements for animation
+            document.querySelectorAll('.portfolio-item, .bg-white').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+            
+        })();
+    </script>
+</body>
+</html>

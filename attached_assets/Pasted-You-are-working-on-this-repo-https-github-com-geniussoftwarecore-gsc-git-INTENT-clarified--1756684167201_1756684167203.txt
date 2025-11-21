@@ -1,0 +1,190 @@
+You are working on this repo: https://github.com/geniussoftwarecore/gsc.git
+
+INTENT (clarified)
+- EDIT the Services flow:
+  1) On the Services grid, each card has a small primary CTA “View Details”.
+  2) For the “Mobile App Development” service, clicking “View Details” opens a new detail page designed LIKE the reference video the user provided (QQ-style feel): sticky device visual + smooth slide/section reveals, parallax/light motion, crisp typography.
+- IMPORTANT: KEEP the platform’s existing theme exactly: same fonts, colors/tokens, spacing, shadows, card radius, buttons, and motion conventions. DO NOT copy any external assets. Use our brand and tokens only.
+- Bilingual AR/EN with full RTL support.
+
+DO NOTS
+- Do NOT add packages/dependencies.
+- Do NOT change backend or API shapes.
+- Do NOT change global tokens (colors, font, spacing).
+- Do NOT remove existing i18n keys; only append if missing.
+
+========================================================
+0) Branch & Stack
+========================================================
+- Create branch: feat/mobile-apps-detail-video-style
+- Detect stack from /client/package.json and tailwind/shadcn configs; use them as-is. List the detected stack in the PR description.
+
+========================================================
+1) Services Grid: “View Details” button (EN/AR)
+========================================================
+File (adjust if different): client/src/sections/services/ServicesGrid.tsx
+
+- Add a compact primary button at the bottom of each card:
+  • Label (EN): “View Details”
+  • Label (AR): “عرض التفاصيل”
+  • i18n path: common.buttons.viewDetails
+- Button behavior (Mobile App card):
+  • Navigate to /services/mobile-apps (keep existing slug scheme if different).
+- Accessibility:
+  • aria-label must include the service title.
+  • Keyboard activation (Enter/Space); visible focus ring.
+- Keep cards compact: clamp the details paragraph to 2–3 lines on the grid screen.
+
+i18n (append only, create if missing):
+- client/src/locales/en/common.json → { "buttons": { "viewDetails": "View Details" } }
+- client/src/locales/ar/common.json → { "buttons": { "viewDetails": "عرض التفاصيل" } }
+
+========================================================
+2) Routing: Mobile Apps Detail Page
+========================================================
+Create the route for this page:
+- Next.js pages: client/src/pages/services/mobile-apps.tsx
+- Next.js app router: client/src/app/services/mobile-apps/page.tsx
+- React Router: add <Route path="/services/mobile-apps" element={<MobileAppsDetail/>} />
+
+========================================================
+3) Page Design — LIKE the reference video (same theme/fonts)
+========================================================
+Component: MobileAppsDetail
+
+A) HERO (video-inspired feel, but use our assets)
+- Full-bleed hero section using our brand gradient/background tokens.
+- Left/center: a sticky “device mockup” (simple CSS phone frame or existing component).
+- Inside the mockup: rotate app screenshots or short muted loop (if we already have a local demo asset). DO NOT import external files.
+- Right/below: title (h1), tagline (muted), and a primary CTA button (common.buttons.getStarted).
+- Respect prefers-reduced-motion: if reduced, freeze transitions and show a static poster image.
+
+B) SCROLL SECTIONS (slides)
+- 5 sections (slide1..slide5) that reveal with subtle fade/translate as the user scrolls, mirroring the reference video’s flow:
+  1) Performance
+  2) Offline-first
+  3) Secure APIs
+  4) Observability
+  5) Releases
+- Each section: overline (small), h2, short paragraph (from i18n), optional small icon from our existing icon set.
+- On md+ screens, keep the device mockup sticky on one side; the sections scroll on the other (QQ-like “anchored visual + sliding content”).
+- Add navigation dots:
+  • position: right edge on desktop, bottom on mobile.
+  • Clicking a dot scrolls to that section.
+  • Each dot has aria-label (“Go to Performance”, localized).
+  • Keyboard support to jump sections.
+
+C) THEME & COMPONENTS
+- Use existing Button, Card, Text styles (e.g., shadcn/ui) and Tailwind classes already used in the project.
+- Same radii (rounded-2xl), shadows, spacing scale, and typography tokens as the rest of the site.
+
+D) ACCESSIBILITY & PERFORMANCE
+- One <h1> for the page; sub-sections use h2/h3.
+- All interactive elements are keyboard reachable with visible focus.
+- Images/videos have width/height set; use loading="lazy" for images.
+- No layout shift (CLS). Disable heavy motion for prefers-reduced-motion.
+
+========================================================
+4) i18n content (append-only; reuse if already present)
+========================================================
+Files:
+- client/src/locales/en/services.json
+- client/src/locales/ar/services.json
+- client/src/locales/en/common.json
+- client/src/locales/ar/common.json
+
+Ensure under services.items.mobileApps:
+
+EN:
+{
+  "title": "Mobile App Development",
+  "tagline": "Beautiful, fast, and ready for the stores.",
+  "details": "We design and build high-quality Android and iOS apps—from discovery and UX to secure APIs, offline-first experiences, and store releases...",
+  "detailPage": {
+    "heroCta": "Start your mobile project",
+    "slides": {
+      "slide1": { "overline": "Performance",   "title": "Snappy, smooth, and battery-friendly", "body": "We profile startup, animations, and network calls to keep your app responsive across devices." },
+      "slide2": { "overline": "Offline-first",  "title": "Works anywhere",                        "body": "Resilient offline flows, background sync, and conflict handling so users keep moving." },
+      "slide3": { "overline": "Secure APIs",    "title": "Security by design",                    "body": "OAuth2/PKCE, encrypted storage, and permission flows that protect users and data." },
+      "slide4": { "overline": "Observability",  "title": "Know what’s happening",                 "body": "Analytics, crash monitoring, and feature flags to ship safely and learn fast." },
+      "slide5": { "overline": "Releases",       "title": "Predictable delivery",                  "body": "CI/CD pipelines, staged rollouts, and store submissions with clean release notes." }
+    }
+  }
+}
+
+AR:
+{
+  "title": "تطوير تطبيقات الموبايل",
+  "tagline": "تجربة مبهرة وسريعة وجاهزة للنشر.",
+  "details": "نصمّم ونبني تطبيقات أندرويد و iOS عالية الجودة—من التحليل وتجربة المستخدم إلى واجهات برمجة آمنة وتجربة تعمل دون إنترنت ونشر المتجر...",
+  "detailPage": {
+    "heroCta": "ابدأ مشروع الموبايل",
+    "slides": {
+      "slide1": { "overline": "الأداء",       "title": "سلاسة واستجابة وعمر بطارية أفضل", "body": "نقيس بدء التشغيل والرسوم المتحركة والاتصال لنحافظ على سلاسة التطبيق على مختلف الأجهزة." },
+      "slide2": { "overline": "دون إنترنت",   "title": "يعمل في أي مكان",                   "body": "تدفّقات مرنة دون إنترنت، مزامنة في الخلفية، ومعالجة تعارضات ليكمل المستخدم عمله." },
+      "slide3": { "overline": "أمن الواجهات", "title": "أمان بالتصميم",                      "body": "OAuth2/PKCE وتخزين مُشفّر ومسارات أذونات تحمي المستخدم والبيانات." },
+      "slide4": { "overline": "الرصد",        "title": "تعرف على ما يحدث",                   "body": "تحليلات وتتبع الأعطال وميزات تحت رايات لتسليم آمن وتعلّم سريع." },
+      "slide5": { "overline": "الإصدارات",    "title": "تسليم متوقّع",                       "body": "خطوط CI/CD وإصدارات مُرحّلة ونشر المتجر مع ملاحظات إصدار واضحة." }
+    }
+  }
+}
+
+Common CTA (append if missing):
+EN: { "buttons": { "getStarted": "Get Started", "viewDetails": "View Details" } }
+AR: { "buttons": { "getStarted": "ابدأ الآن", "viewDetails": "عرض التفاصيل" } }
+
+========================================================
+5) Implementation Skeleton (pseudo-JSX)
+========================================================
+<main className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
+  {/* HERO */}
+  <section className="grid md:grid-cols-2 gap-10">
+    {/* Sticky device mockup */}
+    <div className="md:sticky md:top-24 self-start">
+      <div className="relative rounded-[2rem] shadow-xl bg-background ring-1 ring-border overflow-hidden">
+        {/* Swap inner image/video subtly as active slide changes */}
+        {/* Respect prefers-reduced-motion: show static poster */}
+      </div>
+    </div>
+
+    {/* Title + tagline + CTA */}
+    <div>
+      <h1 className="text-3xl md:text-4xl font-semibold">{t('services.items.mobileApps.title')}</h1>
+      <p className="mt-3 text-muted-foreground">{t('services.items.mobileApps.tagline')}</p>
+      <p className="mt-6 leading-relaxed">{t('services.items.mobileApps.details')}</p>
+      <div className="mt-8">
+        <Button aria-label={t('buttons.getStarted')}>{t('buttons.getStarted')}</Button>
+      </div>
+    </div>
+  </section>
+
+  {/* SLIDES */}
+  <section className="relative mt-20 md:mt-28">
+    {/* Nav dots component absolutely positioned (desktop), bottom (mobile) */}
+    {/* Slides map: slide1..slide5 with fade/translate on in-view */}
+  </section>
+</main>
+
+- Use our existing motion util (e.g., framer-motion if present) or IntersectionObserver + CSS classes.
+- Keep images/videos sized to prevent layout shift.
+
+========================================================
+6) QA — Acceptance Criteria
+========================================================
+- Services grid: “View Details” (EN/AR) button on Mobile App card navigates to /services/mobile-apps.
+- Detail page uses same fonts/colors/tokens/radii/shadows as the rest of the app (no theme drift).
+- Sticky device area + scrolling slides mimic the reference video’s feel (without external assets).
+- EN/AR toggle updates all text; RTL mirrors layout and dots correctly.
+- prefers-reduced-motion honored.
+- No new packages; build, lint, type-check pass.
+
+========================================================
+7) Commits & PR
+========================================================
+- feat(service-mobile): video-inspired sticky/slide detail page (EN/AR, RTL)
+- feat(services): wire View Details → /services/mobile-apps
+- refactor(i18n): add mobileApps.detailPage slides + common buttons
+- perf(a11y): reduced-motion fallback, focus states, line clamp, no CLS
+
+Run: pnpm dev
+Open PR with screenshots (desktop & mobile, EN & AR).

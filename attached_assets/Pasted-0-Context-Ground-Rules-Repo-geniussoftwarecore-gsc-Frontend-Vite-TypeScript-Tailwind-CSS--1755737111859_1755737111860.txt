@@ -1,0 +1,276 @@
+0) Context & Ground Rules
+
+Repo: geniussoftwarecore/gsc
+
+Frontend: Vite + TypeScript + Tailwind CSS + shadcn/ui + framer-motion + i18n (ar/en) + RTL/LTR
+
+Backend: TypeScript + Express (do not break existing server structure; add compatible modules)
+
+Theme: White + Sky Blue (color tokens already defined in tailwind.config.ts)
+
+Rule: keep it lightweight, clean, fully typed code.
+
+1) Environment & Secrets
+
+Create/update .env in the server:
+
+# --- Server ---
+APP_URL=https://gsc.your-domain.com
+SERVER_PORT=8080
+
+# Auth / JWT
+JWT_SECRET=change_me_very_strong
+JWT_EXPIRES_IN=7d
+
+# Email (transactional)
+RESEND_API_KEY=your_resend_key
+MAIL_FROM=noreply@gsc.your-domain.com
+
+# Stripe
+STRIPE_SECRET_KEY=sk_live_or_test_xxx
+STRIPE_PRICE_PRO_MONTH=price_xxx
+STRIPE_PRICE_PRO_YEAR=price_xxx
+STRIPE_PRICE_BUSINESS_MONTH=price_xxx
+STRIPE_PRICE_BUSINESS_YEAR=price_xxx
+STRIPE_WEBHOOK_SECRET=whsec_xxx
+
+# CORS
+CORS_ORIGIN=https://gsc.your-domain.com
+
+
+Set Stripe Webhook to: https://gsc.your-domain.com/api/stripe/webhook
+
+2) Shared Types
+
+Add in shared/types/billing.ts and shared/types/auth.ts:
+
+// shared/types/billing.ts
+export type Plan = 'free' | 'pro' | 'business';
+export interface Subscription {
+  plan: Plan;
+  status: 'active' | 'trialing' | 'past_due' | 'canceled' | 'incomplete';
+  trialEndsAt?: string;
+  currentPeriodEnd?: string;
+  customerId?: string;
+  priceId?: string;
+}
+
+// shared/types/auth.ts
+export interface User {
+  id: string;
+  email: string;
+  name?: string;
+  role: 'owner' | 'admin' | 'member' | 'viewer';
+  hasTotp?: boolean;
+  webauthnRegistered?: boolean;
+  subscription?: Subscription;
+}
+
+3) Server — Authentication
+
+Add under server/:
+
+routes/auth.ts
+
+services/authService.ts
+
+middleware/requireAuth.ts
+
+middleware/requirePlan.ts
+
+utils/jwt.ts
+
+Endpoints
+
+POST /api/auth/register {email, name, password?}
+
+POST /api/auth/login-magic {email} → sends magic link/email
+
+POST /api/auth/login-magic/verify {token} → returns JWT
+
+POST /api/auth/totp/setup → returns QR code
+
+POST /api/auth/totp/verify {code}
+
+POST /api/auth/webauthn/register|verify
+
+POST /api/auth/webauthn/login|verify
+
+GET /api/auth/me → returns account + subscription
+
+POST /api/auth/logout
+
+Start with Magic Link + TOTP, add WebAuthn progressively.
+
+4) Server — Billing (Stripe + Trial)
+
+Files: routes/billing.ts, services/billingService.ts, routes/stripeWebhook.ts
+
+Endpoints
+
+GET /api/billing/prices
+
+POST /api/billing/checkout {plan, billingCycle} → creates Stripe Checkout session
+
+GET /api/billing/portal → Stripe Customer Portal
+
+POST /api/stripe/webhook → handle events:
+
+checkout.session.completed
+
+customer.subscription.updated
+
+invoice.payment_failed
+
+Trial Logic
+
+On first signup: create 14-day trial (status=trialing, trialEndsAt)
+
+On every me call, check if expired → downgrade to free plan
+
+When paid subscription starts: update status=active, plan=selected.
+
+5) Server — Health Widget
+
+routes/health.ts:
+
+GET /api/health/summary returns JSON:
+
+{
+  "uptime": 123456,
+  "latencyMs": 48,
+  "db": {"ok": true},
+  "api": {"ok": true, "errorRate": 0.3},
+  "timestamp": "ISO"
+}
+
+6) Middleware
+
+requireAuth → verify JWT
+
+requirePlan(plan) → restrict access to features by plan
+
+7) Client — Auth UI
+
+Files:
+
+contexts/AuthContext.tsx, hooks/useAuth.ts
+
+Components:
+
+auth/LoginMagic.tsx
+
+auth/TotpSetup.tsx
+
+auth/WebAuthnSetup.tsx
+
+auth/Guard.tsx
+
+Navbar menu → shows subscription plan, “Billing Portal,” and “Sign out”
+
+8) Client — Pricing Page + Free Trial
+
+pages/pricing.tsx
+
+components/billing/PlanCard.tsx
+
+components/billing/BillingCycleToggle.tsx
+
+components/billing/CheckoutButtons.tsx
+
+UI
+
+Table with Free | Pro | Business
+
+Toggle monthly/yearly billing
+
+CTA per plan:
+
+Free → “Start Free Trial”
+
+Pro/Business → “Upgrade” → /api/billing/checkout
+
+Dialog before Stripe checkout: benefits + terms
+
+Navbar badge showing current plan + trial days left
+
+9) Client — Home Integrations
+Hero
+
+Add Primary CTA: “Start Free Trial”
+
+Secondary CTA: “Pricing Plans” → /pricing
+
+Our Work + Metrics
+
+Add secondary CTAs “Try Now” → triggers dialog + signup/checkout
+
+HealthWidget component fetching /api/health/summary every 30–60s
+
+10) i18n & RTL
+
+Add translation keys: auth.*, billing.*, pricing.*, home.hero.*, home.health.*
+
+dir="rtl" for Arabic, dir="ltr" for English.
+
+11) Performance & Accessibility
+
+Lazy-load images and heavy sections
+
+Fixed image dimensions → prevent CLS
+
+Focus-visible styling for buttons/links
+
+Full keyboard navigation for dialogs
+
+Aim for Lighthouse Mobile score ≥ 95
+
+Code-split pricing page & dialogs
+
+12) Testing — Acceptance Criteria
+
+Auth: Magic Link works, TOTP can be enabled, WebAuthn register/login works
+
+Billing/Trial:
+
+/pricing shows plans + toggle
+
+Checkout creates session + redirects to Stripe
+
+Webhook updates subscription state
+
+Middleware requirePlan('pro') protects restricted features
+
+Health: widget shows uptime/latency/db/api, auto-refreshes
+
+Home: Hero CTAs behave correctly per user state
+
+i18n/RTL: translations and directions applied
+
+Console: no errors/warnings
+
+13) Delivery (Commits & PR)
+
+Suggested commits:
+
+feat(auth): magic-link + totp + jwt (+webauthn scaffolding)
+
+feat(billing): stripe checkout/portal + 14d trial + webhook handling
+
+feat(home): hero CTAs + health widget integration
+
+feat(pricing): pricing page with cycle toggle and dialogs
+
+chore(i18n): add auth/billing/pricing/home keys (ar/en)
+
+chore(middleware): requireAuth + requirePlan guards
+
+PR Title:
+
+Full Stack: Auth + Billing (Stripe) + 14d Trial + Health Widget + Home CTAs
+
+14) Notes
+
+If Resend email unavailable, fallback to AWS SES/SMTP.
+
+If DB schema unclear, create repository layer with in-memory placeholder for now.

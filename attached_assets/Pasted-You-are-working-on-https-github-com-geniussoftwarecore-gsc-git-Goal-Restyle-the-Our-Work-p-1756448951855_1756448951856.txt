@@ -1,0 +1,123 @@
+You are working on https://github.com/geniussoftwarecore/gsc.git
+
+Goal: Restyle the **Our Work** page (Portfolio/Projects) to EXACTLY match the NEW Home design system.
+IMPORTANT: **Keep all existing data/content as-is** (same items, text, order, images, routes). This is a PRESENTATION-ONLY refactor.
+
+────────────────────────────────────────────────────────
+0) Scope & Guardrails
+────────────────────────────────────────────────────────
+- Create branch: feat/portfolio-restyle-match-home
+- Frontend-only edits in /client.
+- DO NOT:
+  • change, add, or remove portfolio items or copy
+  • reorder items or modify routes/URLs
+  • introduce new colors or libraries
+  • alter backend/APIs or data models
+- YES:
+  • unify spacing/typography/radius/shadows/animations with Home
+  • reuse Home components/tokens and RTL/i18n behavior
+
+────────────────────────────────────────────────────────
+1) Detect Route & Layout
+────────────────────────────────────────────────────────
+- Locate the Our Work page route (one of):
+  • client/src/pages/Portfolio.tsx
+  • client/src/pages/Projects.tsx
+  • client/src/app/portfolio/page.tsx
+  • client/src/app/projects/page.tsx
+- Ensure it uses the same site Layout as Home (Header + Footer). If a global Layout already injects Header/Footer, do NOT render them again in this page.
+
+────────────────────────────────────────────────────────
+2) Reuse the Home Design System
+────────────────────────────────────────────────────────
+- Import existing primitives used by Home/Services:
+  • client/src/components/ui/{Button.tsx, Card.tsx, Section.tsx, PageHeader.tsx, Container.tsx}
+  • (optional) client/src/components/ui/form/{Select.tsx, Input.tsx} if filters/search already exist
+- Spacing rhythm & container:
+  • container mx-auto px-4 sm:px-6 lg:px-8
+  • section vertical rhythm: py-12 (mobile) / py-16 (desktop)
+- Typography, radii (e.g., rounded-2xl), shadows, link/hover states MUST match Home.
+- Motion: use the same framer-motion patterns (subtle section reveal, card hover) **only if already used on Home**.
+
+────────────────────────────────────────────────────────
+3) Presentation Components (no data changes)
+────────────────────────────────────────────────────────
+Create under: client/src/sections/portfolio/
+
+A) PageHeaderPortfolio.tsx
+- Breadcrumb (Home / Our Work)
+- <h1> = existing page title (do NOT rewrite)
+- Optional lead ONLY if it already exists (no new copy).
+- Background/decoration identical to Home/Services headers (no new colors).
+
+B) PortfolioFilters.tsx (non-destructive)
+- If filters/search/sorting already exist, restyle them using shared Input/Select/Button.
+- If they don’t exist, SKIP (do not add new features).
+
+C) PortfolioGrid.tsx
+- Read the EXISTING portfolio items from the current data source (i18n or local array). **Do NOT edit the data.**
+- Responsive grid:
+  • xl: grid-cols-3
+  • md: grid-cols-2
+  • sm: grid-cols-1
+- Card style identical to Home:
+  • Existing thumbnail/cover (no new assets), define width/height and loading="lazy" to prevent CLS
+  • Title and short text exactly as-is
+  • Meta row (tags/tech/date) only if it already exists
+  • Primary action (e.g., “View Project”) linking to existing detail route/anchor
+- Hover effects: same subtle lift/scale/shadow used on Home.
+
+D) PortfolioCTA.tsx (optional)
+- If a CTA section already exists, restyle it to match Home’s CTA strip (same tint/buttons).
+- If not present, SKIP.
+
+Compose on the page:
+<PageHeaderPortfolio /> → (optional) <PortfolioFilters /> → <PortfolioGrid /> → (optional) <PortfolioCTA />
+
+────────────────────────────────────────────────────────
+4) RTL & i18n
+────────────────────────────────────────────────────────
+- Use the same i18n provider as Home (client/src/providers/i18n.tsx).
+- Do NOT change wording. If some labels are hard-coded and already localized elsewhere, wrap them with t('...') using the **same text**.
+- Ensure <html dir> flips to rtl for Arabic; verify paddings/margins and chevron/icon directions.
+
+────────────────────────────────────────────────────────
+5) Visual Details to Mirror Home
+────────────────────────────────────────────────────────
+- Same container width and vertical rhythm (no ad-hoc margins).
+- Cards: same radius/shadow depth and internal paddings as Home.
+- Buttons/links: identical variants and focus/hover states as Home.
+- Dividers/background tints: reuse the same tokens used on Home.
+- **No new colors**—brand palette only.
+
+────────────────────────────────────────────────────────
+6) Accessibility & Performance
+────────────────────────────────────────────────────────
+- One <h1> on the page (from PageHeaderPortfolio); other headings are h2/h3.
+- All interactive elements have visible focus rings (reuse existing focus tokens).
+- Images have meaningful alt text (use existing item title if none set).
+- Lazy-load thumbnails; set width/height to avoid layout shift (CLS).
+
+────────────────────────────────────────────────────────
+7) Acceptance Criteria (QA)
+────────────────────────────────────────────────────────
+- Our Work page visually matches Home: same container, spacing, typography, cards, shadows, buttons, links.
+- AR/EN toggle updates all visible texts as before; <html dir> flips correctly to rtl.
+- **Exact same** items, order, titles, and links as before (no data changes).
+- No new colors or libraries introduced.
+- TypeScript/ESLint/build pass; Lighthouse shows no CLS from images.
+
+────────────────────────────────────────────────────────
+8) Commands & Commits
+────────────────────────────────────────────────────────
+Run:
+- pnpm install
+- pnpm dev
+
+Commits (conventional):
+- refactor(portfolio): restyle Our Work page to match Home visual system (presentation only)
+- refactor(ui): reuse Card/Section/Button/PageHeader primitives
+- perf(a11y): lazy thumbnails, width/height, focus states, RTL alignment
+
+Open PR: “refactor(portfolio): align Our Work page with Home design (no data changes)”
+Attach screenshots (EN+AR, mobile+desktop), including hover states.

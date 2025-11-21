@@ -1,0 +1,193 @@
+Replit AI — Implement a polished, responsive Navbar for GSC
+
+Repository: https://github.com/geniussoftwarecore/gsc.git
+Tech assumptions: Next.js (App Router) + React 18, Tailwind CSS, shadcn/ui, RTL/LTR support.
+
+Goal
+
+Redesign the top navigation bar to be interactive, sleek, and consistent with the brand. Next to the logo, render the text “genius software core” with harmonious typography. Refine the Login and Create Account buttons to be compact and visually balanced.
+
+Requirements (Do exactly this)
+
+File structure & placement
+
+If a Navbar already exists, refactor it in place. Otherwise:
+
+Create client/components/navbar/Navbar.tsx.
+
+Export a client React component.
+
+Import and use it in client/app/layout.tsx (or the root layout used globally) so it shows on all pages.
+
+Branding assets
+
+Use the logo from:
+
+Primary: client/public/brand/logo-gsc.svg
+
+Fallback: client/public/brand/logo-gsc.png
+
+Provide two variants (if not already present):
+
+Navbar logo (flat, no text): actual rendered height 24–28px.
+
+Hero logo (icon + text): height 56–72px on desktop, 40–48px on mobile.
+
+In the Navbar, render the icon plus the text label “genius software core” (all lowercase) with tight kerning and balanced letter-spacing (Tailwind tracking-tight or tracking-normal as needed).
+
+Typography
+
+Use a clean, modern font (system UI or project default).
+
+Sizes:
+
+Brand text next to logo: text-base on mobile, text-lg on ≥md.
+
+Menu items: text-sm on mobile, text-base on ≥md.
+
+Layout & responsiveness
+
+Navbar is sticky at top, backdrop-blur with a subtle translucent background.
+
+Height: ~h-14 mobile, ~h-16 desktop.
+
+Use a hamburger menu on mobile:
+
+Collapsible panel with smooth framer-motion for open/close.
+
+Desktop: horizontal menu.
+
+Use a max-width container (max-w-7xl mx-auto px-4 sm:px-6 lg:px-8).
+
+Interactivity & states
+
+Hover/focus styles for links and buttons (underline on hover for text links, shadow/scale for buttons).
+
+Active route highlighting (e.g., underline or subtle background).
+
+Use aria-expanded, aria-controls, and accessible labels for the hamburger.
+
+RTL/LTR
+
+Detect current locale. When Arabic, set dir="rtl" on the nav container and mirror icon/text spacing.
+
+Ensure the hamburger animates from the appropriate side (left in LTR, right in RTL).
+
+Buttons (compact, balanced)
+
+Two actions on the right: Login and Create Account.
+
+Sizes: compact, height ~h-9 (36px), padding px-3.
+
+Styles:
+
+Login: subtle outline/ghost.
+
+Create Account: primary/solid (brand color).
+
+Use shadcn/ui buttons if available:
+
+import { Button } from "@/components/ui/button";
+
+
+Ensure consistent spacing between buttons (space-x-2 in LTR / space-x-reverse in RTL).
+
+Links & structure
+
+Left section: logo + brand text (“genius software core”).
+
+Middle (desktop): a few placeholder links (e.g., Home, Services, ERP, About, Contact) with hover/active states.
+
+Right: Login / Create Account buttons.
+
+On mobile: links move into the collapsible panel.
+
+Logo rendering
+
+Prefer next/image with priority for the navbar logo.
+
+If using SVG, render as inline where possible for crispness; otherwise use Image with fill={false} and set height explicitly.
+
+Styling details
+
+Container background: bg-white/60 dark:bg-neutral-900/50 with backdrop-blur.
+
+Border: border-b border-neutral-200/60 dark:border-neutral-800/60.
+
+Rounded corners on mobile drawer panels (rounded-2xl shadow-lg).
+
+Motion: gentle framer-motion fade+slide for mobile panel; micro whileHover={{ scale: 1.02 }} for CTA.
+
+Accessibility
+
+nav landmark with aria-label="Main Navigation".
+
+button for hamburger with aria-label="Toggle menu".
+
+Focus rings: Tailwind focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2.
+
+Implementation sketch (create/update)
+
+client/components/navbar/Navbar.tsx:
+
+Top-level nav sticky container.
+
+Left group: logo + brand text.
+
+Desktop links (md:flex), mobile hidden.
+
+Right group: Login / Create Account buttons.
+
+Mobile menu button (md:hidden) toggles a motion.div panel.
+
+Export default Navbar and mount in client/app/layout.tsx above page content.
+
+Sizes & spacing QA
+
+Verify navbar logo height exactly 24–28px (actual rendered).
+
+Verify brand text baseline aligns with logo center (use items-center).
+
+Verify buttons look compact and aligned.
+
+No breaking changes
+
+Keep existing routes and i18n mechanisms intact.
+
+Reuse existing design tokens/colors if the repo has them; otherwise pick harmonious neutrals.
+
+Testing checklist
+
+Desktop and mobile behaviors (menu toggle, focus management).
+
+RTL layout mirroring.
+
+Dark/light themes if present.
+
+Keyboard navigation through menu and buttons.
+
+Deliverables
+
+New/updated component files.
+
+Any needed small utility (e.g., useIsRTL hook) placed in client/lib/ or existing utils.
+
+Zero TypeScript errors, zero ESLint errors.
+
+Git
+
+Create a feature branch: feat/navbar-refresh.
+
+Commit message: feat(navbar): responsive, RTL-aware header with compact auth CTAs and brand text
+
+Acceptance Criteria
+
+The header is sticky, translucent with blur, and fully responsive (mobile drawer + desktop inline).
+
+Brand icon + the text “genius software core” appear side-by-side with balanced spacing and typography.
+
+Login and Create Account buttons are compact, aligned, and pass accessible focus states.
+
+RTL mode mirrors layout and spacing correctly.
+
+No regressions to routes or existing pages; passes basic keyboard navigation tests.

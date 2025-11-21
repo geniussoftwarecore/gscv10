@@ -1,0 +1,204 @@
+أنت مطوّر كبير منفّذ لمشروع "GSC – gscnew". المطلوب تنفيذ مهمة كاملة من البداية للنهاية وفق البنود التالية دون طرح أسئلة، مع التزام صارم بالتفاصيل، وإخراج PR جاهز للمراجعة:
+
+========================================
+الهدف العام
+========================================
+إنشاء "ويزارد خدمة تطوير المواقع والمنصّات" يطابق تماماً تجربة ونسق وثيم ويزارد "تطوير تطبيقات الموبايل" الحالية (نفس الألوان، Tailwind + shadcn/ui، RTL، التباعد، الأنيميشن، التحقق، رفع الملفات)، مع تكييف المحتوى والحقول والميزات لتناسب خدمة "المواقع والمنصّات". كذلك إنشاء API وDB ورفع ملفات بنفس المعايير، وتوحيد الأمان والتحقق، وتحويل الخطوط إلى محليّة، وإضافة توثيق واختبارات بسيطة.
+
+========================================
+افتراضات بنية المشروع
+========================================
+- فرونت React + Vite + TypeScript، Tailwind + shadcn/ui، RTL عربي.
+- باك إند Node/Express + Drizzle + PostgreSQL.
+- توجد صفحة/مكوّنات لويزارد "تطوير تطبيقات الموبايل" سنطابقها 1:1 في UX والنسق.
+- توجد آلية رفع ملفات (Multer) وحدود حجم ونوع متّبعة في خدمة الموبايل.
+
+========================================
+المخرجات المطلوبة (Deliverables)
+========================================
+1) واجهة ويزارد جديدة للمواقع والمنصّات (3 خطوات) بنفس تجربة الموبايل:
+   - المسار: client/src/pages/services/web.tsx
+   - المكوّنات:
+     client/src/components/services/web/wizard/TypeStep.tsx
+     client/src/components/services/web/wizard/FeaturesStep.tsx
+     client/src/components/services/web/wizard/ContactStep.tsx
+     client/src/components/services/web/wizard/SummaryStep.tsx
+   - إعادة استخدام نفس الأنماط والبنى المستعملة في ويزارد الموبايل:
+     * React Hook Form + Zod للتحقق
+     * عناصر shadcn/ui نفسها (بطاقات/حقول/أزرار/Stepper إلخ)
+     * دعم كامل RTL وعربي نصوصاً وتسميات، مع data-testid مماثلة لتسهيل الاختبارات الآلية.
+
+2) أنواع الخدمة (Step 1 – Types) – اختيار واحد:
+   - company_profile (موقع تعريفي/بورتفوليو)
+   - blog_magazine (مدوّنة/مجلة)
+   - ecommerce (متجر إلكتروني)
+   - elearning (منصّة تعليمية)
+   - booking (منصّة حجز/خدمات)
+   - custom_platform (منصّة مخصّصة/SaaS)
+
+3) ميّزات الخدمة (Step 2 – Features) – Multi-select ضمن باقات:
+   - basics: صفحات رئيسية/عنّا/خدمات/اتصل، RTL، متعدد اللغات، نماذج تواصل، خريطة
+   - performance: تحسين الأداء، ضغط الصور، كاشينغ، SSG/SSR عند الحاجة
+   - seo_analytics: Meta/Sitemap/Robots/Schema، ربط GA4/Tag Manager
+   - security: HTTPS headers، CSRF/Rate limiting/ReCAPTCHA، سياسات تحميل
+   - cms_admin: ربط CMS Headless (مثلاً Strapi/Directus) أو لوحة إدارة مخصّصة، صلاحيات، Workflow
+   - ecommerce: سلة، بوابات دفع، مخزون/شحن، فواتير/ضرائب
+   - integrations: بريد/CRM، ERP/POS، محافظ رقمية، SMS/WhatsApp
+   - scalability: رفع إلى S3، CDN، CI/CD، مراقبة Logs
+   - ai_smart: بحث ذكي، توصيات، شات بوت دعم
+
+4) التواصُل والمتطلبات (Step 3 – Contact/Requirements):
+   - حقول عربية واضحة:
+     * customerName, customerEmail, customerPhone
+     * siteType (من الخطوة 1)
+     * selectedFeatures (Array)
+     * contentScope (نصّ: أقسام/صفحات/محتوى)
+     * domainHosting (نصّ: دومين/استضافة حالية أو مطلوبة)
+     * languages (Array: ["ar","en",...])
+     * integrations (Array: أمثلة GA4, MetaPixel, LocalWallet)
+     * attachments (ملفات: حد 5 ملفات * 10MB – png/jpg/webp/pdf/docx)
+     * notes (نص)
+   - ملخّص نهائي (Summary) قبل الإرسال يطابق أسلوب الموبايل.
+
+5) API جديد – مماثل للموبايل:
+   - endpoint: POST /api/web-orders
+   - يقبل application/json و multipart/form-data
+   - التحقق عبر Zod مع نفس بنية أخطاء الموبايل
+   - تخزين إلى جدول web_orders
+   - تخزين ميتاداتا المرفقات بنفس نهج الموبايل
+   - إعادة استخدام ميدلوير الرفع وحدود الحجم والنوع
+
+6) قاعدة البيانات (Drizzle):
+   - جدول جديد: web_orders يحتوي الحقول:
+     id (pk), customer_name, customer_email, customer_phone,
+     site_type (text),
+     selected_features (json),
+     content_scope (text),
+     domain_hosting (text),
+     languages (json),
+     integrations (json),
+     attachments (json),
+     notes (text),
+     status (default "new"),
+     assignee (nullable),
+     created_at, updated_at (timestamps default now)
+   - تنفيذ migration مع ضمان idempotency.
+
+7) توحيد الرفع والتحقق والأمان (مع الموبايل):
+   - أنشئ util مشترك للرفع:
+     * max 10MB/ملف، حتى 5 ملفات
+     * whitelist: png,jpg,webp,pdf,docx
+     * sanitization للأسماء + timestamp
+   - أضف TODO hooks (بدون تعطيل التدفق الآن):
+     * magic-byte verification
+     * antivirus scan
+     * per-IP rate limiting + CAPTCHA upon suspicion
+   - تأكد من تنظيف الملفات عند فشل التحقق/الحفظ، وتوحيد شكل أخطاء JSON.
+
+8) الخطوط المحليّة (إزالة Google Fonts):
+   - ضع خطوط Cairo محلياً تحت: client/public/fonts/cairo/*
+   - أضف @font-face في CSS العام، وأزل أي استدعاء خارجي للخطوط.
+   - تأكد ألّا توجد مكالمات إلى fonts.googleapis.com في build الإنتاجي.
+
+9) النصوص العربيّة داخل الويزارد (نماذج صياغة جاهزة للاستخدام):
+   - Titles:
+     * "خدمة تطوير المواقع والمنصّات"
+     * "اختر نوع الموقع/المنصّة"
+     * "اختر الميزات المطلوبة"
+     * "بيانات التواصل والمتطلبات"
+     * "مراجعة الملخص وإرسال الطلب"
+   - Hints:
+     * TypeStep: "اختر النوع الأقرب لفكرتك. يمكن تخصيص أي خيار لاحقاً."
+     * FeaturesStep: "اختر ما تحتاجه الآن. يمكن إضافة ميزات لاحقاً."
+     * ContactStep: "املأ بياناتك وارفع أي ملفات (شعار، دليل هوية، كتالوج...)."
+     * Summary: "راجع طلبك قبل الإرسال. سنعود إليك خلال 24-72 ساعة."
+   - Validation messages (أمثلة):
+     * "هذا الحقل مطلوب"
+     * "صيغة البريد غير صحيحة"
+     * "تجاوزت حد الملفات المسموح"
+     * "نوع ملف غير مسموح"
+
+10) التوثيق (README / docs):
+   - أضف قسماً جديداً: "Web & Platforms Wizard"
+   - مثال طلب JSON:
+     {
+       "customerName":"Taha Al-Kohlani",
+       "customerEmail":"taha@example.com",
+       "customerPhone":"+9677xxxxxxx",
+       "siteType":"ecommerce",
+       "selectedFeatures":["basics","ecommerce","seo_analytics","security","cms_admin","integrations"],
+       "contentScope":"Home, About, Shop, Blog, Contact",
+       "domainHosting":"لديّ دومين واستضافة مشتركة، أريد ترقية",
+       "languages":["ar","en"],
+       "integrations":["GA4","MetaPixel","LocalWallet"],
+       "notes":"ربط لاحق مع ERP"
+     }
+   - مثال multipart (curl):
+     curl -X POST http://localhost:3000/api/web-orders \
+       -F "customerName=..." \
+       -F "customerEmail=..." \
+       -F "customerPhone=..." \
+       -F "siteType=ecommerce" \
+       -F "selectedFeatures=[\"basics\",\"ecommerce\",\"seo_analytics\"]" \
+       -F "contentScope=Home, About, Shop, Blog, Contact" \
+       -F "domainHosting=Cloud VPS" \
+       -F "languages=[\"ar\",\"en\"]" \
+       -F "integrations=[\"GA4\",\"LocalWallet\"]" \
+       -F "notes=Attach logo & catalog" \
+       -F "attachments=@/path/logo.png" \
+       -F "attachments=@/path/catalog.pdf"
+
+   - ملاحظات الأمان/الرفع وحدود الحجم والأنواع (مطابقة للموبايل).
+   - خارطة طريق التحسين: magic-byte, AV, rate limiting, S3 presigned URLs.
+
+11) الاختبارات والـQA (خفيفة لكن عملية):
+   - data-testid في كل خطوة ومكوّن أساسي (type-card, feature-chip, next-btn, back-btn, submit-btn, summary-card, file-input).
+   - اختبار تحقّق نموذجي (Zod) لحالات:
+     * حقول ناقصة
+     * بريد غير صحيح
+     * ملف نوعه مرفوض
+     * تجاوز عدد/حجم الملفات
+   - Smoke test لطلب POST /api/web-orders (JSON + multipart).
+
+12) الـAnalytics (اختياري بسيط الآن):
+   - وفّر نقطة جاهزة لربط GA4/Tag Manager على الصفحة، بدون تفعيل افتراضياً (Flag بيئي).
+
+13) الشفرة والأسلوب:
+   - TypeScript صارم، أسماء ملفات ومجلدات مطابقة لأسلوب الموبايل.
+   - لا تكرار: أنشئ shared utils عندما يلزم (especially upload + validation).
+   - تعليقات TODO واضحة لمهام الأمان المستقبلية.
+
+14) التوافق مع RTL:
+   - طبق نفس آلية RTL والـdir="rtl" والتنسيقات، وتحقق بصري سريع من اتساق الاتجاه والمسافات.
+
+15) CI/Build:
+   - تأكد أن build يعمل محلياً دون استدعاءات خارجية للخطوط.
+   - لا تُدخل تغييرات تكسر ويزارد الموبايل.
+
+========================================
+خطوات التنفيذ (Sequence)
+========================================
+1) إنشاء هيكل الملفات للمسارات المحددة أعلاه.
+2) نسخ تجربة الموبايل UX/ستايل إلى الويزارد الجديد مع تكييف النصوص والحقول فقط.
+3) إنشاء Zod schemas للويب (webOrdersSchema) على غرار الموبايل.
+4) إنشاء route POST /api/web-orders مع دعم JSON وmultipart (Multer) باستخدام util الرفع الموحّد.
+5) إنشاء جدول web_orders مع Migration Drizzle وتشغيلها.
+6) تنفيذ @font-face لخط Cairo محلّي وإزالة أي Google Fonts.
+7) إضافة data-testid + اختبارات بسيطة/Smoke.
+8) تحديث README/docs بالأمثلة والملاحظات.
+9) تشغيل build والتأكّد من عدم وجود مكالمات خطوط خارجيّة.
+10) رفع PR بعنوان:
+    "feat(web): Web & Platforms wizard + API/DB + unified uploads + local fonts + docs"
+
+========================================
+معايير القبول (Acceptance Criteria)
+========================================
+- صفحة ويزارد "المواقع والمنصّات" تعمل بثلاث خطوات، RTL، عربية بالكامل، وتطابق تجربة الموبايل بصرياً وتفاعلياً.
+- رفع ملفات يعمل بالحدود والأنواع المحددة، وتنظيف آمن عند الفشل.
+- endpoint /api/web-orders يعمل لـ JSON وmultipart ويُخزّن السجلات في web_orders.
+- Migration Drizzle مضافة وتعمل دون أخطاء.
+- لا يوجد استدعاء خارجي للخطوط في build الإنتاجي.
+- README يحتوي أمثلة الطلبات، والحدود، وملاحظات الأمان/الرفع، وخارطة الطريق.
+- اختبارات/IDs أساسية موجودة ويمكن استعمالها في CI لاحقاً.
+
+ابدأ الآن ونفّذ كل ذلك تلقائياً، ثم اعرض موجزاً للتغييرات والملفات المضافة/المعدّلة، وتعليمات تشغيل محلية (run/migrate) في خاتمة الـPR.

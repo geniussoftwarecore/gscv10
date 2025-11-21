@@ -1,0 +1,157 @@
+0) Context (read before execution)
+
+Project: geniussoftwarecore/gsc
+
+Tech stack: Vite + TypeScript + Tailwind CSS + shadcn/ui + framer-motion
+
+Requirement: Update the “Our Work” section on the Home Page so that it fully matches the design and functionality of the Portfolio pages (/portfolio and /portfolio/[slug]). Use the White + Sky Blue palette and the same components, KPIs, and i18n/RTL setup.
+
+Rule: Do not alter other home page sections — only add/update the Our Work section.
+
+1) Locate the Home Page Section
+
+Open the main home page file(s) (likely under client/src/pages/index.tsx, client/src/App.tsx, or equivalent route).
+
+Create/modify the “Our Work” section with an anchor id=our-work for navbar linking.
+
+2) Match Portfolio Styling (Colors/Theme)
+
+Use the extended Tailwind tokens from tailwind.config.ts:
+
+brand.bg = #FFFFFF
+
+brand.sky.light = #E6F4FF
+
+brand.sky.base = #CFEAFF
+
+brand.sky.accent = #7CC7FF
+
+brand.text.primary = #0F172A
+
+brand.text.muted = #475569
+
+Section background: bg-white
+
+Dividers: brand.sky.light
+
+Borders: brand.sky.base
+
+Buttons: outline with brand.sky.accent, hover → filled accent with dark text.
+
+3) Structure of the “Our Work” Section
+
+Reuse or adapt the Portfolio components:
+
+Header
+
+Title: “Our Work” / “أعمالنا”
+
+Short descriptive subtitle.
+
+Alignment consistent with other homepage sections.
+
+Optional Mini Filter Bar
+
+Simple dropdown for category/year.
+
+If too heavy, skip and only show project cards.
+
+Featured Project Grid (3–6 items)
+
+Use PortfolioCard or create HomePortfolioCard.
+
+Card contents: cover image, title, client, sector, 2–3 KPIs, “Details” button.
+
+Lightbox for images (lazy-loaded via dynamic import).
+
+CTA Button
+
+“View All Work” → links to /portfolio.
+
+Styled consistently (outline → hover fill accent).
+
+Empty State
+
+Use EmptyState if no featured projects exist.
+
+4) Data Source (Featured Items)
+
+Use the unified data file client/src/data/portfolio.ts.
+
+Add/ensure a featured: boolean property for each project.
+
+On the homepage, display only featured = true projects (max 6), sorted newest first.
+
+If none are marked, fallback to the latest 6 projects.
+
+5) i18n and RTL/LTR
+
+Localize titles/buttons with i18n JSON keys.
+
+Apply dir="rtl" for Arabic and dir="ltr" for English.
+
+Ensure icons and layout flip correctly in RTL.
+
+6) Motion & Performance
+
+Animate cards with framer-motion (simple fade/slide).
+
+Lazy-load project images and gallery.
+
+Fix image dimensions (width/height or aspect-ratio) to prevent CLS.
+
+Code-split the lightbox or other heavy logic.
+
+7) Accessibility
+
+Provide descriptive alt for images.
+
+Maintain AA-level color contrast.
+
+Clear focus states on buttons/links.
+
+Proper heading structure (H2 for section, H3 for cards).
+
+8) Navigation Integration
+
+Ensure navbar “Our Work” link points to /#our-work.
+
+Each card’s “Details” → /portfolio/[slug].
+
+Global CTA “View All Work” → /portfolio.
+
+9) Testing (Acceptance Criteria)
+
+Show 3–6 bilingual featured projects.
+
+Visual consistency with Portfolio pages (colors, shadows, typography, spacing).
+
+Buttons “Details” and “View All Work” work correctly.
+
+RTL/LTR works automatically.
+
+No console errors or warnings in dev.
+
+10) Delivery (Commits & PR)
+
+Suggested commits:
+
+feat(home): add Our Work section aligned with portfolio design
+
+feat(home): load featured portfolio items with KPIs
+
+style(theme): apply white+sky palette for home Our Work
+
+Open PR titled:
+
+Home Our Work: white+sky parity with portfolio (featured grid + CTA)
+
+11) Implementation Notes
+
+If PortfolioCard can’t be reused directly, create HomePortfolioCard sharing the same styles for badges/KPIs/buttons.
+
+Do not add large new libraries; stick to existing stack.
+
+Write in TypeScript with typed props.
+
+Keep homepage performance optimized (lazy-load, code-split).

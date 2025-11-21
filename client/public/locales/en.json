@@ -1,0 +1,479 @@
+{
+  "brand": {
+    "name": "genius software core",
+    "shortName": "GSC",
+    "alt": "GSC"
+  },
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "portfolio": "Portfolio",
+    "about": "About",
+    "contact": "Contact",
+    "erp": "ERP",
+    "subscribe": "Subscribe Now",
+    "startProject": "Start Your Project",
+    "toggleMenu": "Toggle menu"
+  },
+  "header": {
+    "links": {
+      "home": "Home",
+      "services": "Services",
+      "crm": "CRM",
+      "portfolio": "Portfolio",
+      "pricing": "Pricing",
+      "about": "About",
+      "contact": "Contact"
+    },
+    "cta": "Get a Demo"
+  },
+  "auth": {
+    "login": "Login",
+    "signup": "Sign Up",
+    "createAccount": "Create Account",
+    "dashboard": "Dashboard"
+  },
+  "hero": {
+    "title": "Integrated Software Solutions & ERP/CRM that accelerate your growth.",
+    "subtitle": "We build web & mobile apps, implement integrations, and deliver bilingual support with professional reporting.",
+    "badge": "Complete Digital Platform",
+    "titlePrefix": "We turn ideas into ",
+    "titleHighlight": "effective digital products",
+    "description": "We provide web development, mobile apps, ERP systems, AI and automation solutions to transform your vision into advanced digital reality",
+    "trustedBy": "Trusted by leading companies",
+    "response24h": "Response within 24 hours",
+    "primaryCta": "Start Free Trial",
+    "secondaryCta": "Contact Us",
+    "cta": {
+      "startProject": "Start Your Project",
+      "subscribe": "Subscribe Now",
+      "learnMore": "Learn More",
+      "freeTrial": "Start Your Free Trial"
+    }
+  },
+  "problem": {
+    "title": "Challenges You Face",
+    "points": [
+      "Fragmented and disconnected tools",
+      "Poor customer follow-up",
+      "Data chaos and disorganization",
+      "Difficulty tracking performance"
+    ]
+  },
+  "solution": {
+    "title": "How We Solve These Problems",
+    "points": [
+      "Unified and integrated CRM system",
+      "Automated follow-up alerts",
+      "Consolidated analytics and insights",
+      "Clear and easy dashboard"
+    ],
+    "cta": "See how we solve it in 3 minutes"
+  },
+  "services": {
+    "title": "Our Specialized Services",
+    "subtitle": "We offer comprehensive software and advanced technology solutions",
+    "viewAll": "View All Services",
+    "learnMore": "Learn More",
+    "loadError": "An error occurred while loading services. Please try again.",
+    "mobileApps": {
+      "title": "Mobile App Development",
+      "short": "Smart applications for Android & iOS",
+      "slug": "mobile-apps"
+    },
+    "webApps": {
+      "title": "Web Application Development",
+      "short": "Advanced and responsive web solutions",
+      "slug": "web-apps"
+    },
+    "desktopApps": {
+      "title": "Desktop Software Development",
+      "short": "Powerful desktop applications for enhanced productivity",
+      "slug": "desktop-apps"
+    },
+    "designGraphics": {
+      "title": "UI/UX & Brand Design",
+      "short": "Attractive interfaces and distinctive experiences",
+      "slug": "design-brand"
+    },
+    "paidAdsMarketing": {
+      "title": "Performance Marketing & Paid Media",
+      "short": "Advanced marketing strategies for digital growth",
+      "slug": "performance-marketing"
+    },
+    "erpnextV15": {
+      "title": "ERPNext v15 Implementation & Customization",
+      "short": "Comprehensive business and customer management",
+      "slug": "erpnext-v15"
+    },
+    "mobileSolutions": {
+      "title": "Smart Mobile Solutions & Device Integrations",
+      "short": "Innovative mobile technology and IoT integrations",
+      "slug": "mobile-solutions"
+    },
+    "items": [
+      {
+        "title": "Web Apps",
+        "desc": "Advanced and responsive web solutions",
+        "canonicalKey": "webApps"
+      },
+      {
+        "title": "Mobile Apps",
+        "desc": "Smart applications for Android & iOS",
+        "canonicalKey": "mobileApps"
+      },
+      {
+        "title": "ERP/CRM Systems",
+        "desc": "Comprehensive business and customer management",
+        "canonicalKey": "erpnextV15"
+      },
+      {
+        "title": "Integrations",
+        "desc": "System connectivity and data exchange",
+        "canonicalKey": "mobileSolutions"
+      },
+      {
+        "title": "Design & UX",
+        "desc": "Attractive interfaces and distinctive experiences",
+        "canonicalKey": "designGraphics"
+      },
+      {
+        "title": "DevOps",
+        "desc": "Reliable and scalable infrastructure",
+        "canonicalKey": "mobileSolutions"
+      }
+    ]
+  },
+  "crm": {
+    "title": "Customer Management System",
+    "cards": [
+      {
+        "title": "Core Entities"
+      },
+      {
+        "title": "Sales Pipeline"
+      },
+      {
+        "title": "Tickets & Support"
+      }
+    ],
+    "openDemo": "Open CRM Demo"
+  },
+  "portfolio": {
+    "title": "Our Work",
+    "subtitle": "Discover our successful projects",
+    "viewProject": "View Project",
+    "allProjects": "All Projects",
+    "viewAll": "View All Projects"
+  },
+  "proof": {
+    "title": "Trusted by Leading Companies",
+    "testimonial": {
+      "quote": "Genius Software Core transformed our vision into an advanced digital reality that helped us significantly improve our business efficiency",
+      "author": "Ahmed Mohammed, Technical Manager"
+    }
+  },
+  "cta": {
+    "title": "Ready to Grow Your Business?",
+    "primary": "Book a Consultation",
+    "secondary": "WhatsApp / Email"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "You have an opportunity, we're here to help you",
+    "getInTouch": "Get In Touch",
+    "sendMessage": "Send Message",
+    "form": {
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "company": "Company (Optional)",
+      "service": "Service Type",
+      "message": "Message",
+      "budget": "Budget (Optional)",
+      "timeline": "Timeline (Optional)",
+      "send": "Send",
+      "sending": "Sending...",
+      "successTitle": "Message sent successfully!",
+      "successDesc": "We will contact you as soon as possible and a lead will be created in our CRM system.",
+      "errorTitle": "Error sending message",
+      "errorDesc": "Please try again or contact us directly."
+    },
+    "channels": {
+      "email": "Email",
+      "phone": "Phone", 
+      "address": "Address",
+      "hours": "Working Hours"
+    }
+  },
+  "about": {
+    "title": "About Us",
+    "subtitle": "A team of creators and specialists in technology, striving to provide innovative solutions that help businesses grow and thrive",
+    "storyTitle": "Our Story",
+    "storyParagraph1": "{companyName} was founded with a clear vision: empowering businesses through advanced technology. We started as a small team of passionate developers and evolved to become a trusted technology partner for many companies.",
+    "storyParagraph2": "We don't just build software, we strive to deeply understand our clients' needs and provide solutions that align with their strategic goals. Every project we work on is an opportunity to make a real positive impact.",
+    "partnership": "Start Your Partnership with Us"
+  },
+  "forms": {
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "message": "Message",
+    "submit": "Submit",
+    "required": "This field is required",
+    "invalidEmail": "Invalid email address"
+  },
+  "pricing": {
+    "title": "Pricing Plans",
+    "subtitle": "Choose the plan that fits your needs and budget",
+    "mostPopular": "Most Popular",
+    "getStarted": "Get Started",
+    "contactUs": "Contact Us",
+    "customSolution": "Need a custom solution? Contact us for a personalized quote",
+    "monthly": "monthly",
+    "currency": "SAR"
+  },
+  "servicesPage": {
+    "title": "Our Services",
+    "subtitle": "We provide comprehensive and specialized solutions for all your technical needs",
+    "search": "Search for service...",
+    "categories": {
+      "all": "All Services",
+      "allDesc": "Browse all our specialized services",
+      "business": "Business Solutions",
+      "businessDesc": "Business management systems and smart analytics",
+      "development": "Development & Programming",
+      "developmentDesc": "Comprehensive software solutions from mobile apps to complex systems",
+      "design": "Design & User Experience",
+      "designDesc": "Attractive user interface design and distinctive interactive experiences",
+      "marketing": "Digital Marketing",
+      "marketingDesc": "Advanced marketing strategies for your digital business growth"
+    }
+  },
+  "footer": {
+    "aboutTitle": "About GSC",
+    "aboutText": "We build modern, bilingual business platforms—web, mobile, and integrated CRM/ERP—tailored for your growth.",
+    "cta": "Get a Demo",
+    "servicesTitle": "Services",
+    "services": {
+      "webApps": "Web Applications",
+      "mobileApps": "Mobile Applications",
+      "crmErp": "CRM & ERP",
+      "integrations": "Integrations",
+      "brandingUi": "Branding & UI",
+      "devops": "DevOps & CI/CD"
+    },
+    "resourcesTitle": "Resources",
+    "resources": {
+      "docs": "Documentation",
+      "blog": "Blog",
+      "terms": "Terms of Service",
+      "privacy": "Privacy Policy",
+      "cookies": "Cookie Policy"
+    },
+    "contactTitle": "Contact",
+    "contact": {
+      "email": "Email",
+      "phone": "Phone"
+    },
+    "socialTitle": "Follow us",
+    "copyright": "All rights reserved.",
+    "language": "Language"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "close": "Close"
+  },
+  "buttons": {
+    "viewDetails": "View Details",
+    "getStarted": "Get Started"
+  },
+  "mobileAppPage": {
+    "hero": {
+      "title": "Mobile App Development",
+      "desc": "We develop professional and responsive applications for iOS and Android systems using the latest technologies and global standards with modern user interfaces and distinctive user experience",
+      "deliveryTimeLabel": "4-8 weeks"
+    },
+    "filters": {
+      "all": "All Types",
+      "ecommerce": "E-commerce", 
+      "services": "On-Demand Services",
+      "education": "Education",
+      "health": "Healthcare",
+      "fintech": "Finance/Payments",
+      "logistics": "Delivery/Transport",
+      "media": "Media/Entertainment"
+    },
+    "cards": {
+      "details": "Details",
+      "discuss": "Discuss App",
+      "featuresTitle": "Key Features"
+    },
+    "sections": {
+      "features": "Features",
+      "whatYouGet": "What You Get",
+      "howWeWork": "How We Work",
+      "readyToStart": "Ready to Start?",
+      "contactNow": "Contact Now",
+      "browseServices": "Browse Other Services"
+    },
+    "whatYouGet": {
+      "title": "What You Get",
+      "points": {
+        "0": {
+          "title": "Continuous Technical Support",
+          "desc": "Dedicated support team available 24/7"
+        },
+        "1": {
+          "title": "On-Time Delivery",
+          "desc": "Full commitment to predetermined deadlines"
+        },
+        "2": {
+          "title": "Testing & Reports",
+          "desc": "Comprehensive testing and detailed performance reports"
+        },
+        "3": {
+          "title": "Training & Support",
+          "desc": "Comprehensive training for your team on app usage"
+        }
+      }
+    },
+    "howWeWork": {
+      "title": "How We Work",
+      "steps": {
+        "0": {
+          "number": "01",
+          "title": "Requirements Analysis",
+          "desc": "We analyze your needs and create a comprehensive project plan"
+        },
+        "1": {
+          "number": "02", 
+          "title": "Design & User Experience",
+          "desc": "We design attractive interfaces and distinctive user experience"
+        },
+        "2": {
+          "number": "03",
+          "title": "Development & Integration", 
+          "desc": "We develop the app and integrate it with required systems"
+        },
+        "3": {
+          "number": "04",
+          "title": "Testing & Delivery",
+          "desc": "We thoroughly test the app and deliver it ready to use"
+        }
+      }
+    },
+    "details": {
+      "overview": "Overview",
+      "keyFeatures": "Key Features",
+      "stack": "Tech Stack",
+      "integrations": "Integrations",
+      "timeline": "Timeline", 
+      "faqs": "Frequently Asked Questions",
+      "step1": "Phase 1",
+      "step2": "Phase 2", 
+      "step3": "Phase 3",
+      "step4": "Final Phase",
+      "startNow": "Start Now",
+      "discussApp": "Discuss App",
+      "close": "Close"
+    },
+    "cta": {
+      "startProject": "Start Your Project Now",
+      "browseServices": "Browse Other Services"
+    },
+    "cards": {
+      "ec1": {
+        "title": "Multi-vendor eCommerce Platform",
+        "shortDesc": "Convert selling to online with advanced inventory management and secure payments",
+        "longDesc": "A comprehensive eCommerce platform supporting multiple vendors with advanced inventory and order management. Includes admin and vendor dashboards, diverse payment systems, and detailed sales and profit reports. Designed for large companies that want a scalable platform.",
+        "features": ["Advanced shopping cart", "Local and global payment gateways", "Coupons & promotions", "Sales reports", "Arabic/English support"],
+        "integrations": ["Stripe/Mada/STCPay", "Local shipping companies", "Bank payment gateways", "ERP systems"],
+        "timeline": [
+          {"phase": "Requirements Analysis", "note": "Study vendor needs and commission models"},
+          {"phase": "Design & UX", "note": "Design vendor and customer dashboards"},
+          {"phase": "Development & Integration", "note": "Build system with financial integrations"},
+          {"phase": "Testing & Delivery", "note": "Performance testing under load and security"}
+        ],
+        "faqs": [
+          {"q": "Does it support different commissions per vendor?", "a": "Yes, different commission rates can be set by category or vendor."},
+          {"q": "Is there a product reviews system?", "a": "Includes a detailed reviews and ratings system with reply functionality."}
+        ]
+      },
+      "ec2": {
+        "title": "D2C Fast Launch Store (MVP)",
+        "shortDesc": "Launch your store within weeks",
+        "longDesc": "Quick solution for startups that want to test the market with minimal time and cost. Includes ready-made product templates, simple management system, and direct integration with local payment gateways. Perfect for starting online sales within weeks.",
+        "features": ["Ready templates", "Secure payment", "Shipping integration", "Instant notifications"],
+        "integrations": ["Quick payment gateways", "Aramex/SMSA", "WhatsApp Business", "Google Analytics"],
+        "timeline": [
+          {"phase": "Template Setup", "note": "Choose design and setup products"},
+          {"phase": "Payment Integration", "note": "Activate local payment gateways"},
+          {"phase": "Testing & Launch", "note": "Quick testing and store launch"},
+          {"phase": "Initial Improvements", "note": "Development based on user feedback"}
+        ],
+        "faqs": [
+          {"q": "How long does it take to launch?", "a": "3-4 weeks from start of work."},
+          {"q": "Can it be developed further later?", "a": "Yes, designed to be scalable and expandable."}
+        ]
+      },
+      "sv1": {
+        "title": "On-Demand Services App",
+        "shortDesc": "Bookings, billing, and provider tracking",
+        "longDesc": "A comprehensive platform connecting service providers with customers and real-time order tracking. Supports multiple service types from maintenance to cleaning and delivery. Includes smart booking system and commission management.",
+        "features": ["Maps & tracking", "Appointments & payments", "Customer reviews", "Provider management", "Commission reports"],
+        "integrations": ["Google Maps", "Payment gateways", "SMS messaging", "Push notifications"],
+        "timeline": [
+          {"phase": "Service Analysis", "note": "Define service types and pricing models"},
+          {"phase": "App Design", "note": "Customer app and service provider app"},
+          {"phase": "Tracking System", "note": "Develop tracking maps and notifications"},
+          {"phase": "Operations Testing", "note": "Test complete order cycle"}
+        ],
+        "faqs": [
+          {"q": "Does it support multiple services?", "a": "Yes, customizable for any service type."},
+          {"q": "How are commissions calculated?", "a": "Flexible commission system based on service type and provider."}
+        ]
+      },
+      "ed1": {
+        "title": "Comprehensive E-Learning",
+        "shortDesc": "Courses, tests, certificates",
+        "longDesc": "Integrated educational platform for universities and educational institutions. Supports live streaming, interactive content, and advanced assessment systems. Includes tools for teachers to create content and track student progress in detail.",
+        "features": ["Live streaming", "Interactive tests", "Teacher dashboard", "Digital certificates", "Progress tracking"],
+        "integrations": ["Zoom", "University systems", "Educational payment gateways", "Digital libraries"],
+        "timeline": [
+          {"phase": "Curriculum Analysis", "note": "Study educational requirements and curricula"},
+          {"phase": "Content Platform", "note": "Develop content creation and management tools"},
+          {"phase": "Streaming System", "note": "Integrate live streaming and recording"},
+          {"phase": "Assessment & Certificates", "note": "Testing systems and digital certificates"}
+        ],
+        "faqs": [
+          {"q": "Does it support electronic exams?", "a": "Yes, with monitoring systems and anti-cheating measures."},
+          {"q": "Can it integrate with university systems?", "a": "Yes, supports API integration with most learning management systems."}
+        ]
+      },
+      "he1": {
+        "title": "Remote Clinic",
+        "shortDesc": "Appointments, prescriptions, records",
+        "longDesc": "Integrated medical solution for clinics and hospitals to provide remote medical services. Complies with HIPAA medical security standards and provides secure patient records, smart appointment system, and certified electronic prescription issuance.",
+        "features": ["Video calls", "PDF prescriptions", "Encrypted records", "Medication reminders", "Vital signs tracking"],
+        "integrations": ["Hospital systems HIS", "Electronic pharmacies", "Laboratories", "Health insurance"],
+        "timeline": [
+          {"phase": "Security Requirements", "note": "Apply medical security and privacy standards"},
+          {"phase": "Medical Records", "note": "Design secure patient records system"},
+          {"phase": "Visual Consultations", "note": "High-security medical video call system"},
+          {"phase": "Integration & Certification", "note": "Connect with health systems and obtain licenses"}
+        ],
+        "faqs": [
+          {"q": "Is it approved by the Ministry of Health?", "a": "Yes, complies with all local regulations and standards."},
+          {"q": "Medical data security level?", "a": "Advanced medical encryption complying with global HIPAA standards."}
+        ]
+      }
+    }
+  }
+}

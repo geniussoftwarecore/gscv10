@@ -1,0 +1,225 @@
+Replit AI — نفّذ بالضبط ما يلي
+
+1) السياق والهدف
+
+المستودع: https://github.com/geniussoftwarecore/gsc.git
+
+الهدف: إنشاء صفحة خدمة تطوير تطبيقات الموبايل (Android & iOS) بأسلوب المنصة الحالي (نفس الثيم، نفس الخطوط، نفس المكوّنات والهوامش والظلال والأنيميشن)، مع i18n عربي/إنجليزي وRTL، وربطها بصفحة الخدمات العامة والاتصال.
+
+ممنوع: تغيير الثيم أو الخطوط أو config العامة. التزم بـ Tailwind config و shadcn/ui و Framer Motion والـ tokens المستعملة حاليًا.
+
+2) التقنية المسموحة (اكتشفها من المشروع واستعملها كما هي)
+
+Next.js (App Router)
+
+Tailwind CSS + shadcn/ui
+
+Framer Motion
+
+lucide-react للأيقونات
+
+i18n (نفس آلية المنصة: ملفات JSON للـ ar و en، وتبديل RTL تلقائي)
+
+3) بنية الملفات المطلوبة (App Router)
+
+أنشئ/حدّث الملفات التالية دون كسر شيء:
+
+app/services/mobile/page.tsx ← صفحة الخدمة (AR/EN عبر i18n)
+
+app/services/page.tsx ← (إن كانت موجودة) أضِف بطاقة “Mobile Apps” تربط بـ /services/mobile
+
+app/[locale]/(i18n)/… أو مسار i18n المعتمد حاليًا ← أضف مفاتيح الترجمة (لا تُغيّر البنية؛ اتبع المعتمد)
+
+public/i18n/ar/services.mobile.json و public/i18n/en/services.mobile.json ← ملفات المحتوى (إن كانت المنصة تضع i18n في مسار آخر، التزم بمسارها الحالي)
+
+4) مكوّنات الواجهة (استخدم shadcn/ui + Tailwind بنفس ستايل المنصة)
+
+قسّم الصفحة إلى أقسام، وكل قسم مكوّن منفصل داخل مجلد مناسب (اتبع تنظيم المشروع الحالي، مثال):
+
+components/services/mobile/ServiceHero.tsx
+
+components/services/mobile/FeatureGrid.tsx
+
+components/services/mobile/UseCases.tsx
+
+components/services/mobile/Integrations.tsx
+
+components/services/mobile/TechStack.tsx
+
+components/services/mobile/ProcessTimeline.tsx
+
+components/services/mobile/Deliverables.tsx
+
+components/services/mobile/GettingStarted.tsx
+
+components/services/mobile/StickyCTA.tsx
+
+المتطلبات الجمالية:
+
+نفس الخطوط الحالية (لا تضف خطوطًا جديدة).
+
+حواف مدوّرة كبيرة، ظلال ناعمة، مسافات رحبة، Grid مرن.
+
+Framer Motion لحركات خفيفة عند دخول الأقسام والبطاقات.
+
+أيقونات lucide-react (اقترح: Smartphone, Shield, Rocket, Bell, MapPin, CreditCard, MessageCircle, Languages, Moon, Sun).
+
+5) محتوى i18n — أدخله كنصوص جاهزة (لا تكتب نصوص داخل الكود)
+مفاتيح ar (ملف: services.mobile.json)
+{
+  "hero": {
+    "title": "تطبيقات موبايل قوية… بتجربة عربية مُتقنة وأداء يليق بعلامتك",
+    "subtitle": "نصمّم ونبني تطبيقات Android وiOS بواجهة عربية/إنجليزية، أداء سريع، أمان مؤسسي، وتكاملات جاهزة للنمو.",
+    "primaryCta": "ابدأ مشروعك الآن",
+    "secondaryCta": "جرّب النسخة التجريبية"
+  },
+  "features": {
+    "title": "نقاط القوة",
+    "items": [
+      {"icon":"Shield","title":"أمان مؤسسي","desc":"تشفير، مصادقة JWT/OAuth2، سياسات جلسات، حماية API."},
+      {"icon":"Languages","title":"عربي/إنجليزي + RTL","desc":"دعم RTL كامل وخطوط عربية حديثة وتنسيقات محلية."},
+      {"icon":"Rocket","title":"أداء واستقرار","desc":"مقاييس أداء محددة وحجم حزمة محسّن وكاش ذكي."},
+      {"icon":"Smartphone","title":"أوفلاين أولًا","desc":"تخزين محلي ومزامنة لاحقة ومعالجة تضارب البيانات."},
+      {"icon":"MessageCircle","title":"اختبارات وجودة","desc":"Unit/Widget/Integration واختبار على أجهزة حقيقية."},
+      {"icon":"Bell","title":"تحليلات وتنبيهات","desc":"Events, Funnels, Crashlytics ولوحات قياس."}
+    ]
+  },
+  "useCases": {
+    "title": "ماذا نطوّر؟",
+    "items": [
+      "تطبيقات شركات وخدمات: شكاوى/حجوزات/فواتير/تتبّع.",
+      "تجارة إلكترونية: كتالوج، سلة، دفع، شحن، كوبونات.",
+      "تشغيل ميداني: أوفلاين، زيارات، نماذج وتقارير.",
+      "تعلم ومحتوى: فيديو/بودكاست/اختبارات.",
+      "تكاملات مخصّصة مع ERP/CRM وبوابات الدفع."
+    ]
+  },
+  "integrations": {
+    "title": "تكاملات جاهزة",
+    "items": [
+      "إشعارات فورية FCM/APNs مع شرائح وتقسيم.",
+      "خرائط ومواقع (Google/Mapbox): نقاط ومسارات.",
+      "دفع إلكتروني ومحافظ رقمية وApple/Google Pay (حسب التوافر).",
+      "رفع وسائط وصلاحيات كاميرا/معرض.",
+      "دردشة/تذاكر ودعم عملاء داخل التطبيق.",
+      "تعدد لغات وتبديل لحظي."
+    ]
+  },
+  "tech": {
+    "title": "التقنية المفضّلة",
+    "stack": [
+      "Frontend: Flutter/Dart (عميل الموبايل) مع إدارة حالة مناسبة.",
+      "Backend: ASP.NET Core (.NET 8) أو Node/Fastify.",
+      "Database: SQL Server أو PostgreSQL.",
+      "APIs: REST (Swagger/Redoc).",
+      "حاويات: Docker/Docker Compose.",
+      "مراقبة: Logging مُهيكل ولوحات أداء."
+    ]
+  },
+  "process": {
+    "title": "منهجية العمل",
+    "steps": [
+      "اكتشاف ومتطلبات: أهداف وحالات استخدام وقياس نجاح.",
+      "UX/UI: نماذج أولية ونظام ألوان وخطوط وهوية.",
+      "هندسة وبنية: نماذج بيانات وعقود API وأمان وكاش وأوفلاين.",
+      "تنفيذ مرحلي: Sprints ومعاينات أسبوعية.",
+      "اختبارات وجودة: تغطية أساسية وفحوصات تلقائية.",
+      "الإطلاق والتسليم: المتاجر وخطة مراقبة ما بعد الإطلاق.",
+      "الدعم والتحسين: تحسين الأداء وميزات لاحقة."
+    ]
+  },
+  "deliverables": {
+    "title": "ما الذي نسلّمه؟",
+    "items": [
+      "كود مصدر منظّم وقابل للصيانة.",
+      "ملفات تصميم ونظام مكوّنات.",
+      "توثيق API وتهيئة Docker/ENV.",
+      "أدلة تشغيل ونشر (Runbook).",
+      "خطة أمان ونسخ احتياطي.",
+      "لوحة مؤشرات (تحليلات/أعطال/أداء).",
+      "تدريب فريق العميل عند الحاجة."
+    ]
+  },
+  "gettingStarted": {
+    "title": "ما نحتاجه للبدء",
+    "items": [
+      "وصف للأهداف وحالات الاستخدام.",
+      "هوية بصرية (أو ننشئها).",
+      "تفضيلات لغة/منطقة/عملة.",
+      "قائمة التكاملات المطلوبة.",
+      "حسابات المتاجر أو نوكّلنا بالإعداد."
+    ]
+  },
+  "cta": {
+    "title": "جاهز للانطلاق؟",
+    "desc": "لنحوّل فكرتك إلى تطبيق موبايل آمن وسريع وقابل للنمو.",
+    "primary": "ابدأ مشروعك الآن",
+    "secondary": "تحدث مع خبير"
+  },
+  "seo": {
+    "title": "تطوير تطبيقات الموبايل | GSC",
+    "description": "بناء تطبيقات Android وiOS بأداء عالٍ ودعم عربي/إنجليزي، أمان مؤسسي، وتكاملات جاهزة."
+  }
+}
+
+مفاتيح en (ملف: services.mobile.json)
+
+أنشئ ملفًا مطابقًا بالإنجليزية بالنصوص المقابلة (لا تُترجم آليًا داخل الكود؛ ضع النصوص في JSON فقط).
+
+6) سلوك الصفحة
+
+Hero: عنوان، وصف، زران (ثابتة على الشاشات الصغيرة)، motion خفيف عند الدخول.
+
+FeatureGrid: 6 بطاقات بعناوين وأيقونات lucide، motion stagger.
+
+UseCases وIntegrations: شبكة بطاقات نصيّة موجزة.
+
+TechStack: قائمة نقاط بتنسيق المنصة.
+
+ProcessTimeline: Timeline من 7 مراحل.
+
+Deliverables وGettingStarted: قوائم بعناوين واضحة.
+
+StickyCTA: شريط CTA ثابت بأسفل الصفحة على الموبايل.
+
+روابط: أزرار CTA تفتح /contact?service=mobile-apps، وبطاقة الخدمة في /services تربط بـ /services/mobile.
+
+7) RTL و i18n
+
+اجعل الاتجاه RTL تلقائي عند ar، وLTR عند en.
+
+لا تكتب نصوصًا داخل JSX. اسحبها عبر hooks/loader i18n المعتمد.
+
+احترم نفس آلية تحميل الترجمات في المشروع (dynamic import إن كانت مستخدمة).
+
+8) SEO وقياس
+
+أضف metadata/generateMetadata في page.tsx باستخدام مفاتيح seo.
+
+أضف أحداث تتبّع للضغط على أزرار CTA (استعمل طبقة القياس المعتمدة حاليًا، بدون إدخال مكتبة جديدة).
+
+9) الجودة والاختبارات
+
+نفّذ Unit بسيطة لمكوّنات الشبكات/العناوين (React Testing Library) وفق إعداد المشروع.
+
+تحقّق بصريًا من الاستجابة: Mobile أولًا (≤ 400px)، ثم Tablet، ثم Desktop.
+
+ضمان عدم وجود أخطاء TypeScript ومرور lint.
+
+10) الربط بصفحة الخدمات
+
+في /services أضِف بطاقة “تطوير تطبيقات الموبايل” بنفس نمط البطاقات الحالية (نفس الظلال والحدود والهوفر)، تربط بـ /services/mobile.
+
+11) شروط القبول (Definition of Done)
+
+الصفحة تعمل AR/EN وتبدّل RTL/LTR تلقائيًا.
+
+لا تغييرات على الثيم أو الخطوط أو config.
+
+لا نصوص صلبة داخل JSX—كلها من i18n.
+
+جميع الأزرار تؤدي إلى /contact?service=mobile-apps.
+
+لا تحطيم لاختبارات/بناء CI الحالي.
+
+ابدأ الآن.

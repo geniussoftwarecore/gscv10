@@ -1,0 +1,133 @@
+You are working on this repo: https://github.com/geniussoftwarecore/gsc.git
+
+IMPORTANT INTENT (clarified):
+- “idiots” = “edit”. I must EDIT the Services page.
+- Keep EXACT same design system as the rest of the app: same theme, same fonts, same spacing, same components, same motion.
+- Make Services interactive and compact (small cards), with Arabic/English translations and RTL done right.
+- Add a “View Details” button that opens a dedicated Service Detail page.
+
+DO NOTS:
+- Do NOT add new dependencies.
+- Do NOT change backend/APIs.
+- Do NOT change brand colors/typography tokens or global spacing scales.
+- Do NOT remove existing i18n fields; only append.
+
+================================================================
+PHASE A — Framework Alignment & i18n Baseline (no UI changes yet)
+================================================================
+0) Branch
+- Create branch: feat/services-theme-alignment
+
+1) Detect stack (no code changes, just list in PR description)
+- Read /client/package.json and note: React/Next/Vite, Tailwind, shadcn/ui (Radix), lucide-react, tanstack/react-query, etc.
+- Detect fonts & base styles from: tailwind.config.* and global styles (e.g., client/src/styles/globals.css).
+- Promise: reuse all of these exactly as-is.
+
+2) Canonical services keys & slugs (map only; don’t break old ones)
+- Create file: client/src/lib/services-normalize.ts
+  - Export TERM_MAP (EN/AR synonyms → canonical keys).
+  - export function toCanonicalKey(input: string): string
+- If slugs are already defined somewhere, respect them. If not, use kebab-case of the canonical key (e.g., mobile-apps).
+
+3) i18n keys (append only)
+Files:
+- client/src/locales/en/services.json
+- client/src/locales/ar/services.json
+- client/src/locales/en/common.json (or shared)
+- client/src/locales/ar/common.json
+
+Add (merge) the following keys for the Services button:
+EN:
+{
+  "buttons": {
+    "viewDetails": "View Details"
+  }
+}
+AR:
+{
+  "buttons": {
+    "viewDetails": "عرض التفاصيل"
+  }
+}
+
+Make sure each service item has:
+- title
+- tagline (short, 1 line)  ← add if missing
+- details (1 paragraph)    ← add if missing
+- detailPage: { achieve, delivery, timeline } (optional, for the detail page)
+
+(If older names exist, keep them. Add "canonicalKey": "<key>" if helpful for lookups.)
+
+4) Commit
+- chore(services): add normalization util and i18n baseline (EN/AR)
+- Note detected frameworks/fonts in PR description.
+
+==========================================================
+PHASE B — Interactive Compact Cards + Service Detail Page
+==========================================================
+0) Branch
+- Create branch from A: feat/services-interactive-ui
+
+1) Services screen (compact, interactive cards)
+File (adjust if different): client/src/sections/services/ServicesGrid.tsx
+
+REQUIREMENTS:
+- Grid:
+  • sm: 1 col, md: 2 cols, lg: 3 cols (reuse Tailwind container spacing used elsewhere).
+- Card style: identical to site pattern (rounded-2xl, shadow, hover/motion). Reuse existing Card/Button from your UI kit.
+- Content per card (NO bullet lists/accordions here):
+  • Title (i18n)
+  • Tagline (i18n, 1 line)
+  • Details paragraph (i18n) — CLAMP to 2–3 lines on the grid
+  • Primary action button: t("buttons.viewDetails")
+    - Accessible: aria-label={`View details — ${title}` in EN, AR variant in AR}
+    - Keyboard: Enter/Space
+- The whole card can be clickable; button must also be focusable.
+- Remove/hide legacy lists here (features/deliverables/inputsNeeded/interactiveIdeas) by guarding them (e.g., if(false)) or commenting out.
+- RTL: verify the paragraph and button alignment flip correctly when lang=ar.
+
+2) Routing to Service Detail
+Use the router already in the repo:
+- Next.js (pages): client/src/pages/services/[slug].tsx
+- Next.js (app): client/src/app/services/[slug]/page.tsx
+- React Router: add <Route path="/services/:slug" element={<ServiceDetail/>} />
+
+Implement ServiceDetail component:
+- Read slug from router.
+- Map slug → canonical key (use reverse map or toCanonicalKey).
+- Render:
+  <h1>{title}</h1>
+  <p className="text-muted-foreground">{tagline}</p>
+  <p className="leading-relaxed">{details}</p>
+- Optional sections (paragraphs, not bullets) if i18n has them:
+  - “achieve” → short paragraph
+  - “delivery” → short paragraph
+  - “timeline” → short paragraph
+- Keep the same theme tokens, spacing, and typography as other pages.
+- SEO/meta (if supported): set <title> and meta description from i18n.
+- Accessibility: one <h1>, proper heading hierarchy, visible focus.
+
+3) Performance & polish
+- Cards: line-clamp details to avoid tall cards; full details only on the detail page.
+- Motion: reuse existing motion pattern (framer-motion or CSS transitions already used).
+- Images/icons: keep sizes to avoid layout shift; loading="lazy" as used across the app.
+- No new libs; pass TypeScript, ESLint, and build.
+
+4) QA — Acceptance Criteria
+- Services grid shows compact interactive cards with:
+  • Title → Tagline → (clamped) Details → “View Details” button (EN/AR).
+- Clicking the button navigates to /services/:slug and shows full content (title, tagline, details, optional achieve/delivery/timeline paragraphs).
+- RTL works perfectly; switching language updates everything.
+- No bullet lists on the grid screen; lists remain unused.
+- No theme drift: same fonts, colors, spacing, shadows, and motion as Home.
+- No new deps; build/lint/type-check pass.
+
+5) Commits
+- feat(services): compact interactive cards + “View Details” CTA (EN/AR, RTL)
+- feat(service-detail): dynamic detail route with structured paragraphs
+- refactor(i18n): add taglines/details and optional detailPage sections
+- perf(a11y): line-clamp, focus states, keyboard activation, no layout shift
+
+6) Run
+- pnpm dev
+- Provide screenshots (EN & AR; mobile & desktop) in the PR.

@@ -1,0 +1,166 @@
+0) Project Context (read before execution)
+
+Repository: geniussoftwarecore/gsc (Monorepo containing: client, crm_ui, crm_api, server, shared, etc.).
+
+Stack: Vite + TypeScript + Tailwind CSS + shadcn/ui (confirmed by files such as tailwind.config.ts, components.json).
+
+Goals:
+
+Update the “Portfolio / Our Work” page to match the platform’s brand colors (White + Sky Blue), keeping full consistency with the overall design.
+
+Enhance the Portfolio user experience (filters/search/sort, KPIs, lightbox for images, detail page for each project).
+
+General improvements to the platform if missing (Arabic/English i18n + RTL, optimized images, SEO).
+
+Golden rule: Do not break the existing design system. Apply the new theme and features while keeping typography, spacing, shadows, and radii consistent.
+
+1) Locate the Portfolio Page
+
+Search inside the repo for files/routes related to Portfolio (e.g., client/src/pages/portfolio*, client/src/routes/portfolio*, or under crm_ui/...).
+
+If missing, create a new route:
+
+Under the frontend layer (likely client), add /portfolio and /portfolio/[slug].
+
+2) Color System (White + Sky Blue)
+
+Extend tailwind.config.ts under theme.extend.colors:
+
+brand.bg: #FFFFFF
+
+brand.sky.light: #E6F4FF
+
+brand.sky.base: #CFEAFF
+
+brand.sky.accent: #7CC7FF
+
+brand.text.primary: #0F172A (Slate-900)
+
+brand.text.muted: #475569 (Slate-600)
+
+Add CSS variables in globals.css or similar.
+
+Update Portfolio components with:
+
+Cards: bg-white, border-bottom brand.sky.base, soft shadow.
+
+Badges: brand.sky.light with dark text.
+
+Primary buttons: border brand.sky.accent, hover filled with accent.
+
+3) Portfolio Pages (Index + Details)
+A) /portfolio (Index)
+
+Header: Title, subtitle, overall metrics (e.g., total projects, industries served).
+
+Filters/Search/Sort bar (shadcn/ui components):
+
+Search by title, client, tags.
+
+Filters: industry, tech, year, status.
+
+Sort: newest, oldest, alphabetical, impact (KPI).
+
+Grid of Cards: project cover image, name, client, sector, 3–4 short KPIs.
+
+Each card → “Details” button linking to /portfolio/[slug].
+
+Lightbox for gallery images.
+
+B) /portfolio/[slug] (Details)
+
+Hero Section: title, client, industry, duration, provided services.
+
+KPIs Block: grid with KPI cards (value + short description).
+
+Tech Stack Block: badges/icons (Flutter, ASP.NET, SQL Server, etc.).
+
+Gallery Block: screenshots with lightbox.
+
+Story Block: Challenge / Solution sections.
+
+CTA: “Request Similar Project” → Contact page.
+
+4) Data & i18n
+
+Create client/src/data/portfolio.ts with structured objects { slug, title, client, sector, year, status, kpis[], tech[], coverImage, gallery[], summary_en, summary_ar, ... }.
+
+i18n: Ensure translations for labels/buttons exist in JSON.
+
+Auto-switch dir="rtl" for Arabic and ltr for English.
+
+5) Components
+
+PortfolioFilters.tsx: filter/search/sort bar.
+
+PortfolioCard.tsx: project card with KPIs and hover animation.
+
+KpiPill.tsx: reusable component for KPIs.
+
+TechBadge.tsx: badge for technologies.
+
+LightboxViewer.tsx: wrapper for photoswipe/dynamic import.
+
+EmptyState.tsx: no results fallback.
+
+Animations: subtle fade/slide with framer-motion.
+
+6) Additional Improvements
+
+Images: responsive srcset, WebP/AVIF when possible.
+
+SEO: meta title, description, OG tags, Twitter cards, structured data (BreadcrumbList, Project).
+
+Performance: lazy loading, code-splitting.
+
+Navigation: direct link to “Contact / Request Quote” from cards/details.
+
+Accessibility: alt texts, sufficient color contrast, focus states.
+
+7) Rules
+
+Do not modify CRM or other sections.
+
+Keep design tokens consistent.
+
+Write new code in TypeScript with clear types.
+
+Use existing stack (no heavy external libs).
+
+8) Testing
+
+Add sample data (6 projects, bilingual).
+
+Test filters/search/sort (empty, small, large result sets).
+
+Test RTL/LTR switching.
+
+Test lightbox on cards and detail pages.
+
+Run project locally (dev) with no console errors.
+
+9) Delivery
+
+Clear commits:
+
+feat(portfolio): add filters & detail route with KPI blocks
+
+style(theme): add white+sky palette
+
+feat(seo): add meta & og tags for portfolio
+
+Open PR:
+
+Title: Portfolio revamp: white+sky theme, filters, KPIs, lightbox, i18n
+
+Attach before/after screenshots.
+
+Visual Guidance
+
+Background: pure white.
+
+Section dividers: subtle brand.sky.light.
+
+Borders: brand.sky.base 1px.
+
+CTAs: brand.sky.accent (hover slightly darker).

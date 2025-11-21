@@ -1,0 +1,215 @@
+Replit AI — Execute Exactly as Follows
+1) General Objective
+
+Create a Portfolio Section that is production-ready, fast, scalable, fully RTL/Arabic with English support. It should include:
+
+An index page listing our projects
+
+A details page for each project
+
+Filters / search / sorting
+
+A lightbox for images
+
+KPI/impact elements
+
+A clean and modern design.
+
+2) Technology & Setup
+
+Framework: Next.js 14+ (App Router) with React 18
+
+Styling: Tailwind CSS + shadcn/ui (cards, buttons, chips) + framer-motion for subtle animations
+
+Icons: lucide-react
+
+i18n: JSON files (ar / en) + automatic direction switching based on language
+
+Images: Next/Image with blur placeholder, srcset, and WebP/AVIF when possible
+
+Lightbox: photoswipe (or any lightweight alternative) via dynamic import
+
+SEO: next-seo + Schema.org markup (CreativeWork/Project)
+
+If the project is not using Next.js, create an HTML + CSS + JS version with the same structure and features as much as possible.
+
+3) Routing & File Structure
+
+Index route: /portfolio
+
+Dynamic detail route: /portfolio/[slug]
+
+Content data:
+Use /content/portfolio/ as MDX files (or JSON inside /data/portfolio.json) for each project, with fields like:
+
+{
+  "slug": "smart-crm-platform",
+  "title_ar": "منصة CRM ذكية",
+  "title_en": "Smart CRM Platform",
+  "client": "Genius Software Core",
+  "industry": "Software",
+  "year": 2025,
+  "services": ["Web Development", "ERP Integration"],
+  "tech": ["Next.js", "Tailwind", "ASP.NET", "SQL Server"],
+  "tags": ["Dashboard", "Analytics", "RTL"],
+  "cover": "/images/portfolio/crm/cover.webp",
+  "gallery": ["/images/portfolio/crm/1.webp", "/images/portfolio/crm/2.webp"],
+  "video": "https://www.youtube.com/embed/xxxx",
+  "summary_ar": "ملخص عربي قصير عن المشروع وقيمته.",
+  "summary_en": "Short English summary of the project and value.",
+  "problem_ar": "مشكلة العميل قبل الحل.",
+  "solution_ar": "كيف نفذنا الحل (تقنياً ووظيفياً).",
+  "outcomes_kpis": [
+    {"name_ar": "تخفيض زمن المعالجة", "value": "−38%"},
+    {"name_ar": "زيادة الإنتاجية", "value": "+24%"}
+  ],
+  "testimonials": [
+    {"author": "Client Manager", "quote_ar": "نتائج ممتازة واستجابة سريعة."}
+  ],
+  "status": "delivered",
+  "links": {
+    "demo": "https://demo.example.com",
+    "repo": "https://github.com/... (optional)"
+  }
+}
+
+
+Provide at least 8 sample items across different industries.
+
+4) Component Interfaces
+
+Create the following components inside components/portfolio/:
+
+PortfolioHero
+Attractive title + short description + small counters (projects / industries / years).
+
+FiltersBar
+Text search + filters (industry, service type, tech, year).
+Multi-select chips + dropdown for sorting (latest, most viewed, by industry).
+State saved in query params for shareable links.
+
+ProjectCard
+Clean card, fixed-ratio cover image, status badge, title, client, and tags.
+Subtle hover effect + framer-motion animation.
+Full RTL support (mirrored icons, correct alignment).
+
+PortfolioGrid
+Responsive grid (1 → 4 columns) with Masonry-like CSS grid auto-rows + skeleton loaders.
+Infinite scroll or pagination with IntersectionObserver.
+
+ActiveFiltersSummary
+Bar showing active filters with “clear all” button.
+
+LightboxGallery (dynamic import)
+Open full-size images, keyboard navigation, touch support.
+
+SortDropdown, TagChip, SearchInput
+Small elements with full accessibility (aria-labels, clear focus states).
+
+ProjectDetailHeader
+Cover image + title + client + buttons (“Visit Project”, “Technical Details” scroll-to).
+
+ProjectDetailBody
+Sections: problem, solution, technologies, results/KPIs, testimonial, gallery/video, related projects.
+
+ShareButtons
+Copy link, Twitter/LinkedIn.
+
+RelatedProjects
+3–6 related projects by industry/tech.
+
+5) User Experience & Interaction
+
+RTL first: Set dir="rtl" when language is Arabic. Automatically mirror icons and alignments.
+
+Design traits: Clean, professional Arabic fonts (Cairo / IBM Plex Arabic), rounded corners (2xl), soft shadows, comfortable white space, light animations (0.2–0.3s).
+
+Accessibility (a11y): Full keyboard support, proper contrast ratios, respect prefers-reduced-motion.
+
+Performance: Optimized images, code-splitting for heavy libraries (lightbox/video), prefetch links, low LCP.
+
+6) Index Page /portfolio
+
+Hero section + FiltersBar + PortfolioGrid.
+
+Highlight “Proven Results” (overall KPI bar: avg delivery time, satisfaction %, industry count).
+
+Save filters into ?q=&industry=&services=&tech=&year=&sort= with safe read/write state.
+
+7) Detail Page /portfolio/[slug]
+
+Header: title, client, industry, year, services, tech (badges).
+
+“Story/Value” section (default Arabic text) + KPIs in small cards.
+
+Gallery: image grid with Lightbox + optional video iframe.
+
+Before/After (if present): simple JS comparison slider.
+
+CTA buttons: “Contact Us” + “Similar Project?” with internal links.
+
+SEO/OG: title, description, og:image + Schema Project with aggregateRating if available.
+
+8) Performance & Tests
+
+Simple tests (Jest/RTL) for filter/search/sort components.
+
+Lighthouse ≥ 90 for performance/accessibility/best practices on index & details.
+
+9) Documentation
+
+Add README.md titled “Adding a New Project to the Portfolio”, explaining:
+
+Where to add MDX/JSON file
+
+Required fields
+
+When to add WebP images + generate blur placeholders
+
+How to create a proper slug
+
+How to test locally and push updates
+
+10) Definition of Done (DoD)
+
+Works in both Arabic/English with auto direction switching
+
+Index + details + filters/search/sort with state saved in URL
+
+Optimized images + Lightbox + Skeleton + Infinite Scroll/Pagination
+
+Effective SEO (titles, descriptions, OG, Schema)
+
+Full accessibility + keyboard navigation
+
+No console errors, no broken links
+
+Modern design matching the above criteria
+
+11) Key Design Notes (Arabic)
+
+Reverse alignment of columns, lists, tables, and flows automatically in Arabic (RTL).
+
+Use clear Arabic fonts for UI and headings, with medium to semibold weight for titles.
+
+Chips/filters should start from right-to-left, with the close (×) icon on the left in Arabic.
+
+12) Required Sample Data
+
+Build 8 demo projects (industries: Government, E-commerce, Healthcare, Education, Logistics, Finance, Industrial, Media).
+
+Each project: cover + 3 gallery images + 1 optional video + at least 2 KPIs + a short client testimonial.
+
+Deliverables
+
+Once implemented, show me:
+
+Screenshots of the index and detail pages (Arabic).
+
+Local preview links.
+
+A sample JSON/MDX file for one project.
+
+A Lighthouse report summary (performance/accessibility).
+
+Final Note: Ensure columns, spacing, and arrow directions are automatically reversed in Arabic UI, including dropdowns, tabs, and Lightbox navigation buttons.

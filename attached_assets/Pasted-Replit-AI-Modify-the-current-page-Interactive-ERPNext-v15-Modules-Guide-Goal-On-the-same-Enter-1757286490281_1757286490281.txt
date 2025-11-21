@@ -1,0 +1,264 @@
+Replit AI — Modify the current page: Interactive ERPNext v15 Modules Guide
+
+Goal:
+On the same “Enterprise Resource Planning” service page you already edited, add a new interactive section titled “ERPNext v15 Modules” displayed as a card grid. When a card is clicked, open a side drawer (preferred) or a modal with a professional AR/EN overview and a structured list of key features. Do not create a new page.
+
+1) Placement and UI structure
+
+Insert the new section right after the existing Overview/Modules area and give it an anchor: id="erpnext-modules".
+
+UI:
+
+Add a small filter bar above the grid (chips): (Core | Industry Domains) plus a search that filters modules.
+
+Use a 3–4 column responsive grid (collapses on mobile).
+
+On card click, open a right-side Drawer (or Modal if Drawer is unavailable) with the module title and content in AR or EN based on the current site language (AR=RTL / EN=LTR).
+
+Inside the drawer add buttons: “Documentation” (link), “Request a Demo” (scroll to #erpnext-lead-form), “Request a Quote” (same anchor).
+
+2) Groups to display
+
+Core:
+
+Accounting
+
+Selling
+
+CRM
+
+Buying
+
+Stock
+
+Manufacturing
+
+Projects
+
+HR & Payroll
+
+Support/Helpdesk
+
+Assets
+
+Quality
+
+Maintenance
+
+Subscriptions
+
+POS/Retail
+
+Website & eCommerce
+
+Payments & Banking
+
+Communication
+
+Industry Domains:
+18) Healthcare
+19) Education
+20) Agriculture
+21) Non Profit
+
+3) Drawer/Modal content for each module (paste AR/EN blocks below)
+
+Important: Keep both AR and EN texts below. Render one version depending on the current site language. Use clean headings and bullet lists.
+
+1) Accounting
+
+AR — Overview: نواة مالية شاملة لإدارة الفوترة، القيود، الضرائب، المصارف، والتقارير متعددة الشركات والعملات.
+
+AR — Key Features: دليل حسابات متعدد الشركات والعملات؛ فواتير بيع/شراء، إشعارات مدينة/دائنة؛ مراكز تكلفة وأبعاد محاسبية وتحليلات؛ قيود يومية يدوية/تلقائية وسندات قيد؛ قوالب ضرائب وتسويات ومطابقات بنكية؛ أعمار الديون وتقارير مالية (دخل/ميزانية/تدفق نقدي).
+
+EN — Overview: Comprehensive finance core for invoicing, journals, taxes, banking, and multi-company/multi-currency reporting.
+
+EN — Key Features: Chart of Accounts; Sales/Purchase Invoices & Notes; Cost Centers & Accounting Dimensions; Manual/Auto Journal Entries; Tax Templates & Bank Reconciliation; Aging & Financial Statements (P&L/Balance Sheet/Cash Flow).
+
+2) Selling
+
+AR — Overview: من العروض حتى أوامر البيع، تسعير ذكي وخصومات، وربط كامل بالمخزون والفوترة.
+
+AR — Features: عروض أسعار؛ أوامر بيع؛ قوائم أسعار؛ قواعد خصم؛ ضرائب وشحن؛ فحص توافر المخزون.
+
+EN — Overview: From quotations to sales orders with smart pricing/discounts and tight stock/billing integration.
+
+EN — Features: Quotations; Sales Orders; Price Lists; Pricing Rules; Taxes & Shipping; Stock availability checks.
+
+3) CRM
+
+AR: عملاء محتملون وفرص ومراحل مبيعات؛ بريد مدمج؛ مهام وسجل نشاط زمني؛ تقارير أداء.
+
+EN: Leads, Opportunities, pipeline stages; Email integration; Assignments & timeline; Performance reports.
+
+4) Buying
+
+AR: موردون؛ RFQs؛ عروض المورد؛ مقارنة؛ أوامر شراء؛ استلام؛ فواتير المورد.
+
+EN: Suppliers; RFQs; Supplier Quotations; Comparisons; Purchase Orders; Receipts; Purchase Invoices.
+
+5) Stock
+
+AR: مستودعات وتحويلات؛ دفعات وأرقام تسلسلية؛ تقييم FIFO/متوسط متحرك؛ إعادة الطلب وتنبيهات.
+
+EN: Warehouses & Transfers; Batches & Serials; FIFO/Moving Average valuation; Reorder levels & alerts.
+
+6) Manufacturing
+
+AR: BOM متعددة المستويات؛ أوامر تصنيع؛ بطاقات عمل؛ تخطيط مواد (MRP)؛ محطات عمل؛ كلفة الإنتاج.
+
+EN: Multi-level BOMs; Work Orders; Job Cards; MRP/Production Plans; Workstations; Manufacturing costing.
+
+7) Projects
+
+AR: مشاريع ومهام وTimesheets؛ فوترة وقت/معالم؛ جانت/كانبان؛ تتبّع التكلفة والمستندات.
+
+EN: Projects, Tasks, Timesheets; Milestone/Time billing; Gantt/Kanban; Cost tracking & documents.
+
+8) HR & Payroll
+
+AR: ملفات موظفين؛ حضور وإجازات؛ جداول عمل؛ هياكل/سلالم ورواتب؛ مطالبات؛ تقييم أداء.
+
+EN: Employee records; Attendance & Leave; Shift scheduling; Salary Structures & Slips; Expense Claims; Appraisals.
+
+9) Support/Helpdesk
+
+AR: تذاكر Issues؛ SLA وأولويات وتصعيد؛ قاعدة معرفة؛ بريد مدمج؛ تقارير الرضا.
+
+EN: Tickets & SLAs; Priorities & escalation; Knowledge Base; Email integration; Satisfaction metrics.
+
+10) Assets
+
+AR: تسجيل أصول؛ جداول إهلاك؛ نقل؛ صيانة وضمان؛ إعادة تقييم/تخلّص؛ تقارير.
+
+EN: Asset registry; Depreciation schedules; Transfers; Maintenance & Warranty; Revaluation/Disposal; Reports.
+
+11) Quality
+
+AR: خطط جودة؛ فحوصات قبل/أثناء/بعد؛ عينات ومعايير قبول؛ عدم مطابقة وإجراءات تصحيحية.
+
+EN: Quality Plans; Incoming/In-process/Final inspections; Sampling & AQL; Nonconformance & CAPA.
+
+12) Maintenance
+
+AR: صيانة وقائية؛ زيارات ميدانية؛ أوامر شغل؛ قطع غيار؛ سجل أعطال وجدولة.
+
+EN: Preventive schedules; Field visits; Work Orders; Spare parts; Failure logs & planning.
+
+13) Subscriptions
+
+AR: خطط شهرية/سنوية؛ فواتير آلية وتجديد؛ إيقاف/استئناف؛ Proration/Credit؛ تنبيهات استحقاق.
+
+EN: Monthly/Yearly plans; Auto-invoicing & renewals; Pause/Resume; Proration/Credits; Due reminders.
+
+14) POS/Retail
+
+AR: ملفات POS؛ فواتير نقطة البيع؛ وضع Offline؛ إرجاعات؛ إقفال صندوق؛ مزامنة.
+
+EN: POS Profiles; POS Invoices; Offline mode; Returns; Cashier closing; Sync.
+
+15) Website & eCommerce
+
+AR: صفحات ومحتوى؛ مدونة؛ كتالوج؛ سلة/دفع؛ حساب عميل؛ أساسيات SEO.
+
+EN: Pages/Content; Blog; Product Catalog; Cart/Checkout; Customer portal; SEO basics.
+
+16) Payments & Banking
+
+AR: قيود مدفوعات؛ طلبات دفع؛ حسابات بنكية؛ مطابقة بنكية؛ تحصيلات ومتابعة.
+
+EN: Payment Entries; Payment Requests; Bank Accounts; Reconciliation; Collections & dunning.
+
+17) Communication
+
+AR: حسابات بريد؛ قوالب وردود تلقائية؛ تعيينات و@mentions؛ سجل تواصل موحّد.
+
+EN: Email Accounts; Templates & auto-replies; Assignments & @mentions; Unified communication log.
+
+(Industry Domains)
+18) Healthcare
+
+AR: ملفات مرضى؛ مواعيد؛ Encounter؛ مختبر/وصفات؛ صيدلية؛ فواتير.
+
+EN: Patients; Appointments; Encounters; Lab/Prescriptions; Pharmacy; Billing.
+
+19) Education
+
+AR: طلاب؛ مقررات؛ تسجيل برامج؛ حضور؛ تقييم؛ رسوم.
+
+EN: Students; Courses; Program Enrollment; Attendance; Assessment; Fees.
+
+20) Agriculture
+
+AR: محاصيل ودورات؛ حقول وتتبّع عمليات؛ مدخلات وإنتاجية؛ تقارير.
+
+EN: Crops & Cycles; Fields & activity tracking; Inputs & yields; Reports.
+
+21) Non Profit
+
+AR: أعضاء ومتبرعون؛ منح؛ حملات؛ إيصالات تبرّع؛ تقارير أثر.
+
+EN: Members & Donors; Grants; Campaigns; Donation Receipts; Impact reports.
+
+4) UX details
+
+Make each card deep-linkable via anchors: #module-accounting, #module-selling, … etc.
+
+Add a “Expand all / Collapse all” toggle inside the drawer for long sections.
+
+Provide instant search that filters cards and also filters content headings within the open drawer.
+
+Respect i18n: Switching to English shows EN copy automatically; Arabic shows AR copy with RTL layout.
+
+5) Performance & design
+
+Lazy-load drawer content on demand (on first open).
+
+Provide a consistent SVG icon per module matching the site theme.
+
+Ensure strong color contrast and excellent mobile readability.
+
+6) CTAs & links
+
+Inside every drawer:
+
+“Request a Demo / اطلب عرضًا توضيحيًا” → smooth-scroll to #erpnext-lead-form
+
+“Request a Quote / اطلب عرض سعر” → same anchor
+
+“Documentation” → open ERPNext docs link (use a placeholder if not configured yet)
+
+7) Analytics (track events)
+
+Track:
+
+module_card_click with the module name
+
+module_drawer_open
+
+cta_demo_click, cta_quote_click
+
+module_search_used with the query string
+
+8) Acceptance criteria
+
+The new “ERPNext v15 Modules” section exists on the same page, containing all modules (1 → 21).
+
+Clicking any card opens a Drawer/Modal with the AR/EN content above.
+
+Filter chips (Core / Industry Domains), search, and deep-links all work.
+
+CTAs scroll to #erpnext-lead-form.
+
+Fully RTL/LTR compatible, responsive, and fast.
+
+No new pages are created.
+
+9) After completion
+
+Save changes and run the build if required.
+
+Commit message:
+feat(services/erp): interactive ERPNext v15 modules grid + AR/EN drawers, filters, deep-links, CTAs, analytics
+
+Execute now without clarification questions. Do not create a new page; modify the current page and add the interactive guide exactly as specified.

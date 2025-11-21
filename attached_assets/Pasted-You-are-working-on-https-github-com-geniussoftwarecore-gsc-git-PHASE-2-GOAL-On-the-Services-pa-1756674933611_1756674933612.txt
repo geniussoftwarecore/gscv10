@@ -1,0 +1,56 @@
+You are working on https://github.com/geniussoftwarecore/gsc.git
+
+PHASE 2 GOAL: On the Services page, show a single professional details paragraph per service and stop rendering bullet lists/accordions (features, deliverables, inputsNeeded, interactiveIdeas). Keep Home styling, RTL/i18n, and routes unchanged.
+
+────────────────────────────────────────────────────────
+0) Branch & Scope
+────────────────────────────────────────────────────────
+- Create branch from Phase 1: feat/services-details-ui
+- Frontend-only in /client
+
+────────────────────────────────────────────────────────
+1) i18n “details” (texts to paste)
+────────────────────────────────────────────────────────
+EN:
+- mobileApps.details: "We design and build high-quality Android and iOS apps—from discovery and UX to secure APIs, offline-first experiences, and store releases. Delivery includes analytics, crash monitoring, CI/CD, and post-launch support so your app stays fast, reliable, and ready to scale."
+- webApps.details: "We ship production-grade web applications with clean architecture, responsive UI, and strong security. Expect SEO-aware routing, role-based access, audit trails, performance budgets, automated testing, and CI/CD pipelines that keep releases predictable."
+- desktopApps.details: "We develop robust desktop software for Windows (and cross-platform when required) with native OS integrations such as printing, device access, and secure local storage. Updates are streamlined via managed release channels and enterprise-ready installers."
+- designGraphics.details: "We craft a consistent visual identity across UI/UX and marketing—logos, brand guidelines, design systems, social kits, and motion graphics—so every touchpoint looks professional, on brand, and conversion-ready."
+- paidAdsMarketing.details: "We run performance marketing across Meta, Google, and TikTok with transparent reporting. We handle creative variants, tracking (Pixels/GA4), landing pages, and A/B tests—optimizing budgets for measurable growth and positive ROI."
+- erpnextV15.details: "We implement and customize ERPNext v15—configuring doctypes, workflows, reports, and permissions. We handle integrations, data migration, hosting, training, and ongoing support so teams adopt ERP quickly, securely, and with confidence."
+- mobileSolutions.details: "We deliver smart mobile capabilities—payments, maps, camera, biometrics, SDK integrations, and MDM policies—with a focus on performance, profiling, and stability so device-level features work flawlessly at scale."
+
+AR:
+- mobileApps.details: "نطوّر تطبيقات موبايل عالية الجودة لأندرويد وiOS—من التحليل وتجربة المستخدم إلى واجهات برمجة آمنة وتجربة تعمل دون إنترنت ونشر المتجر. يشمل التسليم التحليلات وتتبع الأعطال وCI/CD ودعم ما بعد الإطلاق لضمان أداء ثابت وقابلية توسّع."
+- webApps.details: "نبني تطبيقات ويب جاهزة للإنتاج بواجهة متجاوبة ومعمارية نظيفة وأمان قوي. ستحصل على توجيه متوافق مع SEO وصلاحيات حسب الأدوار وسجل تدقيق وميزانيات أداء واختبارات مؤتمتة وخطوط نشر تُبقي الإصدارات متوقعة."
+- desktopApps.details: "نطوّر برمجيات سطح مكتب قوية لويندوز (وممكنة عبر الأنظمة عند الحاجة) مع تكاملات نظامية مثل الطباعة والتعامل مع الأجهزة وتخزين محلي آمن. ندير التحديثات عبر قنوات إصدار منظّمة ومثبتات مناسبة للبيئات المؤسسية."
+- designGraphics.details: "نصمّم هوية بصرية متماسكة عبر UI/UX والتسويق—شعارات، أدلّة هوية، أنظمة تصميم، حِزم السوشيال والموشن—ليظهر حضورك احترافيًا ومتسقًا ويخدم التحويل."
+- paidAdsMarketing.details: "ندير حملات تسويق أدائي عبر Meta وGoogle وTikTok مع تقارير شفافة. نتكفّل بتعدد الإبداعات والتتبّع (Pixels/GA4) وصفحات الهبوط واختبارات A/B، مع تحسين الميزانيات لنمو قابل للقياس وعائد مجدٍ."
+- erpnextV15.details: "ننفّذ ونخصّص ERPNext v15—إعداد النماذج وتدفّقات العمل والتقارير والصلاحيات. ندير التكاملات وترحيل البيانات والاستضافة والتدريب والدعم لضمان اعتماد سريع وآمن وواثق من الفريق."
+- mobileSolutions.details: "نقدّم تمكينًا متكاملًا للهاتف: مدفوعات وخرائط وكاميرا وبصمات ودمج SDKات وسياسات MDM، مع تركيز على الأداء والاستقرار لتعمل ميزات الجهاز بكفاءة على نطاق واسع."
+
+────────────────────────────────────────────────────────
+2) UI Implementation
+────────────────────────────────────────────────────────
+- File: client/src/sections/services/ServicesGrid.tsx
+  • Stop rendering “features”, “deliverables”, “inputsNeeded”, “interactiveIdeas” (comment out or flag).
+  • After the title (and any short/summary), render:
+    <p className="mt-3 text-sm md:text-base leading-relaxed text-muted-foreground">
+      {t(`services.items.${item.key}.details`)}
+    </p>
+  • Keep the same card/radius/shadow/hover as Home.
+  • Ensure RTL works: paragraph direction flips correctly.
+
+────────────────────────────────────────────────────────
+3) QA & Acceptance
+────────────────────────────────────────────────────────
+- Each service card shows: icon → title → (short if present) → NEW details paragraph.
+- No lists/accordions are visible in Services.
+- EN/AR toggle updates the details; <html dir> switches for Arabic.
+- TypeScript/ESLint/build pass.
+
+────────────────────────────────────────────────────────
+4) Commits
+────────────────────────────────────────────────────────
+- feat(i18n): add EN/AR “details” texts to services
+- refactor(services): render details paragraph; hide legacy accordions

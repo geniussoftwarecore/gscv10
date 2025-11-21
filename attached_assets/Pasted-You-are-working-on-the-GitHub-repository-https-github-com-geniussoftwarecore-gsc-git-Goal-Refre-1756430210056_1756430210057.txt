@@ -1,0 +1,176 @@
+You are working on the GitHub repository: https://github.com/geniussoftwarecore/gsc.git
+Goal: Refresh the Home page (and only what’s needed to support it) using the platform’s EXISTING logo and brand colors. Keep the visual identity consistent, modern, fast, bilingual (AR/EN), RTL-aware, and production-ready.
+
+────────────────────────────────────────────────────────
+1) Setup & Branching
+────────────────────────────────────────────────────────
+- If not already open, clone/import the repo.
+- Create a feature branch: feat/homepage-refresh
+- Detect the frontend stack in /client:
+  • If it’s Vite + React + TypeScript (expected), proceed with that.
+  • Confirm Tailwind is enabled; if not, enable it using the project’s existing config style.
+- Use the existing brand colors from the repository (Tailwind config, CSS variables, or design tokens). DO NOT invent new colors. DO NOT change the logo colors.
+
+────────────────────────────────────────────────────────
+2) Brand & Assets (use existing logo/colors)
+────────────────────────────────────────────────────────
+- Locate the current logo assets under client/public (e.g., /client/public/brand or /client/public). Use these exactly as-is for Navbar and Hero.
+- Provide two logo variants WITHOUT changing the design:
+  • Navbar variant: icon-only, flat, 24–28px height (visual). Use the existing icon portion of the logo.
+  • Hero variant: full (icon + wordmark), 56–72px on desktop and 40–48px on mobile.
+- If only a single SVG/PNG exists, create exported sizes programmatically (no visual edits). Generate PNG renditions (512, 256, 150, 96, 64, 48, 32, 16) from the source SVG using a small node script or a build step (e.g., sharp), but keep the master SVG untouched.
+- Place final assets in client/public/brand/ and reference them from the components below.
+
+────────────────────────────────────────────────────────
+3) Internationalization & RTL (fix language toggle globally)
+────────────────────────────────────────────────────────
+Goal: When the language changes, ALL visible texts change; direction (dir) switches to rtl for Arabic.
+
+Steps:
+- Create a top-level i18n provider (if not present):
+  • client/src/providers/i18n.tsx – React context or i18next wrapper that exposes: lang, setLang, t(key), and computes dir = (lang === 'ar' ? 'rtl' : 'ltr').
+  • Store locales in: client/src/locales/en.json and client/src/locales/ar.json
+- Wrap the app root (e.g., client/src/main.tsx or client/src/App.tsx or the nearest root entry) with the i18n provider.
+- Ensure <html> reflects language and direction. In the root layout (index.html or a root component), apply:
+  • <html lang={lang} dir={dir}>
+  • Add a class on <body> for RTL Tailwind utilities if needed (e.g., rtl:… variants or logical properties).
+- Replace any hard-coded UI strings with t('key'). Start with Home sections, Header, and Footer.
+- Update the language toggle in the Navbar to call setLang('ar' | 'en') and to re-render from the same provider state (no local-only state).
+
+────────────────────────────────────────────────────────
+4) Header (Navbar)
+────────────────────────────────────────────────────────
+- File: client/src/components/layout/Header.tsx (create if missing)
+- Use the icon-only logo variant (24–28px high).
+- Keep links minimal and aligned to your current site architecture:
+  • Home, Services, CRM, Portfolio, Pricing, About, Contact, plus a primary CTA button “Get a Demo”.
+- Include the language switch (AR/EN) on the right side. On small screens, collapse into a clean menu.
+- Keep spacing generous, type hierarchy clear, and consistent with Tailwind scale already used in the project.
+
+────────────────────────────────────────────────────────
+5) Home Page Sections (clean, modern, focused)
+────────────────────────────────────────────────────────
+Create each section as a standalone component under:
+- client/src/sections/home/
+- Export and compose them in the Home page container (e.g., client/src/pages/Home.tsx or wherever the current Home is rendered).
+
+A) Hero.tsx
+- Full logo (icon + text).
+- One strong headline and 1–2 lines of supporting copy, localized via t('...').
+- Two buttons:
+  • Primary: “Try the Demo”
+  • Secondary: “Contact Us”
+- Optionally, on the right (or below on mobile), show a clean product mockup (use existing CRM UI screenshots if present; if not, create a tasteful placeholder using the brand colors).
+
+B) ProblemSolution.tsx
+- Two-column layout:
+  • Problem: fragmented tools, poor follow-ups, data chaos (short bullets, localized).
+  • Solution (how GSC fixes it): unified CRM, automated alerts, consolidated analytics (short bullets).
+- End with a small CTA: “See how we solve it in 3 minutes”.
+
+C) ServicesGrid.tsx
+- Grid (2×3 or 3×3 depending on breakpoints) of cards:
+  • Web Apps, Mobile Apps, ERP/CRM, Integrations, Branding/UI, DevOps (customize names to match existing offerings in the repo; the text must be localized).
+- Each card: Lucide icon, short title, 2 lines of description, a light hover animation, and a “Learn more” link.
+
+D) CRMShowcase.tsx (mini demo strip)
+- Three concise highlight cards showing:
+  • Core Entities
+  • Sales Pipeline
+  • Tickets / Support
+- Each card can include a small static image or GIF if available. Keep it clean and on-brand.
+- A button “Open CRM Demo”.
+
+E) PortfolioPreview.tsx
+- Image grid with a lightbox (dynamic import a small/light library or a custom modal).
+- Each item: title, category/tech, thumbnail; clicking opens the image/lightbox.
+- Add filters (category/tech) if trivial; otherwise leave for later “Portfolio” full page.
+- Button “View All Projects”.
+
+F) SocialProof.tsx
+- A slim carousel or row of client/partner logos (use placeholders if none exist).
+- One testimonial block with a short quote and optional KPI (localized).
+
+G) CTA_Strip.tsx
+- A distinct background section with a concise pitch and two calls to action:
+  • “Book a Consultation”
+  • “WhatsApp / Email” (wire to current contact endpoints)
+
+H) Footer.tsx (if not already in layout)
+- Columns: Company, Services, Resources (Docs/Blog), Policies, Contact.
+- Include socials and the language toggle if desired (primary toggle stays in Header).
+
+────────────────────────────────────────────────────────
+6) Styling & Animation
+────────────────────────────────────────────────────────
+- Tailwind only; use existing palette (DO NOT introduce new colors). If CSS variables are present, continue using them.
+- Add gentle motion with framer-motion on section reveal and hover states. Keep it subtle—no excessive animations.
+- Ensure perfect RTL alignment for Arabic (use logical margin/padding classes or RTL utilities).
+
+────────────────────────────────────────────────────────
+7) Performance & SEO
+────────────────────────────────────────────────────────
+- Ensure all images are lazy-loaded and use width/height attributes to avoid CLS.
+- Export WebP/AVIF when feasible; keep original PNG/SVG for fallbacks.
+- Add essential meta tags and Open Graph/Twitter cards at the document head level:
+  • Title, description (localized), og:image using a brand-safe image (logo on a branded background).
+- Split code by route/sections if practical (Vite dynamic imports).
+- Preload fonts if the project uses custom ones (only the weights actually used).
+
+────────────────────────────────────────────────────────
+8) Content & Localization Keys
+────────────────────────────────────────────────────────
+- Create the following keys in ar.json and en.json to localize the new Home:
+  • header.links.home, header.links.services, header.links.crm, header.links.portfolio, header.links.pricing, header.links.about, header.links.contact, header.cta
+  • hero.title, hero.subtitle, hero.primaryCta, hero.secondaryCta
+  • problem.title, problem.points[]
+  • solution.title, solution.points[]
+  • services.title, services.items[].title, services.items[].desc
+  • crm.title, crm.cards[].title, crm.openDemo
+  • portfolio.title, portfolio.viewAll
+  • proof.title, proof.testimonial.quote, proof.testimonial.author
+  • cta.title, cta.primary, cta.secondary
+  • footer.columns.company, services, resources, policies, contact
+- Use concise, professional copy. Provide initial English text and Arabic equivalents. Make sure Arabic reads naturally and switches dir=rtl.
+
+────────────────────────────────────────────────────────
+9) Wiring & Routing
+────────────────────────────────────────────────────────
+- Ensure Home uses the new sections in the correct order.
+- Header links must navigate to real pages or section anchors (Home, Services, CRM, Portfolio, Pricing, About, Contact). If a page isn’t built yet, leave a TODO but keep routes consistent.
+
+────────────────────────────────────────────────────────
+10) QA & Acceptance Criteria
+────────────────────────────────────────────────────────
+- Language toggle updates EVERY visible text on the Home page and Header/Footer, instantly, without reload.
+- <html lang> and dir switch correctly (en/ltr, ar/rtl).
+- Navbar logo = icon-only, crisp at 24–28px. Hero logo = full (icon+text) at specified sizes.
+- All colors match the existing brand palette (no new colors).
+- Sections render cleanly on mobile (≤360px width) up to desktop (≥1440px). No overflow or layout shift.
+- Images are lazy-loaded; Lighthouse performance ≥ 90 on “Performance” for Home (local run acceptable).
+- No TypeScript errors; build passes.
+- Commit messages follow conventional style.
+
+────────────────────────────────────────────────────────
+11) Commands & Deliverables
+────────────────────────────────────────────────────────
+- Install & run (adjust if project uses pnpm/yarn):
+  • pnpm install
+  • pnpm dev
+- Create files:
+  • client/src/providers/i18n.tsx
+  • client/src/locales/en.json, client/src/locales/ar.json
+  • client/src/components/layout/Header.tsx, Footer.tsx (if missing)
+  • client/src/sections/home/{Hero.tsx,ProblemSolution.tsx,ServicesGrid.tsx,CRMShowcase.tsx,PortfolioPreview.tsx,SocialProof.tsx,CTA_Strip.tsx}
+- Update the Home page container to import and render the above in order.
+- Ensure all imports compile and ESLint passes if configured.
+- Commit granularly with clear messages, then open a PR to main:
+  • feat(home): add i18n provider with AR/EN and RTL
+  • feat(home): implement header with brand logo and global language toggle
+  • feat(home): add hero/problem-solution/services/CRM showcase
+  • feat(home): add portfolio preview with lightbox + social proof + CTA
+  • chore(assets): export logo sizes, keep original brand SVG intact
+  • perf(seo): lazy images, meta/OG tags, font preloads
+- Provide a short “HOW TO EDIT CONTENT” note in README for adding new Home strings to ar/en JSON and where to place portfolio images.
+
+Finish by running the dev server, testing AR/EN toggles, mobile/desktop breakpoints, and sharing a screenshot set of the final Home.

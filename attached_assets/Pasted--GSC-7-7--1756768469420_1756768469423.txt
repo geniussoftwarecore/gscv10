@@ -1,0 +1,441 @@
+الدور: أنت مطوّر في مستودع منصة GSC. نفّذ صفحة “خدماتنا” مع 7 بطاقات خدمات + 7 صفحات تفاصيل، متوافقة كليًا مع الهوية والتصميم الحاليين، دون تغيير الخطوط أو الألوان المعتمدة.
+القيود: لا تُدخل مكتبات ثقيلة. التزم بـ Tailwind والألوان/المسافات الحالية. استخدم lucide-react للأيقونات إن كانت مثبتة؛ وإلا قم بتثبيتها.
+
+0) فحص ما قبل التنفيذ (واجب)
+
+افتح package.json:
+
+إن كان next موجودًا ووجدت مجلد app أو src/app → App Router.
+
+إن لم يوجد app ووجدت pages → Pages Router.
+
+تحقّق من Tailwind: وجود tailwind.config.* وglobals.css (أو ما يكافئهما).
+
+تحقّق من lucide-react:
+
+إن لم توجد، ثبّت: npm i lucide-react.
+
+اللغة/الاتجاه:
+
+لا تبنِ i18n جديدة. اكتب المحتوى بالعربية الآن. إن وُجد نظام i18n مسبقًا، أبقِ المفاتيح جاهزة للترجمة لاحقًا، لكن لا توقِف التنفيذ بسببه.
+
+1) أنشئ فرع عمل وابدأ
+
+أنشئ فرع: feat/services-pages.
+
+كل إضافة اجعل لها commit واضح كما سأذكر في النهاية.
+
+2) ملف بيانات المكوّنات (مشترك بين App/Pages Router)
+
+أنشئ: data/services.ts بالمحتوى التالي:
+
+// data/services.ts
+export type Service = {
+  slug: string;
+  title: string;
+  subtitle: string;
+  excerpt: string;
+  bullets: string[];
+  icon: string;        // lucide-react icon name
+  long: string[];      // فقرات تفصيل
+  process: string[];   // خطوات العمل
+  tech: string[];      // التقنيات المستخدمة
+};
+
+export const services: Service[] = [
+  {
+    slug: "mobile-app-development",
+    icon: "Smartphone",
+    title: "تطوير تطبيقات الموبايل",
+    subtitle: "تجربة مبهرة وسريعة وجاهزة للنشر.",
+    excerpt: "نطور تطبيقات جوال عالية الجودة وسهلة الاستخدام لمنصتي Android و iOS باستخدام أحدث التقنيات وأطر التطوير.",
+    bullets: [
+      "Android و iOS (Native/Hybrid)",
+      "أداء عالٍ وتجربة مستخدم سلسة",
+      "جاهزية كاملة للنشر على المتاجر"
+    ],
+    long: [
+      "نُصمّم ونُطوّر تطبيقات تراعي الأداء والموثوقية وسهولة الاستخدام منذ اليوم الأول.",
+      "ندمج التتبع والتحليلات وتجارب A/B لضمان تحسين مستمر بعد الإطلاق."
+    ],
+    process: ["Discovery","Design","Build","Test","Launch","Support"],
+    tech: ["Flutter/Dart","Kotlin/Swift","React Native","Firebase","Fastlane"]
+  },
+  {
+    slug: "web-app-development",
+    icon: "Globe",
+    title: "تطوير تطبيقات الويب",
+    subtitle: "ويب آمن وقابل للتوسّع ومناسب للـSEO.",
+    excerpt: "ننشئ تطبيقات ويب حديثة وقابلة للتوسع باستخدام التقنيات المتطورة التي توفر تجارب مستخدم استثنائية عبر جميع الأجهزة.",
+    bullets: [
+      "تحسين SEO وأداء الويب",
+      "قابلية توسّع عالية",
+      "تجربة موحّدة عبر الأجهزة"
+    ],
+    long: [
+      "نستخدم أنماط معمارية حديثة لضمان المرونة وسهولة الصيانة.",
+      "ندمج التحليلات ومراقبة الأداء لضمان جودة مستمرة."
+    ],
+    process: ["Discovery","Architecture","Build","QA","Optimize","Deploy"],
+    tech: ["Next.js/React","Tailwind CSS","Node.js","PostgreSQL","Docker"]
+  },
+  {
+    slug: "desktop-software",
+    icon: "Monitor",
+    title: "تطوير برمجيات سطح المكتب",
+    subtitle: "أدوات مكتبية موثوقة بقوة تكاملات النظام.",
+    excerpt: "نطور تطبيقات سطح مكتب قوية تندمج بسلاسة مع عمليات عملك وتوفر وظائف قوية لفرقك.",
+    bullets: [
+      "Windows / macOS / Linux",
+      "تكامل مع أنظمة المؤسسة",
+      "أداء مستقر ووظائف متقدمة"
+    ],
+    long: [
+      "نبني تطبيقات سطح مكتب موثوقة، مع تحديثات سهلة وسجل تغييرات واضح.",
+      "ندمج المصادقة المؤسسية والتخاطب مع الأجهزة حين يلزم."
+    ],
+    process: ["Requirements","Design","Build","Integration","Test","Release"],
+    tech: [".NET/WPF","Electron","C#","SQLite/PostgreSQL","CI/CD"]
+  },
+  {
+    slug: "ui-ux-branding",
+    icon: "Palette",
+    title: "تصميم UI/UX وهوية العلامة",
+    subtitle: "هوية متماسكة وتجارب واجهة مُمتعة.",
+    excerpt: "ننشئ هويات بصرية مقنعة وتصاميم تركز على المستخدم تعزز حضور علامتك التجارية وتحسن تفاعل المستخدمين.",
+    bullets: [
+      "تصميم واجهات وتجارب استخدام",
+      "أدلة وهوية بصرية",
+      "نماذج أولية واختبارات قابلية الاستخدام"
+    ],
+    long: [
+      "نبني أنظمة تصميم Design Systems قابلة للتوسع ومتّسقة عبر المنتجات.",
+      "نُجري اختبارات قابلية استخدام لتحسين التحويل والرضا."
+    ],
+    process: ["Research","Branding","Wireframes","Hi-Fi","Prototype","Handover"],
+    tech: ["Figma","Framer","Storybook","Design Tokens","Lottie"]
+  },
+  {
+    slug: "performance-marketing",
+    icon: "BarChart3",
+    title: "التسويق الأدائي والإعلانات الممولة",
+    subtitle: "نمو واضح العائد عبر حملات مُحكمة.",
+    excerpt: "نطور وننفذ حملات تسويقية مدفوعة بالبيانات تحقق أقصى عائد على الاستثمار من خلال الإعلانات الاستراتيجية وتحسين الأداء.",
+    bullets: [
+      "إعلانات منصات متعددة",
+      "تحسين معدلات التحويل",
+      "تقارير أداء دقيقة"
+    ],
+    long: [
+      "نربط حملاتك بأدوات القياس ولوحات تحكم تُظهر العائد لحظيًا.",
+      "نُجري تحسينات مستمرة على الاستهداف والميزانيات."
+    ],
+    process: ["Audit","Strategy","Setup","Optimize","Scale","Report"],
+    tech: ["Google/META Ads","GA4","Tag Manager","Looker Studio","UTM"]
+  },
+  {
+    slug: "erpnext-v15-implementation",
+    icon: "Settings",
+    title: "تنفيذ وتخصيص ERPNext v15",
+    subtitle: "تشغيل مُبسّط على ERPNext v15.",
+    excerpt: "ننفذ ونخصص ERPNext v15 لتبسيط عمليات عملك مع وحدات متكاملة للمحاسبة والمخزون وإدارة العملاء والمزيد.",
+    bullets: [
+      "تنفيذ وترحيل البيانات",
+      "تخصيص الوحدات والتقارير",
+      "تدريب ودعم مستمر"
+    ],
+    long: [
+      "نقوم بتحليل العمليات الحالية وتكييف وحدات ERPNext بما يلائمها.",
+      "نوفّر وثائق تشغيل وتدريب فرقك لضمان نجاح التبنّي."
+    ],
+    process: ["Discovery","Mapping","Config","Migrate","Train","Go-Live"],
+    tech: ["ERPNext v15","Frappe","MariaDB","Bench","NGINX"]
+  },
+  {
+    slug: "smart-integrations-iot",
+    icon: "Cpu",
+    title: "الحلول الذكية وتكاملات الهواتف",
+    subtitle: "تكاملات أجهزة تعمل بسلاسة.",
+    excerpt: "نطور حلول جوال ذكية وتكاملات أجهزة تربط عملك بتقنيات إنترنت الأشياء الحديثة والأنظمة الذكية.",
+    bullets: [
+      "تكامل IoT وأجهزة محمولة",
+      "أتمتة عمليات وقياسات",
+      "أمن واتصالات موثوقة"
+    ],
+    long: [
+      "نصمّم قنوات اتصال آمنة بين الأجهزة والتطبيقات.",
+      "نوفّر لوحات مراقبة آنية وتنبيهات ذكية."
+    ],
+    process: ["Scope","Hardware API","Build","Secure","Monitor","Iterate"],
+    tech: ["MQTT/BLE","REST/WebSockets","IoT Cloud","TLS","Grafana"]
+  }
+];
+
+3) مكون البطاقة + أداة الأيقونة
+
+أنشئ: components/services/ServiceCard.tsx:
+
+// components/services/ServiceCard.tsx
+"use client";
+import Link from "next/link";
+import * as Icons from "lucide-react";
+
+type Props = {
+  href: string;
+  title: string;
+  subtitle: string;
+  excerpt: string;
+  icon?: string;
+};
+
+function LucideIcon({ name, className }: { name?: string; className?: string }) {
+  const Icon = (name && (Icons as any)[name]) || (Icons as any).Circle;
+  return <Icon className={className} aria-hidden="true" />;
+}
+
+export default function ServiceCard({ href, title, subtitle, excerpt, icon }: Props) {
+  return (
+    <div className="group relative rounded-2xl border border-black/5 bg-white/70 dark:bg-neutral-900/70 shadow-sm hover:shadow-md transition-all p-6">
+      <div className="mb-4 flex items-center gap-3">
+        <div className="rounded-xl border p-2">
+          <LucideIcon name={icon} className="h-6 w-6" />
+        </div>
+        <div className="text-end md:text-start">
+          <h3 className="font-semibold text-lg">{title}</h3>
+          <p className="text-sm text-neutral-600 dark:text-neutral-300">{subtitle}</p>
+        </div>
+      </div>
+      <p className="text-neutral-700 dark:text-neutral-200 leading-relaxed">{excerpt}</p>
+      <div className="mt-5">
+        <Link
+          href={href}
+          className="inline-flex items-center gap-2 rounded-xl border px-4 py-2 text-sm hover:-translate-y-0.5 transition"
+        >
+          عرض التفاصيل
+        </Link>
+      </div>
+      <div className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-inset ring-black/5 group-hover:ring-black/10" />
+    </div>
+  );
+}
+
+
+ملاحظة الاتجاه: إن كان موقعك يدعم RTL تلقائيًا، اتركه كما هو. إن لم يدعم، ضع dir="rtl" على الحاوية في صفحات الخدمات.
+
+4) (افتراضي App Router) إنشاء صفحات الخدمات
+
+اختر المسار بحسب وجود app/ أو src/app/. سأفترض app/.
+
+أنشئ: app/(marketing)/services/page.tsx:
+
+// app/(marketing)/services/page.tsx
+import ServiceCard from "@/components/services/ServiceCard";
+import { services } from "@/data/services";
+import Link from "next/link";
+
+export const metadata = {
+  title: "خدماتنا | GSC",
+  description: "استكشف خدماتنا في تطوير الموبايل والويب وسطح المكتب والهوية والتسويق وERPNext والتكاملات الذكية."
+};
+
+export default function ServicesPage() {
+  return (
+    <main className="mx-auto max-w-7xl px-4 py-12" dir="rtl">
+      <header className="mb-10">
+        <h1 className="text-3xl md:text-4xl font-bold">خدماتنا</h1>
+        <p className="mt-3 text-neutral-700 dark:text-neutral-300">
+          حلول تقنية و ERP تُسرّع نمو أعمالك، مع التزام كامل بالهوية والتجربة.
+        </p>
+      </header>
+
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {services.map(s => (
+          <ServiceCard
+            key={s.slug}
+            href={`/services/${s.slug}`}
+            title={s.title}
+            subtitle={s.subtitle}
+            excerpt={s.excerpt}
+            icon={s.icon}
+          />
+        ))}
+      </div>
+
+      {/* رابط تواصل اختياري أسفل الصفحة */}
+      <div className="mt-12 text-center">
+        <Link href="/contact" className="inline-flex items-center rounded-2xl border px-5 py-3">
+          ابدأ الطلب / تواصل معنا
+        </Link>
+      </div>
+    </main>
+  );
+}
+
+
+أنشئ: app/(marketing)/services/[slug]/page.tsx:
+
+// app/(marketing)/services/[slug]/page.tsx
+import { services } from "@/data/services";
+import Link from "next/link";
+import * as Icons from "lucide-react";
+
+type Params = { slug: string };
+
+export async function generateMetadata({ params }: { params: Params }) {
+  const svc = services.find(s => s.slug === params.slug);
+  return {
+    title: svc ? `${svc.title} | GSC` : "خدمة | GSC",
+    description: svc?.excerpt ?? "تفاصيل الخدمة"
+  };
+}
+
+export default function ServiceDetails({ params }: { params: Params }) {
+  const svc = services.find(s => s.slug === params.slug);
+  if (!svc) {
+    return (
+      <main className="mx-auto max-w-4xl px-4 py-12" dir="rtl">
+        <h1 className="text-2xl font-bold">الخدمة غير موجودة</h1>
+        <Link href="/services" className="mt-6 inline-block rounded-xl border px-4 py-2">
+          عودة إلى الخدمات
+        </Link>
+      </main>
+    );
+  }
+  const Icon = (Icons as any)[svc.icon] || (Icons as any).Circle;
+
+  return (
+    <main className="mx-auto max-w-5xl px-4 py-12" dir="rtl">
+      <header className="mb-8 flex items-start gap-4">
+        <div className="rounded-xl border p-3">
+          <Icon className="h-7 w-7" />
+        </div>
+        <div>
+          <h1 className="text-3xl font-bold">{svc.title}</h1>
+          <p className="mt-2 text-neutral-700 dark:text-neutral-300">{svc.subtitle}</p>
+        </div>
+      </header>
+
+      <section className="mb-8 space-y-4">
+        {svc.long.map((p, i) => (
+          <p key={i} className="leading-8 text-neutral-800 dark:text-neutral-200">
+            {p}
+          </p>
+        ))}
+      </section>
+
+      <section className="mb-10">
+        <h2 className="text-xl font-semibold mb-3">لماذا هذه الخدمة؟</h2>
+        <ul className="grid gap-3 sm:grid-cols-2">
+          {svc.bullets.map((b, i) => (
+            <li key={i} className="rounded-xl border p-3">{b}</li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="mb-10">
+        <h2 className="text-xl font-semibold mb-3">آلية العمل</h2>
+        <ol className="grid gap-3 sm:grid-cols-3">
+          {svc.process.map((step, i) => (
+            <li key={i} className="rounded-xl border p-3">
+              <span className="block text-sm text-neutral-500">الخطوة {i + 1}</span>
+              <span className="font-medium">{step}</span>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section className="mb-10">
+        <h2 className="text-xl font-semibold mb-3">التقنيات المستخدمة</h2>
+        <div className="flex flex-wrap gap-2">
+          {svc.tech.map((t, i) => (
+            <span key={i} className="rounded-xl border px-3 py-1 text-sm">{t}</span>
+          ))}
+        </div>
+      </section>
+
+      <footer className="flex flex-wrap items-center gap-3">
+        <Link href="/contact" className="rounded-2xl border px-5 py-3">
+          ابدأ الطلب / تواصل معنا
+        </Link>
+        <Link href="/services" className="rounded-2xl border px-5 py-3">
+          عودة إلى الخدمات
+        </Link>
+      </footer>
+    </main>
+  );
+}
+
+
+إن كان مجلدك src/app فضع الملفات تحت src/app/(marketing)/services/... بنفس الأسماء.
+
+5) (بديل تلقائي إذا كان Pages Router)
+
+إذا اكتشفت أن المشروع يستخدم Pages Router (مجلد pages/):
+
+أنشئ pages/services/index.tsx بنفس منطق صفحة الفهرس أعلاه (احذف metadata واستخدم Head من next/head).
+
+أنشئ pages/services/[slug].tsx لصفحة التفاصيل، مع استخدام useRouter لاستخراج slug والبحث في services.
+
+نموذج رأس بسيط لِـ Pages Router:
+
+// داخل pages/services/index.tsx
+import Head from "next/head";
+// ...
+<Head>
+  <title>خدماتنا | GSC</title>
+  <meta name="description" content="استكشف خدماتنا..." />
+</Head>
+
+6) إضافة رابط “الخدمات” في الشريط العلوي
+
+ابحث عن مكوّن الـ Navbar (مثلاً: components/Nav*, components/Header*, أو في app/layout.tsx).
+
+إن لم تجد رابطًا إلى /services فأضِف:
+
+{/* مثال داخل قائمة الروابط */}
+<Link href="/services" className="...">الخدمات</Link>
+
+
+حافظ على نفس الـ classes المعتمدة لدى الروابط الأخرى.
+
+7) التحقق البصري والوظيفي (واجب)
+
+شغّل: npm run dev.
+
+افتح: /services وتأكد من:
+
+الشبكة (Grid) متجاوبة: 1 عمود (موبايل)، 2–3 أعمدة (شاشات أكبر).
+
+البطاقة تعرض أيقونة وعنوان وسطر فرعي ومقتطف وزر “عرض التفاصيل”.
+
+افتح كل خدمة /services/[slug] وتأكد من:
+
+العناوين والفقرات والقوائم والـ CTA.
+
+الاتجاه RTL مضبوط (إن لم يكن تلقائيًا، أبقه على الحاوية كما في الأمثلة).
+
+إن وجدت صفحة /contact، تأكد من عمل الزر. إن لم توجد، أنشئ صفحة بسيطة app/contact/page.tsx بنموذج (الاسم/البريد/الهاتف/الرسالة).
+
+8) أسلوب التصميم
+
+لا تغيّر الهوية: استخدم ألوان Tailwind/المتغيرات المعرّفة سلفًا.
+
+زوايا 2xl، ظلال خفيفة، حركات انتقال لطيفة على hover.
+
+لا تُدخِل خطوطًا أو ألوانًا جديدة.
+
+9) الالتزامات والـ Commits
+
+افتح 4 Commits على الأقل:
+
+feat(services): add services dataset and card component
+
+feat(services): add services index page (app router/pages router)
+
+feat(services): add dynamic service details pages
+
+chore(nav): add services link to navbar
+
+افتح Pull Request بعنوان: Add Services index + details pages (AR, RTL)
+
+انتهى. نفّذ الآن.

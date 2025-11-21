@@ -1,0 +1,266 @@
+Prompt for Replit AI — GSC Logo Integration (Next.js/React + Tailwind)
+
+Goal
+Integrate the provided GSC logo into the repo (assume Next.js 13/14 App Router + Tailwind). Generate all required sizes from a single source image, place assets under /public, wire them in the Navbar and Hero, and add favicons.
+
+Source
+We will use one source file:
+
+assets/logo-source.png (upload the user-provided logo here; keep 1024×1024+ if possible)
+
+If assets/logo-source.png doesn’t exist, create the folder and tell me to upload it.
+
+1) Create files/folders & dependencies
+
+Create folders:
+
+mkdir -p assets
+mkdir -p public/brand
+
+
+Add dependencies for image processing:
+
+npm i -D sharp png-to-ico
+
+
+Create the build script at scripts/build-logos.mjs:
+
+// scripts/build-logos.mjs
+import fs from "fs";
+import path from "path";
+import sharp from "sharp";
+import pngToIco from "png-to-ico";
+
+const SRC = path.resolve("assets/logo-source.png");
+if (!fs.existsSync(SRC)) {
+  console.error("❌ Missing assets/logo-source.png — please upload the source logo.");
+  process.exit(1);
+}
+
+const OUT_DIR = path.resolve("public/brand");
+if (!fs.existsSync(OUT_DIR)) fs.mkdirSync(OUT_DIR, { recursive: true });
+
+const tasks = [
+  { name: "logo-gsc-512.png", size: 512 },
+  { name: "logo-gsc-256.png", size: 256 },
+  { name: "logo-gsc-150.png", size: 150 },
+  { name: "logo-gsc-96.png",  size: 96  },
+  { name: "logo-gsc-64.png",  size: 64  },
+  { name: "logo-gsc-48.png",  size: 48  },
+  { name: "logo-gsc-32.png",  size: 32  },
+  { name: "logo-gsc-16.png",  size: 16  },
+  // Navbar/hero presets (height target)
+  { name: "logo-gsc-navbar.png", height: 28 },  // 24–28px effective height
+  { name: "logo-gsc-hero-desktop.png", height: 64 }, // 56–72px
+  { name: "logo-gsc-hero-mobile.png",  height: 44 }, // 40–48px
+];
+
+const make = async () => {
+  for (const t of tasks) {
+    const out = path.join(OUT_DIR, t.name);
+    let img = sharp(SRC).png({ compressionLevel: 9, adaptiveFiltering: true });
+    if (t.size) {
+      img = img.resize({ width: t.size, height: t.size, fit: "contain", background: { r:0, g:0, b:0, alpha:0 } });
+    } else if (t.height) {
+      img = img.resize({ height: t.height, fit: "inside", background: { r:0, g:0, b:0, alpha:0 } });
+    }
+    await img.toFile(out);
+    console.log("✅", t.name);
+  }
+
+  // Build favicon.ico from 16 & 32
+  const icoOut = path.resolve("public/favicon.ico");
+  const buf16 = fs.readFileSync(path.join(OUT_DIR, "logo-gsc-16.png"));
+  const buf32 = fs.readFileSync(path.join(OUT_DIR, "logo-gsc-32.png"));
+  const icoBuf = await pngToIco([buf16, buf32]);
+  fs.writeFileSync(icoOut, icoBuf);
+  console.log("✅ favicon.ico");
+};
+
+make().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});
+
+
+Add NPM script in package.json:
+
+{
+  "scripts": {
+    "build:logos": "node scripts/build-logos.mjs"
+  }
+}
+
+
+Run:
+
+npm run build:logos
+
+
+This should generate:
+
+/public/brand/logo-gsc-{512,256,150,96,64,48,32,16}.png
+
+/public/brand/logo-gsc-navbar.png
+
+/public/brand/logo-gsc-hero-desktop.png
+
+/public/brand/logo-gsc-hero-mobile.png
+
+/public/favicon.ico
+
+2) Wire up favicon & metadata
+
+For App Router (app/layout.tsx), ensure metadata includes the icons:
+
+// app/layout.tsx
+export const metadata = {
+  title: "Genius Software Core",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "16x16 32x32", type: "image/x-icon" },
+      { url: "/brand/logo-gsc-32.png", sizes: "32x32", type: "image/png" }
+    ]
+  }
+};
+
+
+If you’re using the older Pages Router, add to <Head> in _document.tsx or _app.tsx:
+
+<link rel="icon" href="/favicon.ico" />
+<link rel="icon" type="image/png" sizes="32x32" href="/brand/logo-gsc-32.png" />
+
+3) Navbar logo (icon-only, crisp at 24–28px height)
+
+Update your Navbar component (e.g., components/Navbar.tsx or app/(site)/_components/navbar.tsx). Replace the current brand <img> with:
+
+import Image from "next/image";
+import Link from "next/link";
+
+export default function Navbar() {
+  return (
+    <header className="w-full border-b bg-background/60 backdrop-blur supports-[backdrop-filter]:bg-background/40">
+      <div className="mx-auto flex h-14 max-w-7xl items-center gap-3 px-4">
+        <Link href="/" className="flex items-center gap-2" aria-label="GSC Home">
+          <Image
+            src="/brand/logo-gsc-navbar.png"
+            alt="GSC"
+            width={28}
+            height={28}
+            priority
+          />
+          {/* If you want text next to the icon: */}
+          {/* <span className="font-semibold tracking-tight hidden sm:inline">GSC</span> */}
+        </Link>
+        {/* ...rest of navbar */}
+      </div>
+    </header>
+  );
+}
+
+
+Notes:
+
+We use the pre-sized logo-gsc-navbar.png to keep it pixel-perfect.
+
+If you need better contrast on dark headers, we can add a “light” or “dark” variant later.
+
+4) Hero logo (full, larger)
+
+In your Hero component (e.g., components/Hero.tsx or app/page.tsx):
+
+import Image from "next/image";
+
+export default function Hero() {
+  return (
+    <section className="relative mx-auto max-w-7xl px-4 py-12 text-center">
+      <div className="flex items-center justify-center">
+        <Image
+          src="/brand/logo-gsc-hero-desktop.png"
+          alt="Genius Software Core"
+          width={256}
+          height={64}
+          className="hidden md:inline"
+          priority
+        />
+        <Image
+          src="/brand/logo-gsc-hero-mobile.png"
+          alt="Genius Software Core"
+          width={192}
+          height={44}
+          className="md:hidden"
+          priority
+        />
+      </div>
+      {/* Headline, CTA, etc. */}
+    </section>
+  );
+}
+
+
+Desktop height target ≈ 56–72px → we used the pre-sized 64px tall asset.
+
+Mobile height target ≈ 40–48px → we used the pre-sized 44px tall asset.
+
+5) Optional: light/dark variants (if header/hero backgrounds vary)
+
+Create logo-gsc-navbar-dark.png and/or logo-gsc-hero-dark.png by re-running sharp with different glow/contrast, then conditionally swap using a CSS class or prefers-color-scheme.
+
+For Tailwind:
+
+<Image
+  src="/brand/logo-gsc-navbar.png"
+  alt="GSC"
+  width={28}
+  height={28}
+  className="block dark:hidden"
+/>
+<Image
+  src="/brand/logo-gsc-navbar-dark.png"
+  alt="GSC"
+  width={28}
+  height={28}
+  className="hidden dark:block"
+/>
+
+6) Commit & sanity checks
+
+Run:
+
+npm run build:logos
+npm run build
+npm run dev
+
+
+Check:
+
+Navbar logo sharpness at 100% zoom.
+
+Hero logo scale on md and below.
+
+Favicon in the browser tab.
+
+Commit branch feat/logo-assets and open a PR:
+
+git checkout -b feat/logo-assets
+git add .
+git commit -m "feat(brand): add GSC logo assets, wire navbar/hero, add favicons"
+git push --set-upstream origin feat/logo-assets
+
+Notes / Constraints
+
+If the app is not Next.js, detect the framework and wire assets similarly (React Router/Vite: import from /public/brand/...; plain HTML: use <img> with those paths).
+
+Keep PNGs transparent. Do not upscale beyond source quality.
+
+Do not inline large base64 images.
+
+If the header background is very dark, consider a brighter “glow” variant for legibility.
+
+Deliverables
+
+All generated files under /public/brand/ and /public/favicon.ico.
+
+Updated Navbar and Hero components.
+
+PR opened with screenshots (Navbar + Hero + tab favicon).

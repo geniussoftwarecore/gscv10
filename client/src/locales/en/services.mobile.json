@@ -1,0 +1,120 @@
+{
+  "hero": {
+    "title": "Mobile App Development",
+    "subtitle": "Beautiful, fast, and ready for the stores.",
+    "description": "We design and build high-quality Android and iOS apps—from discovery and UX to secure APIs, offline-first experiences, and store releases.",
+    "primaryCta": "Start your mobile project",
+    "secondaryCta": "Try demo version"
+  },
+  "features": {
+    "title": "Core Strengths",
+    "items": [
+      {
+        "icon": "Shield",
+        "title": "Enterprise Security",
+        "desc": "Encryption, JWT/OAuth2 auth, session policies, API protection."
+      },
+      {
+        "icon": "Languages",
+        "title": "Arabic/English + RTL",
+        "desc": "Full RTL support and modern Arabic fonts with local formatting."
+      },
+      {
+        "icon": "Rocket",
+        "title": "Performance & Stability",
+        "desc": "Defined performance metrics and optimized bundle size with smart caching."
+      },
+      {
+        "icon": "Smartphone",
+        "title": "Offline First",
+        "desc": "Local storage and later sync with data conflict handling."
+      },
+      {
+        "icon": "MessageCircle",
+        "title": "Testing & Quality",
+        "desc": "Unit/Widget/Integration and testing on real devices."
+      },
+      {
+        "icon": "Bell",
+        "title": "Analytics & Alerts",
+        "desc": "Events, Funnels, Crashlytics and measurement dashboards."
+      }
+    ]
+  },
+  "useCases": {
+    "title": "What do we develop?",
+    "items": [
+      "Corporate and service apps: complaints/reservations/invoices/tracking.",
+      "E-commerce: catalog, cart, payment, shipping, coupons.",
+      "Field operations: offline, visits, forms and reports.",
+      "Learning and content: video/podcast/tests.",
+      "Custom integrations with ERP/CRM and payment gateways."
+    ]
+  },
+  "integrations": {
+    "title": "Ready Integrations",
+    "items": [
+      "Instant notifications FCM/APNs with segments and targeting.",
+      "Maps and locations (Google/Mapbox): points and routes.",
+      "Electronic payment and digital wallets and Apple/Google Pay (where available).",
+      "Media upload and camera/gallery permissions.",
+      "In-app chat/tickets and customer support.",
+      "Multi-language and instant switching."
+    ]
+  },
+  "tech": {
+    "title": "Preferred Technology",
+    "stack": [
+      "Frontend: Flutter/Dart (mobile client) with suitable state management.",
+      "Backend: ASP.NET Core (.NET 8) or Node/Fastify.",
+      "Database: SQL Server or PostgreSQL.",
+      "APIs: REST (Swagger/Redoc).",
+      "Containers: Docker/Docker Compose.",
+      "Monitoring: Structured logging and performance dashboards."
+    ]
+  },
+  "process": {
+    "title": "Work Methodology",
+    "steps": [
+      "Discovery and requirements: goals and use cases and success metrics.",
+      "UX/UI: prototypes and color system and fonts and identity.",
+      "Architecture and structure: data models and API contracts and security and cache and offline.",
+      "Phased implementation: Sprints and weekly previews.",
+      "Testing and quality: basic coverage and automated checks.",
+      "Launch and delivery: stores and post-launch monitoring plan.",
+      "Support and optimization: performance improvement and later features."
+    ]
+  },
+  "deliverables": {
+    "title": "What do we deliver?",
+    "items": [
+      "Organized and maintainable source code.",
+      "Design files and component system.",
+      "API documentation and Docker/ENV configuration.",
+      "Operation and deployment guides (Runbook).",
+      "Security plan and backup.",
+      "Metrics dashboard (analytics/crashes/performance).",
+      "Client team training when needed."
+    ]
+  },
+  "gettingStarted": {
+    "title": "What we need to start",
+    "items": [
+      "Description of goals and use cases.",
+      "Visual identity (or we create it).",
+      "Language/region/currency preferences.",
+      "List of required integrations.",
+      "Store accounts or we handle setup."
+    ]
+  },
+  "cta": {
+    "title": "Ready to launch?",
+    "desc": "Let's turn your idea into a secure, fast, and scalable mobile app.",
+    "primary": "Start your project now",
+    "secondary": "Talk to an expert"
+  },
+  "seo": {
+    "title": "Mobile App Development | GSC",
+    "description": "Building high-performance Android and iOS apps with Arabic/English support, enterprise security, and ready integrations."
+  }
+}

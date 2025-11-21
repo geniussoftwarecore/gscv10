@@ -1,0 +1,124 @@
+You are working on https://github.com/geniussoftwarecore/gsc.git
+
+Goal: Restyle the **Projects** page so it EXACTLY matches the design system used on the Home/Services pages.
+- SAME brand colors/logo, spacing rhythm, typography scale, cards/buttons, shadows, micro-animations, and RTL/i18n behavior.
+- PRESENTATION ONLY. Do NOT change routes, copy, or backend logic.
+
+────────────────────────────────────────────────────────
+0) Scope & Guardrails
+────────────────────────────────────────────────────────
+- Create branch: feat/projects-page-refresh
+- Frontend-only edits in /client (and minimal shared tokens/hooks if required).
+- DO NOT:
+  • invent new colors or add libraries
+  • rename routes or change URLs
+  • alter data models or API calls
+  • rewrite existing copy
+- YES:
+  • reuse Home/Services components, tokens, and motion patterns
+  • keep AR/EN + RTL behavior identical to Home/Services
+
+────────────────────────────────────────────────────────
+1) Detect Route & Wrap with Layout
+────────────────────────────────────────────────────────
+- Locate Projects route (one of):
+  • client/src/pages/Projects.tsx
+  • client/src/pages/projects.tsx
+  • client/src/app/projects/page.tsx
+- Ensure it uses the same site Layout as Home/Services: <Header /> + <main /> + <Footer />
+- Apply identical container/spacing:
+  • container mx-auto px-4 sm:px-6 lg:px-8
+  • section rhythm: py-12 (mobile) / py-16 (desktop)
+
+────────────────────────────────────────────────────────
+2) Reuse the Same UI System
+────────────────────────────────────────────────────────
+- Import existing primitives from Home/Services:
+  • client/src/components/ui/{Button.tsx, Card.tsx, Section.tsx, PageHeader.tsx, Container.tsx}
+  • If present: client/src/components/ui/form/{Select.tsx, Input.tsx}
+- Typography scale, radii (e.g., rounded-2xl), shadows, link/hover styles MUST match Home/Services.
+- Motion: use the same framer-motion patterns (subtle section reveal, card hover).
+
+────────────────────────────────────────────────────────
+3) Projects Page Structure (presentation-only components)
+────────────────────────────────────────────────────────
+Create under: client/src/sections/projects/
+
+A) PageHeaderProjects.tsx
+- Breadcrumb (Home / Projects)
+- <h1> = existing page title (do NOT rewrite)
+- Optional lead ONLY if it already exists (no new copy).
+- Background/decoration identical to Home/Services headers (no new colors).
+
+B) ProjectsFilters.tsx (non-destructive)
+- If the page already has filters/search/sorting, restyle them using shared Input/Select/Button.
+- If not present, SKIP (do not add new features). This is a style pass only.
+
+C) ProjectsGrid.tsx
+- Render the EXISTING projects list (from current data source: i18n or local array). Do NOT change data.
+- Responsive grid:
+  • xl: grid-cols-3
+  • md: grid-cols-2
+  • sm: grid-cols-1
+- Each item in a Home-style <Card>:
+  • Existing thumbnail or cover image (no new assets)
+  • Title and brief text exactly as-is
+  • Meta row (tags/tech/date) if already present; otherwise omit
+  • Primary action (“View Project” or existing CTA) linking to existing detail route/anchor
+- Card interactions: same hover (lift/scale/shadow) used on Services.
+- Images: add width/height + loading="lazy" to prevent CLS.
+
+D) ProjectsCTA.tsx (optional)
+- If the page already includes a CTA section, restyle it to match Home’s CTA strip (same tint/buttons).
+- If absent, SKIP (no new copy).
+
+Compose in the Projects route:
+<PageHeaderProjects /> → (optional) <ProjectsFilters /> → <ProjectsGrid /> → (optional) <ProjectsCTA />
+
+────────────────────────────────────────────────────────
+4) Data Source & i18n (do not change content)
+────────────────────────────────────────────────────────
+- Read projects from the current source ONLY (existing array or i18n). DO NOT add/remove/reorder projects.
+- If any UI labels are hard-coded and already localized elsewhere, replace with t('...') using the **same text**.
+- <html lang/dir> must flip for Arabic via the global i18n provider; ensure paddings/margins and chevrons align in RTL.
+
+────────────────────────────────────────────────────────
+5) Visual Details to Mirror Home/Services
+────────────────────────────────────────────────────────
+- Spacing rhythm: same Section/Container utilities; no ad-hoc margins.
+- Cards: same radius/shadow depth; consistent internal paddings.
+- Buttons/links: identical variants and focus/hover states.
+- Dividers and background tints: reuse the same tokens used on Home/Services.
+- Keep brand palette ONLY (no new colors).
+
+────────────────────────────────────────────────────────
+6) Accessibility & Performance
+────────────────────────────────────────────────────────
+- One <h1> on the page (in PageHeaderProjects); subsequent headings are h2/h3.
+- All interactive elements have visible focus rings (reuse existing focus tokens).
+- Images have alt text (use existing titles as alt if none).
+- Lazy-load thumbnails; define width/height to avoid layout shift.
+
+────────────────────────────────────────────────────────
+7) Acceptance Criteria (QA)
+────────────────────────────────────────────────────────
+- Projects page visually matches Home/Services: same container, spacing, typography, cards, shadows, buttons, links.
+- AR/EN toggle updates all texts as before; <html dir> flips correctly to rtl.
+- The SAME projects appear in the SAME order with the SAME titles/links.
+- No new colors/libs; TypeScript/ESLint/build pass.
+- Lighthouse (local) shows no CLS from project images.
+
+────────────────────────────────────────────────────────
+8) Commands & Commits
+────────────────────────────────────────────────────────
+Run:
+- pnpm install
+- pnpm dev
+
+Commits (conventional):
+- refactor(projects): restyle Projects page to match Home/Services visual system
+- refactor(ui): reuse Card/Section/Button/PageHeader primitives on Projects
+- perf(a11y): add lazy thumbnails, width/height, focus states, RTL alignment
+
+Open PR: “refactor(projects): align Projects page with Home/Services design”
+Attach screenshots (EN+AR, mobile+desktop), including hover states and any existing filters.

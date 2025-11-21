@@ -1,0 +1,131 @@
+🚀 Prompt for Replit AI — GSC Logo Assets & Integration
+
+Objective
+
+Take the logo file assets/logo-source.png (upload the original logo there).
+
+Generate all required sizes:
+
+512×512, 256×256, 192×192, 150×150, 96×96, 64×64, 48×48, 32×32, 16×16.
+
+Special presets: logo-gsc-navbar.png (height 28px), logo-gsc-hero-desktop.png (height 64px), logo-gsc-hero-mobile.png (height 44px).
+
+Store all generated files under public/brand/ + public/favicon.ico.
+
+Update layout.tsx to include favicon.
+
+Create/Update public/manifest.webmanifest to include PWA icons.
+
+Update Navbar and Hero components to use the right logo sizes.
+
+1) Install dependencies
+npm i -D sharp png-to-ico
+
+2) Script to generate logos
+
+File: scripts/build-logos.mjs
+
+import fs from "fs";
+import path from "path";
+import sharp from "sharp";
+import pngToIco from "png-to-ico";
+
+const SRC = path.resolve("assets/logo-source.png");
+const OUT = path.resolve("public/brand");
+if (!fs.existsSync(SRC)) {
+  console.error("❌ Missing assets/logo-source.png");
+  process.exit(1);
+}
+if (!fs.existsSync(OUT)) fs.mkdirSync(OUT, { recursive: true });
+
+const tasks = [
+  { name: "logo-gsc-512.png", size: 512 },
+  { name: "logo-gsc-256.png", size: 256 },
+  { name: "logo-gsc-192.png", size: 192 },
+  { name: "logo-gsc-150.png", size: 150 },
+  { name: "logo-gsc-96.png",  size: 96  },
+  { name: "logo-gsc-64.png",  size: 64  },
+  { name: "logo-gsc-48.png",  size: 48  },
+  { name: "logo-gsc-32.png",  size: 32  },
+  { name: "logo-gsc-16.png",  size: 16  },
+  { name: "logo-gsc-navbar.png", height: 28 },
+  { name: "logo-gsc-hero-desktop.png", height: 64 },
+  { name: "logo-gsc-hero-mobile.png",  height: 44 }
+];
+
+const resize = async (input, output, opt) => {
+  let img = sharp(input);
+  if (opt.size) img = img.resize(opt.size, opt.size);
+  else if (opt.height) img = img.resize(null, opt.height);
+  await img.png({ compressionLevel: 9 }).toFile(output);
+};
+
+const run = async () => {
+  for (const t of tasks) {
+    const out = path.join(OUT, t.name);
+    await resize(SRC, out, t);
+    console.log("✅", t.name);
+  }
+  // favicon.ico
+  const ico = await pngToIco([
+    fs.readFileSync(path.join(OUT, "logo-gsc-16.png")),
+    fs.readFileSync(path.join(OUT, "logo-gsc-32.png"))
+  ]);
+  fs.writeFileSync("public/favicon.ico", ico);
+  console.log("✅ favicon.ico");
+};
+run();
+
+
+package.json
+
+{
+  "scripts": {
+    "build:logos": "node scripts/build-logos.mjs"
+  }
+}
+
+3) Manifest
+
+File: public/manifest.webmanifest
+
+{
+  "name": "Genius Software Core",
+  "short_name": "GSC",
+  "icons": [
+    { "src": "/brand/logo-gsc-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/brand/logo-gsc-256.png", "sizes": "256x256", "type": "image/png" },
+    { "src": "/brand/logo-gsc-512.png", "sizes": "512x512", "type": "image/png" }
+  ],
+  "theme_color": "#19C2F0",
+  "background_color": "#0B0F12",
+  "display": "standalone"
+}
+
+4) Metadata (App Router)
+
+Edit: app/layout.tsx
+
+export const metadata = {
+  title: "Genius Software Core",
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "16x16 32x32", type: "image/x-icon" },
+      { url: "/brand/logo-gsc-32.png", sizes: "32x32", type: "image/png" }
+    ]
+  }
+};
+
+5) Navbar
+<img src="/brand/logo-gsc-navbar.png" alt="GSC" width={28} height={28} />
+
+6) Hero
+<img src="/brand/logo-gsc-hero-desktop.png" alt="GSC" height="64" className="hidden md:inline" />
+<img src="/brand/logo-gsc-hero-mobile.png"  alt="GSC" height="44" className="md:hidden" />
+
+7) Run
+npm run build:logos
+npm run dev
+
+
+🔹 Expected Result: Replit AI will generate all logo assets automatically, place them under /public/brand and /public/favicon.ico, and update your Navbar, Hero, and manifest so the logo appears correctly on all screens, tabs, and PWA installs.

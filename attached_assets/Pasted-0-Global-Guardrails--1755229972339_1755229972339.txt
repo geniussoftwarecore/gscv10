@@ -1,0 +1,255 @@
+0) حواجز الأمان غير القابلة للكسر (Global Guardrails) — التزم حرفيًا
+
+النطاق: لا تُعدّل أو تحذف أو تُعيد تسمية أي ملف/خدمة/مكوّن خارج وحدات الـCRM المحددة. لا تغييرات بـ CI/CD، لا ترقية حِزم عامة، لا تعديل بيئة أو Secrets عامة.
+
+Scope Labels: أي مورد جديد يبدأ بالبادئة crm_ (جداول، خدمات، بيئة، فهارس، Topics، Queues).
+
+الهجرة الآمنة: لا تُنشئ/تعدّل مخططًا خارج مخطط crm_*. لا ترابط أجنبي إلى جداول غير crm_*.
+
+الميزة المنعزلة: اجعل جميع الميزات خلف Feature Flags: crm_feature_*.
+
+التصاريح: RBAC مخصص للـCRM فقط. لا منح صلاحيات عامة.
+
+التحقق قبل الدمج: نفّذ Dry-run للهجرات/الاختبارات، ثم قدّم Pull Request منفصل للـCRM فقط.
+
+القياس والمرقبة: أضف Telemetry ضمن namespace crm.* فقط.
+
+اللغة والاتجاه: فعّل i18n وRTL دون المساس بعناصر عالمية خارجة عن الـCRM.
+
+في حال تعارض: أوقف التنفيذ وقدّم تقرير تعارض دون محاولة “إصلاح” خارج النطاق.
+
+تعليمات الإخراج:
+
+أخرج خطة، ثم المخططات/الملفات/الهجرات، ثم مجموعة اختبارات، ثم تقرير تحقق.
+
+أخرج Diffs/Commands فقط، لا شروح مطوّلة أثناء مرحلة التنفيذ.
+
+1) خطة التنفيذ المختصرة (Execution Plan)
+
+Phase A — Plan: توليد مخطط بيانات، واجهات API، مخطط أتمتة، مصفوفة صلاحيات، ومعايير قبول.
+
+Phase B — Build: إنشاء الكيانات، الهجرات، الخدمات، الواجهات، التكاملات، الواجهات الرسومية الأساسية.
+
+Phase C — Verify: اختبارات وحدة/تكامل/قبول + اختبارات عدم الانحدار (Non-Regression) ضمن نطاق الـCRM فقط.
+
+Phase D — Deliver: إنشاء PR مع تقرير تغطية، لقطات Dashboards، وتحقق من SLO/Security.
+
+2) طبقة البيانات (Data Layer) — أنشئ المخطط التالي تحت مخطط DB باسم crm_core
+2.1 جهات الاتصال crm_contacts
+
+الحقول: id (uuid), first_name, last_name, primary_email (unique, mx_validated), phones (jsonb, E.164), channels (jsonb), opt_in_status, opt_in_source, utm (jsonb), account_id (fk crm_accounts.id), created_at, updated_at.
+
+فهارس: email، phone، account_id، updated_at.
+
+2.2 الحسابات crm_accounts
+
+الحقول: id, legal_name (unique within region), industry (enum), size_tier (enum: micro/smb/ent), region, owner_team, tax_id (nullable), created_at, updated_at.
+
+منع التكرار ببصمة (normalized_name + region).
+
+2.3 المنتجات/الخطط crm_products, crm_pricebook
+
+دعم تسعير ثابت/متدرّج/استهلاك، ضرائب، عملات، Bundles.
+
+2.4 الأنشطة crm_activities
+
+نوع (call/meeting/task/message/note/attachment), actor, against_type (contact/account/deal), against_id, outcome, duration, attachments (object-storage ref), due/reminder.
+
+2.5 السجل الزمني والتدقيق crm_timeline, crm_auditlog
+
+توحيد كل الأحداث لكل كيان + Audit للحقول الحساسة.
+
+2.6 التقسيم والحقول المخصّصة
+
+crm_tags, crm_entity_tags, وcrm_custom_fields (meta) + crm_custom_values (typed).
+
+2.7 تنظيف وإثراء
+
+crm_dedupe_jobs, crm_merge_candidates + خدمة Enrichment اختيارية.
+
+قيود الجودة:
+
+تحقق MX للبريد، توحيد الهواتف E.164، قواعد فريدة محسوبة (partial indexes)، Soft Delete لكل جداول crm_*.
+
+3) الموديولات التشغيلية (Functional Modules)
+3.1 Leads
+
+استقبال متعدد القنوات (Web/Email/WhatsApp/Voice/Ads) مع حفظ Source/UTM.
+
+Scoring = Fit (industry/size/region) + Engagement (opens/clicks/visits).
+
+توزيع تلقائي Round-robin/Territory، VIP Overrides.
+
+Convert ينشئ Contact + (Account اختياري) + Opportunity مع منع ازدواج.
+
+3.2 Opportunities/Deals
+
+Pipeline بمراحل قابلة للتهيئة + Exit Criteria إلزامية.
+
+حقول: expected_value, close_date, win_probability.
+
+Forecast لكل (مالك/فريق/ربع).
+
+3.3 Pipeline Board
+
+كانبان بالسحب/الإفلات، عمر المرحلة، تحذير ركود، Pipeline Velocity محاسَبة تلقائيًا.
+
+3.4 Marketing Automation
+
+محرّك Journeys بصري: Triggers, Conditions, Actions (Email/SMS/WhatsApp, Wait, Update, Branch).
+
+A/B Testing للعناوين والتوقيت والمحتوى. صفحات هبوط بوسوم UTM.
+
+3.5 Support/Helpdesk
+
+تذاكر مع Priority, Category, Status, SLA, Owner.
+
+قواعد توجيه (Skill/Load), Business Hours, تصعيد, قاعدة معرفة، صندوق قنوات موحّد.
+
+3.6 Quotes/CPQ/Invoices
+
+PriceBook، قواعد تسعير، خصومات بموافقات، E-signature، تحويل Quote→Order→Invoice.
+
+تكامل اختياري مع ERP/بوابات دفع أو Export موحّد.
+
+3.7 Subscriptions/Renewals
+
+عقود متكررة (شهري/سنوي)، فوترة آلية، تذكيرات، تعافي فشل الدفع، تعليق/استئناف.
+
+3.8 Projects/Field Service (اختياري)
+
+مشروع تنفيذ بعد الفوز + مهام/موارد/اعتماديات.
+
+للخدمة الميدانية: جدولة فرق، قطع غيار، تقارير زيارة بتوقيع العميل.
+
+3.9 Dashboards & BI
+
+لوحات حسب الدور (Executive/Manager/Rep).
+
+مُنشئ تقارير (Fields/Aggregations/Filters/Charts)، Cohorts/Churn/Forecast.
+
+4) الأتمتة والحَوْكمة (Cross-cutting)
+
+Workflow/Rules: “إذا حدث X افعل Y” (Assign/Remind/Update/Notify/Webhook/Create Activity/Ticket) + Trace + Pause/Resume.
+
+Approvals: متسلسلة/موازية لخصومات/عقود/عروض مع مهلات، تصعيد، تفويض.
+
+RBAC: أدوار/فرق، قيود رؤية Region/Account/Owner.
+
+APIs/Webhooks: REST+GraphQL موثّقة، Webhooks موقّعة، Rate Limits، Versioning.
+
+Integrations: Email/Calendar (OAuth), PBX/VoIP, WhatsApp Business API, Payments, ERP/Accounting, Store/Web؛ مزامنة ثنائية الاتجاه مع Retry/Circuit Breaker.
+
+Mobile/Offline: تخزين محلي انتقائي وطوابير مزامنة وحل تعارض.
+
+i18n/RTL: تمكين كامل دون تعديل عالمي خارج الـCRM.
+
+5) العمليات (End-to-End Customer Journey)
+
+Capture → 2) Qualify & Score → 3) Engage → 4) Convert (Opportunity) →
+
+Quote/CPQ → 6) Close & Invoice/Subscription → 7) Delivery & Support → 8) Retention & Expansion.
+
+KPIs/SaaS Metrics: Lead→MQL→SQL→Won، Average Deal/Duration، Pipeline Velocity، Forecast، CAC/LTV، Churn، ARPA، NPS/CSAT.
+
+6) الواجهات (APIs) — أنشئ نمطية صريحة
+
+REST: /crm/v1/contacts|accounts|leads|deals|activities|tickets|quotes|invoices|subscriptions
+
+GraphQL: Schemas للكيانات، استعلامات ترشيح، ترقيم، ترتيب.
+
+Idempotency: عبر Header Idempotency-Key في POST/PUT/PATCH.
+
+الأمان: OAuth2/JWT، Scopes خاصة بالـCRM، Audit لكل طلب.
+
+7) الواجهة الرسومية (UI/UX) — دون التأثير على بقية المنظومة
+
+لوحات: Executive / Manager / Rep.
+
+Pipeline Kanban، Pages للكيانات، Timeline موحّد، Segments محفوظة، منشئ تقارير.
+
+RTL جاهز، i18n، وصولية أساسية (Keyboard/ARIA).
+
+8) اللامعمارية (NFRs & SLOs)
+
+الأداء: p95 للقراءة ≤ 300ms، p95 للكتابة ≤ 600ms، بحث بالقوائم ≤ 1s.
+
+التحجيم: دعم 1M Contact، 200k Deal، 50 TPS ثابت للـAPI.
+
+المرقبة: OpenTelemetry (traces, metrics, logs) ضمن crm.*.
+
+الأمن: OWASP Top10، تشفير السكون والنقل، سرّية مفاتيح تكامل.
+
+الامتثال: سياسات احتفاظ، موافقات الخصوصية، حق الوصول/المحو.
+
+الاختبارات: تغطية ≥ 85% للوحدات الحرجة، اختبارات عقود للـIntegrations.
+
+9) الاختبارات وقبول التسليم (Testing & DoD)
+
+Unit/Integration/Acceptance: لكل وحدة CRM.
+
+Contract Tests: للبريد/الواتساب/الدفع/ERP مع Mocks.
+
+Non-Regression: Snapshots لواجهات الـCRM فقط.
+
+Data Quality: فحوص Dedup/E.164/MX.
+
+Definition of Done (DoD):
+
+الهجرات آمنة وقابلة للتراجع.
+
+RBAC مفعّل ومُختبَر.
+
+Feature Flags نشطة.
+
+Dashboards وKPIs تعمل.
+
+وثائق مستخدم/مسؤول وخرائط تدفق.
+
+تقرير SLO/Security يطابق الحدود.
+
+10) خارطة طريق التسليم (Roadmap)
+
+MVP (4–8 أسابيع): Contacts/Leads/Deals + Pipeline، Activities، Email Templates، Tickets أساسية، Reports أساسية، Import/Export، RBAC، REST/GraphQL أساسي.
+
+Phase 2: Journeys، CPQ، Quotes/Invoices، تكامل محاسبة/دفع، Subscriptions.
+
+Phase 3: Omnichannel (WhatsApp/Telephony)، ML Predictions (Win/Churn)، Field Service، Advanced BI.
+
+11) آلية التنفيذ (What to Output Now)
+
+PLAN.md (ضمن crm_docs/) يصف النموذج والواجهات والرحلات ومعايير القبول والحواجز.
+
+DB migrations تحت crm_db/migrations/ بأسماء واضحة.
+
+Services تحت crm_services/ (domains, repos, use-cases, controllers).
+
+API تحت crm_api/ (REST, GraphQL schemas).
+
+UI تحت crm_ui/ (لوحات، كانبان، صفحات كيانات).
+
+TESTS تحت crm_tests/ (unit/integration/acceptance/contract).
+
+OBS & SECURITY تحت crm_ops/ (otel config, dashboards, policies).
+
+PR باسم: feat(crm): initial_mvp_isolated.
+
+تذكير صارم: أي تعديل خارج هذه المسارات مرفوض تلقائيًا ويوقف التنفيذ.
+
+12) ذاتيّات التحقق قبل الإنهاء (Self-Audit)
+
+✅ لا تغييرات خارج crm_*.
+
+✅ كل الموارد تحمل بادئة crm_.
+
+✅ الهجرات قابلة للتراجع.
+
+✅ الاختبارات خضراء وتغطية ≥ 85% للوحدات الحرجة.
+
+✅ SLOs مستوفاة.
+
+✅ التقارير والـKPIs تعمل.
+
+✅ توثيق وخرائط تدفق مُولّدة.
+
+ابدأ الآن.

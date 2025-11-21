@@ -1,0 +1,95 @@
+You are working on https://github.com/geniussoftwarecore/gsc.git
+
+Goal: Update the Home **Hero** copy to better reflect platform services + ERP/CRM, and enlarge the brand logo displayed next to that copy—while keeping the Home visual system (colors, spacing, typography, RTL/i18n) unchanged.
+
+────────────────────────────────────────────────────────
+0) Scope & Branch
+────────────────────────────────────────────────────────
+- Create branch: feat/home-hero-copy-and-logo-size
+- Frontend-only edits in /client. No backend or routing changes.
+
+────────────────────────────────────────────────────────
+1) Locate the Hero
+────────────────────────────────────────────────────────
+- Find the Home Hero component (one of):
+  • client/src/sections/home/Hero.tsx
+  • client/src/pages/Home.tsx
+  • client/src/app/page.tsx (or /home/page.tsx)
+- Confirm where the current text comes from:
+  • i18n keys (preferred), or
+  • hard-coded strings inside the Hero component.
+
+────────────────────────────────────────────────────────
+2) Replace the Hero Copy (EN + AR)
+────────────────────────────────────────────────────────
+If using i18n, update these keys in both files:
+- client/src/locales/en.json
+- client/src/locales/ar.json
+
+EN (overwrite existing values; keep the same keys):
+{
+  "hero": {
+    "title": "Integrated Software Solutions & ERP/CRM that accelerate your growth.",
+    "subtitle": "We build web & mobile apps, implement integrations, and deliver bilingual support with professional reporting."
+  }
+}
+
+AR (overwrite existing values; keep the same keys):
+{
+  "hero": {
+    "title": "حلول برمجية متكاملة وخدمات ERP/CRM تُسرّع نمو أعمالك.",
+    "subtitle": "نطوّر تطبيقات ويب وموبايل، ننفّذ التكاملات، ونقدّم دعماً ثنائي اللغة وتقارير احترافية."
+  }
+}
+
+If the Hero uses hard-coded text instead of i18n:
+- Replace the existing Arabic phrase "حلول تقنية و ERP تُسرّع نمو أعمالك" with:
+  • Title (AR): "حلول برمجية متكاملة وخدمات ERP/CRM تُسرّع نمو أعمالك."
+  • Subtitle (AR, only if a subtitle line exists): "نطوّر تطبيقات ويب وموبايل، ننفّذ التكاملات، ونقدّم دعماً ثنائي اللغة وتقارير احترافية."
+- Also provide the EN equivalents above when the language toggle is EN.
+
+Do NOT introduce new keys or copy blocks beyond the existing Hero title/subtitle.
+
+────────────────────────────────────────────────────────
+3) Enlarge the Brand Logo beside the Hero Text
+────────────────────────────────────────────────────────
+- In the Hero component, locate the brand logo element (e.g., <img> or <Image> near the title).
+- Keep the same asset path (do NOT change files). Only adjust sizing classes/props:
+  • Tailwind example:
+    - Add responsive height classes: className="h-16 md:h-20 lg:h-20 w-auto"
+      (≈ 64–80px tall on md+; keep width auto to preserve aspect ratio)
+    - Ensure container aligns logo + text: e.g., wrapper with "flex items-center gap-3 md:gap-4 flex-wrap"
+- Accessibility:
+  • Add/keep alt text, e.g., alt="GSC logo"
+- RTL/LTR:
+  • Ensure spacing works in both directions; if needed use logical classes (gap, not margin-left-only).
+
+────────────────────────────────────────────────────────
+4) Keep Visual System Identical to Home
+────────────────────────────────────────────────────────
+- Do NOT add new colors. Use existing brand palette/tokens.
+- Maintain the same typography scale and section spacing.
+- If the subtitle doesn’t exist in the current Hero, skip adding it (no new structure).
+- Ensure <html dir> flips correctly via the i18n provider when AR is active.
+
+────────────────────────────────────────────────────────
+5) QA (Acceptance Criteria)
+────────────────────────────────────────────────────────
+- Hero title shows the NEW copy (EN/AR) using existing keys/slots.
+- Logo next to the text is visibly larger (≈ h-16 md:h-20) without layout shift.
+- Mobile layout remains clean (text wraps nicely; no overflow).
+- No new colors/libs; TypeScript/ESLint pass; build succeeds.
+
+────────────────────────────────────────────────────────
+6) Commands & Commits
+────────────────────────────────────────────────────────
+Run:
+- pnpm install
+- pnpm dev
+
+Commits (conventional):
+- feat(home): update hero copy to reflect platform services + ERP/CRM
+- style(home): enlarge hero logo and align spacing (RTL-safe)
+
+Open PR: “feat(home): better ERP/CRM hero copy + larger logo (no structural changes)”
+Attach before/after screenshots (EN/AR, mobile/desktop).

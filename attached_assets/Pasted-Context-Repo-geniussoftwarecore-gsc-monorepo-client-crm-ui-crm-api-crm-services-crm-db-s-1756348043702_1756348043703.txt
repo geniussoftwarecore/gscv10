@@ -1,0 +1,55 @@
+Context:
+- Repo: geniussoftwarecore/gsc (monorepo: client, crm_ui, crm_api, crm_services, crm_db, server, shared)
+- Keep EXACT visual design: same palette, spacing, typography, radii, shadows. NO new colors/libs.
+- Goal: Pre-production audit & hardening BEFORE swapping demo data with production data.
+
+Tasks:
+1) Create a preflight checklist script at scripts/preflight.ts that checks:
+   - env keys present (API_BASE_URL, JWT_SECRET, DB_URL, CORS_ORIGINS, VITE_API_URL, VITE_DEFAULT_LANG).
+   - database connectivity + pending migrations.
+   - API health endpoint reachable after build.
+   - client build size thresholds (warn if main chunk > 300 KB gz).
+   - i18n check: toggling lang updates <html dir/lang> globally.
+
+2) Ensure DB schema is migration-clean:
+   - Add NOT NULL/defaults for key fields.
+   - Add composite indexes for common queries (status+assignee, stage+owner, updated_at).
+   - Provide pnpm scripts: "db:migrate", "db:seed:demo", "db:seed:prod:create-admin".
+
+3) Add a secure admin creation script:
+   - Path: scripts/createAdmin.ts
+   - Input via CLI args or env: ADMIN_EMAIL, ADMIN_PASSWORD
+   - Hash password with argon2 or bcrypt; insert role="admin".
+   - Print success and next steps (force password change policy).
+
+4) Add export endpoints for CSV/PDF for list pages (contacts, companies, deals, tickets) WITHOUT changing table visuals.
+   - Server-side PDF rendering with current brand styles (same colors).
+   - Respect filters/sorts in the exported result.
+
+5) Implement Saved Filters and Saved Views:
+   - Per user, persist as JSON blobs (filters, sorts, visible columns, pageSize).
+   - UI adds a small "Save View" dropdown; keep the same card/table styles.
+
+6) Add a minimal dashboard:
+   - /dashboard route with KPI cards (total deals, pipeline value, conversion rate, avg ticket resolution).
+   - Lazy-load chart lib; RTL friendly axes. Match current card styling.
+
+7) Add client/src/dev pages:
+   - ui-preview.tsx (base components), form-demo.tsx (validation), table-demo.tsx (grid features).
+   - No visual drift. Only for internal testing.
+
+8) Add CI workflow (.github/workflows/ci.yml):
+   - Install -> Lint -> Test -> Build (client, server) -> (optional) db:migrate on staging.
+
+9) Write docs:
+   - README: preflight usage, seeding commands, safe data swap procedure.
+   - db.md: entity relations + index rationale.
+   - DEPLOY.md: docker-compose for staging/prod + rollback plan.
+
+Acceptance:
+- Preflight passes locally.
+- Migrations clean; demo seed separated from prod admin creation.
+- Exports CSV/PDF work using current filters/sorts; visuals unchanged.
+- Saved Views available on list pages.
+- Dashboard shows KPIs using seed data.
+- CI green on PRs and main.

@@ -1,0 +1,26 @@
+Warning: Function components cannot be given refs. Attempts to access this ref will fail. Did you mean to use React.forwardRef()?%s%s 
+
+Check the render method of `Primitive.button.SlotClone`. 
+    at CRMHeader (https://3e51678a-9f8e-4e65-86fc-5f4702e93852-00-s3z2x26xo6jf.pike.replit.dev/src/components/admin/CRMHeader.tsx:33:3)
+    at https://3e51678a-9f8e-4e65-86fc-5f4702e93852-00-s3z2x26xo6jf.pike.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-E7TSFT4J.js?v=73d72877:79:13
+    at https://3e51678a-9f8e-4e65-86fc-5f4702e93852-00-s3z2x26xo6jf.pike.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-E7TSFT4J.js?v=73d72877:56:13
+    at https://3e51678a-9f8e-4e65-86fc-5f4702e93852-00-s3z2x26xo6jf.pike.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-J2KA7NLM.js?v=73d72877:43:13
+    at https://3e51678a-9f8e-4e65-86fc-5f4702e93852-00-s3z2x26xo6jf.pike.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-dialog.js?v=975c90e4:89:13
+    at Provider (https://3e51678a-9f8e-4e65-86fc-5f4702e93852-00-s3z2x26xo6jf.pike.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-QWZJZ5O4.js?v=73d72877:38:15)
+    at Dialog (https://3e51678a-9f8e-4e65-86fc-5f4702e93852-00-s3z2x26xo6jf.pike.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-dialog.js?v=975c90e4:53:5)
+    at NotificationsDrawer (https://3e51678a-9f8e-4e65-86fc-5f4702e93852-00-s3z2x26xo6jf.pike.replit.dev/src/components/admin/NotificationsDrawer.tsx:57:3)
+    at div
+    at AdminRoute (https://3e51678a-9f8e-4e65-86fc-5f4702e93852-00-s3z2x26xo6jf.pike.replit.dev/src/components/admin/AdminRoute.tsx:21:30)
+    at AdminCRM (https://3e51678a-9f8e-4e65-86fc-5f4702e93852-00-s3z2x26xo6jf.pike.replit.dev/src/pages/admin/crm.tsx:48:20)
+    at Route (https://3e51678a-9f8e-4e65-86fc-5f4702e93852-00-s3z2x26xo6jf.pike.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=27c50157:280:16)
+    at Switch (https://3e51678a-9f8e-4e65-86fc-5f4702e93852-00-s3z2x26xo6jf.pike.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/wouter.js?v=27c50157:336:17)
+    at Router
+    at main
+    at div
+    at Provider (https://3e51678a-9f8e-4e65-86fc-5f4702e93852-00-s3z2x26xo6jf.pike.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/chunk-QWZJZ5O4.js?v=73d72877:38:15)
+    at TooltipProvider (https://3e51678a-9f8e-4e65-86fc-5f4702e93852-00-s3z2x26xo6jf.pike.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@radix-ui_react-tooltip.js?v=a02c8f53:62:5)
+    at NotificationProvider (https://3e51678a-9f8e-4e65-86fc-5f4702e93852-00-s3z2x26xo6jf.pike.replit.dev/src/contexts/NotificationContext.tsx:53:40)
+    at NotificationProviderWrapper (https://3e51678a-9f8e-4e65-86fc-5f4702e93852-00-s3z2x26xo6jf.pike.replit.dev/src/App.tsx?v=uoG3S21rFsl13KnKgPeYR:198:40)
+    at AuthProvider (https://3e51678a-9f8e-4e65-86fc-5f4702e93852-00-s3z2x26xo6jf.pike.replit.dev/src/contexts/AuthContext.tsx:29:32)
+    at QueryClientProvider (https://3e51678a-9f8e-4e65-86fc-5f4702e93852-00-s3z2x26xo6jf.pike.replit.dev/@fs/home/runner/workspace/node_modules/.vite/deps/@tanstack_react-query.js?v=4b92a462:2929:3)
+    at App

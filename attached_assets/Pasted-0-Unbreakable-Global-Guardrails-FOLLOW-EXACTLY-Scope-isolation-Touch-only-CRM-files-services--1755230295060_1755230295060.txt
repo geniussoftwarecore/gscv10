@@ -1,0 +1,245 @@
+0) Unbreakable Global Guardrails (FOLLOW EXACTLY)
+
+Scope isolation: Touch only CRM files, services, schemas, and pipelines. No edits to CI/CD, global env, global secrets, or shared libraries.
+
+Namespacing: Prefix all CRM resources with crm_ (DB schemas/tables, services, topics, queues, metrics, feature flags).
+
+DB boundaries: Create/alter only in schema crm_core. No foreign keys to non-crm_* tables.
+
+Feature flags: Gate every new feature behind crm_feature_*. Default = OFF.
+
+RBAC isolation: Introduce CRM-specific roles/scopes only. Do not broaden global permissions.
+
+Dry-run first: Run migrations/tests as dry-run; then open a CRM-only Pull Request.
+
+Observability namespace: Emit telemetry under crm.* only.
+
+i18n/RTL: Enable within CRM UI without altering global styles/components.
+
+Conflict policy: On any cross-module conflict → STOP, emit a conflict report; do not “auto-fix” outside CRM.
+
+Output discipline:
+
+Emit: plan → diffs/migrations → tests → verification report → PR summary.
+
+Emit commands and diffs, not prose, during build steps.
+
+1) Execution Plan (Do this first)
+
+Phase A — Plan: Data model, APIs, automation graph, RBAC matrix, acceptance criteria.
+
+Phase B — Build: Entities, migrations, services, APIs, integrations, minimal UI.
+
+Phase C — Verify: Unit/integration/acceptance + non-regression tests scoped to CRM.
+
+Phase D — Deliver: PR with coverage, dashboard snapshots, SLO/security report.
+
+2) Data Layer (create schema crm_core)
+
+2.1 Contacts — table crm_contacts
+id (uuid PK), first_name, last_name, primary_email (unique; mx_validated bool), phones (jsonb, E.164), channels (jsonb), opt_in_status enum, opt_in_source, utm (jsonb), account_id (fk crm_accounts.id), created_at, updated_at, deleted_at (soft delete)
+Indexes: primary_email, GIN on phones, account_id, updated_at. Dedup policy on (normalized_name, primary_email/phone).
+
+2.2 Accounts — table crm_accounts
+id, legal_name, normalized_name, industry enum, size_tier enum(micro/smb/ent), region, owner_team, tax_id, created_at, updated_at, deleted_at
+Uniqueness: (normalized_name, region).
+
+2.3 Products & Pricebook — crm_products, crm_pricebook
+Support fixed/tiers/usage pricing, multi-currency, tax rules, bundles.
+
+2.4 Activities — crm_activities
+type enum(call|meeting|task|message|note|attachment), actor_id, subject, against_type enum(contact|account|deal), against_id, outcome, duration_sec, attachments (object-storage ref), due_at, reminder_at, created_at.
+
+2.5 Timeline & Audit — crm_timeline, crm_auditlog
+Unified event stream + field-level audit for sensitive fields.
+
+2.6 Segmentation & Custom Fields
+crm_tags, crm_entity_tags (polymorphic), crm_custom_fields (meta), crm_custom_values (typed, with partial indexes).
+
+2.7 Data Quality
+crm_dedupe_jobs, crm_merge_candidates, enrichment hooks (optional).
+Quality gates: E.164 normalization, MX email check, soft-delete everywhere.
+
+3) Functional Modules (end-to-end)
+
+3.1 Leads
+
+Multi-channel capture (Web/Email/WhatsApp/Voice/Ads) with source + UTM.
+
+Scoring = Fit(industry/size/region) + Engagement(opens/clicks/visits).
+
+Auto-assignment (Round-robin/Territory) with VIP overrides.
+
+Convert → creates Contact + (optional Account) + Opportunity; dedup safe.
+
+3.2 Opportunities/Deals
+
+Pipeline stages (configurable) with mandatory Exit Criteria per stage.
+
+Fields: expected_value, close_date, win_probability.
+
+Forecast by owner/team/quarter.
+
+3.3 Pipeline Board
+
+Kanban drag-drop, stage aging, stale warnings, Pipeline Velocity auto-calc.
+
+3.4 Marketing Automation
+
+Visual Journeys: Triggers / Conditions / Actions (Email/SMS/WhatsApp, Wait, Update, Branch).
+
+A/B testing for subject/timing/content. Landing pages with UTM.
+
+3.5 Support/Helpdesk
+
+Tickets: priority, category, status, SLA, owner.
+
+Routing rules (skill-based/load-based), business hours, escalation.
+
+Searchable knowledge base; unified inbox (email/web/WhatsApp/telephony).
+
+3.6 Quotes / CPQ / Invoices
+
+PriceBook, pricing rules, discounts with approvals, e-signature.
+
+Quote → Order → Invoice; ERP/Payments integration or standard export.
+
+3.7 Subscriptions/Renewals
+
+Recurring contracts (monthly/annual), auto-billing, reminders, dunning, suspend/resume.
+
+3.8 Projects / Field Service (optional)
+
+Post-win delivery project (tasks/resources/dependencies).
+
+Field service: team scheduling, spare parts, signed visit reports.
+
+3.9 Dashboards & BI
+
+Role-based dashboards (Executive/Manager/Rep).
+
+Report builder (fields/aggregations/filters/charts); Cohorts, Churn, Forecast.
+
+4) Automation & Governance (cross-cutting)
+
+Workflows/Rules: “IF X THEN Y” (assign/remind/update/notify/webhook/create activity/ticket), with trace + pause/resume.
+
+Approvals: sequential/parallel for discounts/contracts/quotes; SLA, escalation, delegation.
+
+RBAC: roles/teams; visibility by region/account/owner; log denied access.
+
+APIs/Webhooks: REST + GraphQL, signed webhooks, rate-limits, versioning, API keys.
+
+Integrations: Email/Calendar (OAuth), PBX/VoIP, WhatsApp Business API, Payment gateways, ERP/Accounting, Store/Web; bi-directional sync with retry + circuit-breaker.
+
+Mobile/Offline: selective local cache, sync queues, conflict resolution.
+
+i18n/RTL: enable inside CRM UI only.
+
+5) Customer Journey (implement fully)
+
+Capture → 2) Qualify & Score → 3) Engage → 4) Convert (Opportunity) →
+
+Quote/CPQ → 6) Close & Invoice/Subscription → 7) Delivery & Support → 8) Retention & Expansion.
+
+KPIs: Lead→MQL→SQL→Won, Avg deal size, Sales cycle, Pipeline Velocity, Forecast, CAC/LTV, Churn, ARPA, NPS/CSAT.
+
+6) API Surface (explicit, idempotent)
+
+REST: /crm/v1/{contacts|accounts|leads|deals|activities|tickets|quotes|invoices|subscriptions}
+
+GraphQL: typed schemas, pagination, filtering, sorting.
+
+Idempotency: require Idempotency-Key for POST/PUT/PATCH.
+
+Security: OAuth2/JWT, CRM-scoped permissions, full request audit.
+
+7) UI/UX (CRM-only)
+
+Dashboards (Executive/Manager/Rep), Pipeline Kanban, entity pages, unified timeline, saved segments, report builder.
+
+Accessibility baseline (keyboard/ARIA), i18n/RTL.
+
+No changes to global theming/layout outside CRM.
+
+8) NFRs & SLOs (enforce)
+
+Performance: p95 read ≤ 300ms; p95 write ≤ 600ms; list/search ≤ 1s.
+
+Scale targets: 1M contacts, 200k deals, sustained 50 TPS API.
+
+Observability: OpenTelemetry traces/metrics/logs under crm.*.
+
+Security: OWASP Top-10, encryption at rest/in transit, secret hygiene.
+
+Compliance: data retention policies, consent tracking, export/delete on request.
+
+Coverage: ≥ 85% for critical units; contract tests for integrations.
+
+9) Testing & Definition of Done
+
+Unit/Integration/Acceptance for every CRM module.
+
+Contract tests for email/WhatsApp/payments/ERP (with mocks).
+
+Non-Regression snapshots for CRM UI only.
+
+Data Quality gates: Dedup/E.164/MX checks.
+
+DoD requires:
+
+Reversible migrations.
+
+RBAC enforced and tested.
+
+Feature flags on.
+
+KPIs & Dashboards operational.
+
+Admin/User docs + data model + flow diagrams.
+
+SLO/Security report meeting limits.
+
+10) Delivery Roadmap
+
+MVP (4–8 weeks): Contacts/Leads/Deals + Pipeline, Activities, Email templates, Basic Tickets, Basic Reports, Import/Export, RBAC, minimal REST/GraphQL.
+
+Phase 2: Journeys, CPQ, Quotes/Invoices, Accounting/Payments integrations, Subscriptions.
+
+Phase 3: Omnichannel (WhatsApp/Telephony), ML predictions (win/churn), Field Service, Advanced BI.
+
+11) Required Output Artifacts (exact paths)
+
+crm_docs/PLAN.md — model, APIs, flows, RBAC, acceptance criteria, guardrails.
+
+crm_db/migrations/* — reversible SQL/DDL with dry-run logs.
+
+crm_services/* — domain/use-cases/repos/controllers.
+
+crm_api/* — REST handlers + GraphQL schemas.
+
+crm_ui/* — dashboards, kanban, entity pages, report builder.
+
+crm_tests/* — unit/integration/acceptance/contract suites.
+
+crm_ops/* — otel config, dashboards, security policies.
+
+PR name: feat(crm): initial_mvp_isolated.
+
+12) Self-Audit Checklist (must pass before PR)
+
+✅ No changes outside crm_* namespaces and paths.
+
+✅ All resources prefixed crm_.
+
+✅ Migrations reversible; dry-run clean.
+
+✅ Tests green; critical coverage ≥ 85%.
+
+✅ SLOs met; security checks passed.
+
+✅ KPIs & dashboards render successfully.
+
+✅ Docs + diagrams generated.
+
+Begin now.

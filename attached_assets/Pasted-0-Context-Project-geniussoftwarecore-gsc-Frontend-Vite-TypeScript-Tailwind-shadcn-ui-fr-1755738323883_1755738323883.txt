@@ -1,0 +1,169 @@
+0) Context
+
+Project: geniussoftwarecore/gsc
+
+Frontend: Vite + TypeScript + Tailwind + shadcn/ui + framer-motion + i18n (ar/en) + RTL/LTR
+
+Theme: White + Sky Blue (color tokens already defined in tailwind.config.ts)
+
+Rule: Do not break other sections, keep the existing design system consistent.
+
+1) Add “Subscribe” and “Start Free Trial” Buttons on Home Page
+
+Location: Hero section or top of homepage (client/src/components/home/HomeHero.tsx).
+
+Add two buttons:
+
+Primary: “Start Free Trial” → navigates to /services page.
+
+Secondary: “Subscribe Now” → also navigates to /services (later can redirect to /pricing).
+
+Style:
+
+Primary: outline style, hover → filled with brand.sky.accent and dark text.
+
+Secondary: text-only with a small arrow icon.
+
+Motion:
+
+Animate with framer-motion (fade/slide-in, hover lift with subtle shadow).
+
+i18n keys:
+
+home.hero.cta.trial = “Start Free Trial”
+
+home.hero.cta.subscribe = “Subscribe Now”
+
+If /services doesn’t exist, create it at client/src/pages/services.tsx with simple service cards (Web, Mobile, ERP, AI) and a link to “Contact Us.”
+
+2) Add “Contact Us” in Navbar
+
+Location: Navbar component (client/src/components/layout/Navbar.tsx).
+
+Add a new menu item “Contact Us” linking to /contact.
+
+If not present, create client/src/pages/contact.tsx:
+
+Simple form: name, email, subject, message (using shadcn/ui Input, Textarea, Button).
+
+Validation: required fields + email pattern.
+
+Submit button sends POST → /api/contact (temporary endpoint returning 200 OK).
+
+Show toast for success/failure.
+
+3) Update Logo in Navbar
+
+Goal: Display logo in White + Sky Blue colors + company name.
+
+In Navbar.tsx:
+
+Add a lightweight SVG icon (circle or diamond) in brand.sky.accent.
+
+Place text “Genius Software Core” beside it in font-semibold, brand.text.primary.
+
+Ensure balanced spacing (gap-2) and consistent height (h-8 ~ h-10).
+
+Responsive: on smaller screens, hide the text and keep only the icon if necessary.
+
+Link logo → / (homepage).
+
+4) Optional Modern Enhancements
+
+Top Banner (Announcement Bar):
+
+Text: “Start your free trial today” + link to /services.
+
+Background brand.sky.light, dismissible with “x.”
+
+Scroll Progress Indicator:
+
+Thin progress bar at top showing scroll completion.
+
+Floating CTA (Mobile only):
+
+Small fixed button bottom-right → opens sheet with “Try Now / Contact.”
+
+Accessibility:
+
+Focus-visible styles, aria-labels, aria-current="page" for active links.
+
+5) Performance & RTL
+
+Respect dir="rtl" for Arabic and flip icons accordingly.
+
+Use SVG for logo, no heavy images.
+
+Lazy load any images in /services.
+
+Fix image dimensions to avoid CLS.
+
+6) Routing
+
+Ensure pages exist:
+
+/services (services overview page).
+
+/contact (contact form page).
+
+Hero buttons → /services for now (later “Subscribe” can redirect to /pricing).
+
+7) Testing (Acceptance Criteria)
+
+Hero section shows “Start Free Trial” and “Subscribe Now” buttons → working links.
+
+Navbar includes “Contact Us” link → /contact page with functional form + toast.
+
+Navbar logo updated with White + Sky Blue style + text “Genius Software Core.”
+
+RTL/LTR works properly.
+
+No console errors in dev.
+
+8) Suggested Commits
+
+feat(home): add trial & subscribe CTAs linking to /services
+
+feat(navbar): add Contact link and update brand logo + company name
+
+feat(pages): create /services (cards) and /contact (form + toast)
+
+style(theme): polish white+sky accents for navbar & hero CTAs
+
+chore(i18n): add home.hero.cta.*, contact.*, services.* (ar/en)
+
+9) i18n Keys
+{
+  "home": {
+    "hero": {
+      "cta": {
+        "trial": "Start Free Trial",
+        "subscribe": "Subscribe Now"
+      }
+    }
+  },
+  "nav": {
+    "contact": "Contact Us",
+    "services": "Services"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "We’d love to help. Fill out the form and we’ll respond shortly.",
+    "form": {
+      "name": "Name",
+      "email": "Email",
+      "subject": "Subject",
+      "message": "Message",
+      "submit": "Send"
+    },
+    "toasts": {
+      "success": "Your message has been sent successfully.",
+      "error": "An unexpected error occurred. Please try again."
+    }
+  },
+  "services": {
+    "title": "Our Services",
+    "subtitle": "Modern solutions for Web, Mobile, ERP, and AI development.",
+    "cta": "Request a Quote"
+  }
+}

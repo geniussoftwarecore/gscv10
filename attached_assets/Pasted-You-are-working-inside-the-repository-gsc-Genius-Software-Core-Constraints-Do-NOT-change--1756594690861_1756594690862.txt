@@ -1,0 +1,191 @@
+You are working inside the repository “gsc” (Genius Software Core). 
+Constraints:
+- Do NOT change global styles, theming, layout system, spacing scale, or color palette.
+- Reuse existing components and Tailwind tokens defined in the repo (see tailwind.config and components.json).
+- Keep the same look & feel of the current site; only add structured content + light interactivity.
+
+1) Locate the Services route/component:
+- Search the repo for a Services page in these folders (in order): /client, /crm_ui.
+- Common file patterns to check: src/pages/services.(tsx|jsx), src/routes/services.(tsx|jsx), app/(marketing)/services/page.tsx, or a “ServicesSection” component used in the Home page.
+- If a Services route already exists, extend it with the data model below and map over it.
+- If not found, create a Services page using the existing routing convention in the app (Vite/React). Keep the same overall layout wrapper, header, container widths, and grid classes used elsewhere in marketing pages.
+
+2) Create a typed data source for services:
+- Add a file: /client/src/content/services.ts (or the closest equivalent under the current client codebase).
+- Export an array of objects with this interface:
+
+type Service = {
+  id: string;
+  name: string;
+  tagline: string;
+  description: string;
+  features: string[];
+  deliverables: string[];
+  inputsNeeded: string[];
+  interactiveIdeas: string[];
+  category: "Web" | "Mobile" | "ERP" | "AI" | "Design" | "Cloud" | "Data" | "Commerce" | "Support";
+  icon?: string; // lucide-react icon name if available in the project
+  cta?: { label: string; href: string; };
+};
+
+- Populate with these 10 services (verbatim). Keep punctuation and capitalization:
+
+[
+  {
+    id: "web-dev",
+    name: "Web Development",
+    tagline: "Modern, fast, secure websites and web apps.",
+    description: "We build responsive interfaces, modular codebases, and SEO-ready web experiences that are easy to maintain and scale.",
+    features: ["Responsive UI", "Clean architecture", "SEO basics", "Performance budget"],
+    deliverables: ["Page templates", "Reusable components", "CI build", "Docs for handover"],
+    inputsNeeded: ["Brand assets", "Site map/sections", "Reference links"],
+    interactiveIdeas: ["Tech stack selector (Static/SSR)", "Quick quote estimator"],
+    category: "Web",
+    icon: "Globe",
+    cta: { label: "Request a Proposal", href: "/contact?subject=Web%20Development" }
+  },
+  {
+    id: "mobile-apps",
+    name: "Mobile App Development",
+    tagline: "Native-quality apps for Android & iOS with one codebase.",
+    description: "Flutter-based apps with solid navigation, secure auth, and analytics. Release pipelines and store-ready deliverables included.",
+    features: ["Flutter codebase", "Secure auth", "Crash/analytics hooks", "Store bundles"],
+    deliverables: ["Android APK/AAB", "iOS IPA (where applicable)", "CI/CD pipeline", "Release notes template"],
+    inputsNeeded: ["Feature list", "Target OS versions", "Launch timing"],
+    interactiveIdeas: ["Feature toggles (push/offline)", "Release plan timeline"],
+    category: "Mobile",
+    icon: "Smartphone",
+    cta: { label: "Request a Proposal", href: "/contact?subject=Mobile%20Apps" }
+  },
+  {
+    id: "erpnext",
+    name: "ERPNext Implementation",
+    tagline: "Tailored ERPNext setup, data migration, and training.",
+    description: "Configure modules, roles, and reports around your real workflows. We migrate data safely and train your team.",
+    features: ["Module setup", "Custom scripts", "Reports", "Role-based access"],
+    deliverables: ["Configured modules", "User roles & permissions", "Sample reports", "Training sessions"],
+    inputsNeeded: ["Current workflows", "Sample data", "Approval matrix"],
+    interactiveIdeas: ["Module picker", "Migration readiness checklist"],
+    category: "ERP",
+    icon: "Boxes",
+    cta: { label: "Request a Proposal", href: "/contact?subject=ERPNext" }
+  },
+  {
+    id: "custom-erp-crm",
+    name: "Custom ERP/CRM",
+    tagline: "When off-the-shelf isn’t enough—build what fits your business.",
+    description: "We model your domain, design APIs and permissions, and deliver dashboards that match how your teams work.",
+    features: ["Domain modeling", "API design", "Dashboards", "Granular permissions"],
+    deliverables: ["Data model", "Endpoints", "Admin console", "Dashboards"],
+    inputsNeeded: ["Entities/objects", "Process maps", "KPIs"],
+    interactiveIdeas: ["Data model visualizer", "Dashboard presets"],
+    category: "ERP",
+    icon: "Workflow",
+    cta: { label: "Request a Proposal", href: "/contact?subject=Custom%20ERP%2FCRM" }
+  },
+  {
+    id: "ai-automation",
+    name: "AI Agents & Automation",
+    tagline: "Automate support, back-office, and data tasks with safe AI workflows.",
+    description: "We orchestrate tools with guardrails and audit trails so tasks get done quickly and responsibly.",
+    features: ["Tool use", "Guardrails", "Audit logs", "Escalation paths"],
+    deliverables: ["Agent workflows", "Eval tests", "Safety config", "Runbooks"],
+    inputsNeeded: ["Target tasks", "Data sources", "Risk tolerance"],
+    interactiveIdeas: ["Task builder wizard", "Automation ROI calculator"],
+    category: "AI",
+    icon: "Bot",
+    cta: { label: "Request a Proposal", href: "/contact?subject=AI%20Automation" }
+  },
+  {
+    id: "ui-ux-branding",
+    name: "UI/UX & Branding",
+    tagline: "Interfaces that look great and work even better.",
+    description: "From wireframes to polished components, we design systems that are accessible, consistent, and delightful.",
+    features: ["Wireframes", "Design tokens", "Component library", "Accessibility review"],
+    deliverables: ["Brand kit", "High-fidelity mockups", "Tokens", "Prototype"],
+    inputsNeeded: ["Audience & tone", "Competitors", "Brand constraints"],
+    interactiveIdeas: ["Theme previewer", "Font toggle"],
+    category: "Design",
+    icon: "Palette",
+    cta: { label: "Request a Proposal", href: "/contact?subject=UI%2FUX%20%26%20Branding" }
+  },
+  {
+    id: "cloud-devops",
+    name: "Cloud & DevOps",
+    tagline: "From laptop to production—repeatable, reliable, secure.",
+    description: "We containerize your app, set up CI/CD, and script infrastructure so deployments are boring and safe.",
+    features: ["Dockerization", "CI/CD", "Infra as code", "Monitoring/alerts"],
+    deliverables: ["Pipelines", "IaC scripts", "Dashboards", "Playbooks"],
+    inputsNeeded: ["Hosting choice", "Uptime/SLA", "Budget"],
+    interactiveIdeas: ["Deployment target selector", "SLA checklist"],
+    category: "Cloud",
+    icon: "Cloud",
+    cta: { label: "Request a Proposal", href: "/contact?subject=Cloud%20%26%20DevOps" }
+  },
+  {
+    id: "data-analytics",
+    name: "Data & Analytics",
+    tagline: "Turn raw data into dashboards and decisions.",
+    description: "We define KPIs, build pipelines, and ship dashboards your teams will actually use.",
+    features: ["Data modeling", "ETL/ELT", "KPI dashboards", "Alerting"],
+    deliverables: ["Data models", "Pipelines", "Dashboards", "Alert rules"],
+    inputsNeeded: ["Data sources", "KPI definitions", "Update cadence"],
+    interactiveIdeas: ["KPI selector", "Dashboard gallery"],
+    category: "Data",
+    icon: "BarChartBig",
+    cta: { label: "Request a Proposal", href: "/contact?subject=Data%20%26%20Analytics" }
+  },
+  {
+    id: "ecommerce",
+    name: "E-Commerce",
+    tagline: "Storefronts built for conversion and scale.",
+    description: "We implement product catalogs, payments, and order flows tuned for speed and trust.",
+    features: ["Catalog", "Checkout", "Payments", "Promos"],
+    deliverables: ["Storefront", "Payment integration", "Order tracking", "Promo tools"],
+    inputsNeeded: ["Catalog structure", "Shipping rules", "Payment providers"],
+    interactiveIdeas: ["Conversion checklist", "Promotion planner"],
+    category: "Commerce",
+    icon: "ShoppingCart",
+    cta: { label: "Request a Proposal", href: "/contact?subject=E-Commerce" }
+  },
+  {
+    id: "maintenance-support",
+    name: "Maintenance & Support",
+    tagline: "Keep everything updated, monitored, and running smoothly.",
+    description: "Proactive maintenance with security updates, backups, and clear monthly health reports.",
+    features: ["Patching", "Backups", "Uptime checks", "Reports"],
+    deliverables: ["Maintenance plan", "SLA", "Monitoring", "Monthly report"],
+    inputsNeeded: ["Contact ladder", "Maintenance windows", "Environments"],
+    interactiveIdeas: ["Plan selector (Basic/Pro/Enterprise)", "Incident SLA timeline"],
+    category: "Support",
+    icon: "LifeBuoy",
+    cta: { label: "Request a Proposal", href: "/contact?subject=Maintenance%20%26%20Support" }
+  }
+]
+
+3) Render UI using existing design system:
+- Build a Services grid using the same container, spacing, and grid utilities used in other marketing sections (match padding, breakpoints, shadows, radius).
+- For each service: show icon (lucide if present), name, tagline, short description, bullet features, CTA button.
+- Add collapsible sections: “What you get”, “What we need from you”, “Interactive ideas”.
+- Add an optional filter bar (categories) and a search input (debounced) if the site already includes a filter/search pattern. If not present, skip it to avoid design drift.
+
+4) Links/CTAs:
+- All CTAs must point to /contact with a prefilled subject query param (already included in the data).
+- Do not introduce new global nav items.
+
+5) i18n:
+- If an i18n utility exists in the app, wrap strings accordingly. If not, keep plain strings for now.
+
+6) QA checklist:
+- Lighthouse: no regressions in performance/SEO/accessibility vs. current pages.
+- Keyboard + screen reader friendly for collapsibles.
+- No change to global styles, header, footer, or typography scale.
+
+7) Files to touch (adjust to actual structure you find):
+- /client/src/content/services.ts (new)
+- /client/src/pages/services.tsx OR the existing Services route component
+- Any existing UI atoms for Card/Accordion/Badge if needed (reuse, don’t restyle)
+
+8) Output:
+- Commit with message: "feat(services): add structured services content, mapped UI, and CTAs without design changes"
+- Provide a short summary of what changed and where.
