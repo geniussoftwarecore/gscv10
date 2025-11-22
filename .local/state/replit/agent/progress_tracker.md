@@ -36,3 +36,5 @@
 [x] 36. Updated PortfolioCTA section contact button to link to /contact - Nov 22, 2025
 [x] 37. Updated CRMShowcase "Start Free Trial" button to link to ERPNext service page - Nov 22, 2025
 [x] 38. Updated PortfolioCTA "View Services" button to link to /services - Nov 22, 2025
+[x] 39. Updated CTAStrip section buttons to link to /contact page - Nov 22, 2025
+[x] 40. Both "احجز استشارة مجانية" and secondary CTA buttons now navigate to contact page - Nov 22, 2025

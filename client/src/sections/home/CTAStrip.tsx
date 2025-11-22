@@ -4,6 +4,7 @@ import { useLanguage } from "@/i18n/lang";
 import { useTranslation } from "@/hooks/useTranslation";
 import { cn } from "@/lib/utils";
 import { MessageCircle, Calendar, ArrowRight } from "lucide-react";
+import { Link } from "wouter";
 
 export function CTAStrip() {
   const { dir } = useLanguage();
@@ -95,24 +96,28 @@ export function CTAStrip() {
               transition={{ duration: 0.8, delay: 0.4 }}
               viewport={{ once: true }}
             >
-              <Button
-                size="lg"
-                className="bg-white text-primary hover:bg-gray-100 px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 text-base font-semibold group"
-                data-testid="cta-primary-button"
-              >
-                <Calendar className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
-                {t('cta.primary')}
-              </Button>
+              <Link href="/contact">
+                <Button
+                  size="lg"
+                  className="bg-white text-primary hover:bg-gray-100 px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 text-base font-semibold group"
+                  data-testid="cta-primary-button"
+                >
+                  <Calendar className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
+                  {t('cta.primary')}
+                </Button>
+              </Link>
               
-              <Button
-                variant="outline"
-                size="lg"
-                className="border-2 border-white text-white hover:bg-white hover:text-primary px-8 py-4 rounded-xl transition-all duration-300 text-base font-semibold group"
-                data-testid="cta-secondary-button"
-              >
-                <MessageCircle className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
-                {t('cta.secondary')}
-              </Button>
+              <Link href="/contact">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="border-2 border-white text-white hover:bg-white hover:text-primary px-8 py-4 rounded-xl transition-all duration-300 text-base font-semibold group"
+                  data-testid="cta-secondary-button"
+                >
+                  <MessageCircle className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
+                  {t('cta.secondary')}
+                </Button>
+              </Link>
             </motion.div>
 
             {/* Trust Indicators */}
