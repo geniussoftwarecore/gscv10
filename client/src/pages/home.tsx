@@ -7,7 +7,6 @@ import {
   ServicesGrid,
   CRMShowcase,
   PortfolioPreview,
-  SocialProof,
   CTAStrip
 } from "@/sections/home";
 
@@ -41,9 +40,6 @@ export default function Home() {
         
         {/* Portfolio Preview */}
         <PortfolioPreview />
-        
-        {/* Social Proof */}
-        <SocialProof />
         
         {/* CTA Strip */}
         <CTAStrip />
