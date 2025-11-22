@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/i18n/lang";
 import { useTranslation } from "@/hooks/useTranslation";
 import { cn } from "@/lib/utils";
+import { Link } from "wouter";
 
 export function Hero() {
   const { dir, lang } = useLanguage();
@@ -122,13 +123,15 @@ export function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.5 }}
             >
-              <Button
-                size="lg"
-                className="bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-primary text-white px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 text-base font-semibold"
-                data-testid="hero-primary-cta"
-              >
-                {t('hero.primaryCta')}
-              </Button>
+              <Link href="/services/be5527f7-3381-48f8-9ff2-21132038ae59">
+                <Button
+                  size="lg"
+                  className="bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-primary text-white px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 text-base font-semibold"
+                  data-testid="hero-primary-cta"
+                >
+                  {t('hero.primaryCta')}
+                </Button>
+              </Link>
               
               <Button
                 variant="outline"
