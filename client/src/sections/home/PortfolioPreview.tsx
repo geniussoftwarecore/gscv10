@@ -13,8 +13,17 @@ export function PortfolioPreview() {
   const { dir } = useLanguage();
   const { t } = useTranslation();
 
-  // Get top 6 featured projects
-  const featuredProjects = portfolioProjects.filter(p => p.status === 'published').slice(0, 6);
+  // Projects to exclude from home page
+  const excludedSlugs = [
+    'fintech-mobile-app', // تطبيق البنكية الرقمية - البنك السعودي
+    'logistics-optimization-platform', // منصة اللوجستيات الذكية
+    'educational-platform-ksu' // نظام إدارة التعلم الذكي
+  ];
+
+  // Get top 6 featured projects excluding specific ones
+  const featuredProjects = portfolioProjects
+    .filter(p => p.status === 'published' && !excludedSlugs.includes(p.slug))
+    .slice(0, 6);
 
   return (
     <section className="py-20 relative overflow-hidden bg-gradient-to-br from-slate-50 via-white to-blue-50/30 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
