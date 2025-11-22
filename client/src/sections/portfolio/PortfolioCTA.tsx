@@ -4,6 +4,7 @@ import { useLanguage } from "@/i18n/lang";
 import { useTranslation } from "@/hooks/useTranslation";
 import { cn } from "@/lib/utils";
 import { ArrowRight, MessageCircle, Lightbulb } from "lucide-react";
+import { Link } from "wouter";
 
 export function PortfolioCTA() {
   const { dir } = useLanguage();
@@ -79,29 +80,33 @@ export function PortfolioCTA() {
             transition={{ duration: 0.8, delay: 0.2 }}
             viewport={{ once: true }}
           >
-            <Button
-              size="lg"
-              className="bg-white text-primary hover:bg-gray-100 px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 text-base font-semibold group"
-              data-testid="portfolio-primary-cta"
-            >
-              <MessageCircle className="w-5 h-5 mr-2" />
-              {dir === 'rtl' ? 'تواصل معنا الآن' : 'Contact Us Now'}
-              <ArrowRight 
-                className={cn(
-                  "w-5 h-5 transition-transform duration-300 group-hover:translate-x-1",
-                  dir === 'rtl' ? 'mr-2 group-hover:-translate-x-1' : 'ml-2'
-                )} 
-              />
-            </Button>
+            <Link href="/contact">
+              <Button
+                size="lg"
+                className="bg-white text-primary hover:bg-gray-100 px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 text-base font-semibold group"
+                data-testid="portfolio-primary-cta"
+              >
+                <MessageCircle className="w-5 h-5 mr-2" />
+                {dir === 'rtl' ? 'تواصل معنا الآن' : 'Contact Us Now'}
+                <ArrowRight 
+                  className={cn(
+                    "w-5 h-5 transition-transform duration-300 group-hover:translate-x-1",
+                    dir === 'rtl' ? 'mr-2 group-hover:-translate-x-1' : 'ml-2'
+                  )} 
+                />
+              </Button>
+            </Link>
             
-            <Button
-              variant="outline"
-              size="lg"
-              className="border-2 border-white text-white hover:bg-white hover:text-primary px-8 py-4 rounded-xl transition-all duration-300 text-base font-semibold backdrop-blur-sm"
-              data-testid="portfolio-secondary-cta"
-            >
-              {dir === 'rtl' ? 'عرض الخدمات' : 'View Services'}
-            </Button>
+            <Link href="/services">
+              <Button
+                variant="outline"
+                size="lg"
+                className="border-2 border-white text-white hover:bg-white hover:text-primary px-8 py-4 rounded-xl transition-all duration-300 text-base font-semibold backdrop-blur-sm"
+                data-testid="portfolio-secondary-cta"
+              >
+                {dir === 'rtl' ? 'عرض الخدمات' : 'View Services'}
+              </Button>
+            </Link>
           </motion.div>
 
           {/* Trust Indicators */}

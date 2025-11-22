@@ -133,14 +133,16 @@ export function Hero() {
                 </Button>
               </Link>
               
-              <Button
-                variant="outline"
-                size="lg"
-                className="border-2 border-primary text-primary hover:bg-primary hover:text-white px-8 py-4 rounded-xl transition-all duration-300 text-base font-semibold"
-                data-testid="hero-secondary-cta"
-              >
-                {t('hero.secondaryCta')}
-              </Button>
+              <Link href="/contact">
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="border-2 border-primary text-primary hover:bg-primary hover:text-white px-8 py-4 rounded-xl transition-all duration-300 text-base font-semibold"
+                  data-testid="hero-secondary-cta"
+                >
+                  {t('hero.secondaryCta')}
+                </Button>
+              </Link>
             </motion.div>
 
             {/* Trust Indicators */}

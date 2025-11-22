@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/i18n/lang";
 import { useTranslation } from "@/hooks/useTranslation";
 import { cn } from "@/lib/utils";
+import { Link } from "wouter";
 import { 
   TrendingUp,
   Users,
@@ -665,30 +666,34 @@ export function CRMShowcase() {
           transition={{ duration: 0.8, delay: 0.8 }}
           viewport={{ once: true }}
         >
-          <Button
-            size="lg"
-            className="bg-white text-[#2d4a7c] hover:bg-white/90 px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 group"
-            data-testid="crm-primary-cta"
-          >
-            <Play className={cn(
-              "w-5 h-5 group-hover:scale-110 transition-transform",
-              dir === 'rtl' ? 'ml-2' : 'mr-2'
-            )} />
-            {dir === 'rtl' ? 'ابدأ تجربتك المجانية' : 'Start Free Trial'}
-          </Button>
+          <Link href="/services/be5527f7-3381-48f8-9ff2-21132038ae59">
+            <Button
+              size="lg"
+              className="bg-white text-[#2d4a7c] hover:bg-white/90 px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 group"
+              data-testid="crm-primary-cta"
+            >
+              <Play className={cn(
+                "w-5 h-5 group-hover:scale-110 transition-transform",
+                dir === 'rtl' ? 'ml-2' : 'mr-2'
+              )} />
+              {dir === 'rtl' ? 'ابدأ تجربتك المجانية' : 'Start Free Trial'}
+            </Button>
+          </Link>
           
-          <Button
-            size="lg"
-            variant="outline"
-            className="border-2 border-white text-white hover:bg-white/10 px-8 py-4 rounded-xl transition-all duration-300 group backdrop-blur-sm"
-            data-testid="crm-secondary-cta"
-          >
-            <ExternalLink className={cn(
-              "w-5 h-5 group-hover:scale-110 transition-transform",
-              dir === 'rtl' ? 'ml-2' : 'mr-2'
-            )} />
-            {dir === 'rtl' ? 'تواصل معنا' : 'Contact Us'}
-          </Button>
+          <Link href="/contact">
+            <Button
+              size="lg"
+              variant="outline"
+              className="border-2 border-white text-white hover:bg-white/10 px-8 py-4 rounded-xl transition-all duration-300 group backdrop-blur-sm"
+              data-testid="crm-secondary-cta"
+            >
+              <ExternalLink className={cn(
+                "w-5 h-5 group-hover:scale-110 transition-transform",
+                dir === 'rtl' ? 'ml-2' : 'mr-2'
+              )} />
+              {dir === 'rtl' ? 'تواصل معنا' : 'Contact Us'}
+            </Button>
+          </Link>
         </motion.div>
       </div>
     </section>
