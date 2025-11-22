@@ -28,3 +28,5 @@
 [x] 28. Excluded 3 projects from home page: نظام إدارة التعلم الذكي, منصة اللوجستيات الذكية, تطبيق البنكية الرقمية - Nov 22, 2025
 [x] 29. Removed SocialProof section (testimonials & client logos) from home page only - Nov 22, 2025
 [x] 30. Final verification completed - application running successfully on port 5000 with all features working - Nov 22, 2025
+[x] 31. Updated Hero section "Start Free Trial" button to link to ERPNext v15 service page (/services/be5527f7-3381-48f8-9ff2-21132038ae59) - Nov 22, 2025
+[x] 32. Fixed dynamic import error by restarting workflow - Vite HMR cache cleared successfully - Nov 22, 2025
