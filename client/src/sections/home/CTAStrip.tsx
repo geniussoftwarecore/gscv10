@@ -5,6 +5,7 @@ import { useTranslation } from "@/hooks/useTranslation";
 import { cn } from "@/lib/utils";
 import { MessageCircle, Calendar, ArrowRight } from "lucide-react";
 import { Link } from "wouter";
+import { COMPANY_INFO } from "@/lib/constants";
 
 export function CTAStrip() {
   const { dir } = useLanguage();
@@ -107,17 +108,21 @@ export function CTAStrip() {
                 </Button>
               </Link>
               
-              <Link href="/contact">
+              <a 
+                href={COMPANY_INFO.socialMedia.whatsapp}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <Button
                   variant="outline"
                   size="lg"
                   className="border-2 border-white text-white hover:bg-white hover:text-primary px-8 py-4 rounded-xl transition-all duration-300 text-base font-semibold group"
-                  data-testid="cta-secondary-button"
+                  data-testid="cta-whatsapp-button"
                 >
                   <MessageCircle className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
                   {t('cta.secondary')}
                 </Button>
-              </Link>
+              </a>
             </motion.div>
 
             {/* Trust Indicators */}
