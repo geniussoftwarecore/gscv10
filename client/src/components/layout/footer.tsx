@@ -52,42 +52,42 @@ export default function Footer() {
             </h3>
             <ul className="space-y-3">
               <li>
-                <Link href="/services">
+                <Link href="/services/562fce34-abbd-4ba9-abc5-bc6b4afe61c7">
                   <span className="text-sm text-gray-600 hover:text-blue-600 hover:underline transition-colors cursor-pointer">
                     {t('footer.services.webApps')}
                   </span>
                 </Link>
               </li>
               <li>
-                <Link href="/services">
+                <Link href="/services/66b131cc-ccec-49a7-b832-972f4ba29a7b">
                   <span className="text-sm text-gray-600 hover:text-blue-600 hover:underline transition-colors cursor-pointer">
                     {t('footer.services.mobileApps')}
                   </span>
                 </Link>
               </li>
               <li>
-                <Link href="/services">
+                <Link href="/services/be5527f7-3381-48f8-9ff2-21132038ae59">
                   <span className="text-sm text-gray-600 hover:text-blue-600 hover:underline transition-colors cursor-pointer">
                     {t('footer.services.crmErp')}
                   </span>
                 </Link>
               </li>
               <li>
-                <Link href="/services">
+                <Link href="/services/f5a8c2b4-7d6e-4c9f-8a1b-3e5g7h9i2j4k">
                   <span className="text-sm text-gray-600 hover:text-blue-600 hover:underline transition-colors cursor-pointer">
                     {t('footer.services.integrations')}
                   </span>
                 </Link>
               </li>
               <li>
-                <Link href="/services">
+                <Link href="/services/9a6c839d-2a5c-4418-832a-2a5bd14dcf7e">
                   <span className="text-sm text-gray-600 hover:text-blue-600 hover:underline transition-colors cursor-pointer">
                     {t('footer.services.brandingUi')}
                   </span>
                 </Link>
               </li>
               <li>
-                <Link href="/services">
+                <Link href="/services/d7e8f9g0-h1i2-j3k4-l5m6-n7o8p9q0r1s2">
                   <span className="text-sm text-gray-600 hover:text-blue-600 hover:underline transition-colors cursor-pointer">
                     {t('footer.services.devops')}
                   </span>
