@@ -39,7 +39,7 @@ export default function Footer() {
               size="sm"
               className="rounded-xl"
             >
-              <Link href="/contact">
+              <Link href="/services/be5527f7-3381-48f8-9ff2-21132038ae59">
                 {t('footer.cta')}
               </Link>
             </Button>
