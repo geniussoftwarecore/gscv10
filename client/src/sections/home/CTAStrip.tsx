@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/i18n/lang";
 import { useTranslation } from "@/hooks/useTranslation";
-import { cn } from "@/lib/utils";
 import { MessageCircle, Calendar } from "lucide-react";
 import { Link } from "wouter";
 import { COMPANY_INFO } from "@/lib/constants";
@@ -54,15 +53,12 @@ export function CTAStrip() {
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <div className="flex justify-center">
           {/* Content Section */}
           <motion.div
-            className={cn(
-              "text-center lg:text-start",
-              dir === "rtl" && "lg:text-right"
-            )}
-            initial={{ opacity: 0, x: dir === 'rtl' ? 50 : -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            className="text-center max-w-3xl"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
@@ -77,7 +73,7 @@ export function CTAStrip() {
             </motion.h2>
 
             <motion.p
-              className="text-lg md:text-xl text-white/90 mb-8 max-w-2xl mx-auto lg:mx-0"
+              className="text-lg md:text-xl text-white/90 mb-8 max-w-2xl mx-auto"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
@@ -91,7 +87,7 @@ export function CTAStrip() {
 
             {/* CTA Buttons */}
             <motion.div
-              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+              className="flex flex-col sm:flex-row gap-4 justify-center"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
@@ -127,7 +123,7 @@ export function CTAStrip() {
 
             {/* Trust Indicators */}
             <motion.div
-              className="mt-8 flex items-center justify-center lg:justify-start gap-6 text-sm text-white/80"
+              className="mt-8 flex items-center justify-center gap-6 text-sm text-white/80"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.5 }}

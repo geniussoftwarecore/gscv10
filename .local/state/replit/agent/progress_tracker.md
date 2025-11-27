@@ -44,3 +44,4 @@
 [x] 44. Confirmed application is ready for use - import process fully completed - Nov 27, 2025
 [x] 45. Removed Resources & Policies section from footer (docs, blog, terms, privacy, cookies links) - Nov 27, 2025
 [x] 46. Removed visual section (icons grid with calendar, message, and "ابدأ الآن") from CTAStrip on home page - Nov 27, 2025
+[x] 47. Centered CTAStrip content section (title, description, buttons, trust indicators) on home page - Nov 27, 2025
