@@ -73,13 +73,6 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/services/f5a8c2b4-7d6e-4c9f-8a1b-3e5g7h9i2j4k">
-                  <span className="text-sm text-gray-600 hover:text-blue-600 hover:underline transition-colors cursor-pointer">
-                    {t('footer.services.integrations')}
-                  </span>
-                </Link>
-              </li>
-              <li>
                 <Link href="/services/9a6c839d-2a5c-4418-832a-2a5bd14dcf7e">
                   <span className="text-sm text-gray-600 hover:text-blue-600 hover:underline transition-colors cursor-pointer">
                     {t('footer.services.brandingUi')}
