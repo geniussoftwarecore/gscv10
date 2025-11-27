@@ -16,8 +16,8 @@ export default function Footer() {
       dir={dir}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
-        {/* Main Footer Content - 4 Columns */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+        {/* Main Footer Content - 3 Columns */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
           
           {/* Column A: Brand / About */}
           <div className={`${lang === 'ar' ? 'lg:order-1' : 'lg:order-1'}`}>
@@ -100,52 +100,8 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Column C: Resources & Policies */}
+          {/* Column C: Contact & Social */}
           <div className={`${lang === 'ar' ? 'lg:order-3' : 'lg:order-3'}`}>
-            <h3 className="text-base font-semibold text-gray-900 mb-4">
-              {t('footer.resourcesTitle')}
-            </h3>
-            <ul className="space-y-3">
-              <li>
-                <Link href="/docs">
-                  <span className="text-sm text-gray-600 hover:text-blue-600 hover:underline transition-colors cursor-pointer">
-                    {t('footer.resources.docs')}
-                  </span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/blog">
-                  <span className="text-sm text-gray-600 hover:text-blue-600 hover:underline transition-colors cursor-pointer">
-                    {t('footer.resources.blog')}
-                  </span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/terms">
-                  <span className="text-sm text-gray-600 hover:text-blue-600 hover:underline transition-colors cursor-pointer">
-                    {t('footer.resources.terms')}
-                  </span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/privacy">
-                  <span className="text-sm text-gray-600 hover:text-blue-600 hover:underline transition-colors cursor-pointer">
-                    {t('footer.resources.privacy')}
-                  </span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/cookies">
-                  <span className="text-sm text-gray-600 hover:text-blue-600 hover:underline transition-colors cursor-pointer">
-                    {t('footer.resources.cookies')}
-                  </span>
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Column D: Contact & Social */}
-          <div className={`${lang === 'ar' ? 'lg:order-4' : 'lg:order-4'}`}>
             <h3 className="text-base font-semibold text-gray-900 mb-4">
               {t('footer.contactTitle')}
             </h3>
