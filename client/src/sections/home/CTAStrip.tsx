@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/i18n/lang";
 import { useTranslation } from "@/hooks/useTranslation";
 import { cn } from "@/lib/utils";
-import { MessageCircle, Calendar, ArrowRight } from "lucide-react";
+import { MessageCircle, Calendar } from "lucide-react";
 import { Link } from "wouter";
 import { COMPANY_INFO } from "@/lib/constants";
 
@@ -142,82 +142,6 @@ export function CTAStrip() {
                 {dir === 'rtl' ? 'رد خلال ساعة' : 'Reply within 1 hour'}
               </div>
             </motion.div>
-          </motion.div>
-
-          {/* Visual Section */}
-          <motion.div
-            className="relative lg:block hidden"
-            initial={{ opacity: 0, x: dir === 'rtl' ? -50 : 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-            viewport={{ once: true }}
-          >
-            <div className="relative">
-              {/* Main Visual Container */}
-              <motion.div
-                className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20"
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.3 }}
-              >
-                <div className="grid grid-cols-2 gap-4">
-                  {/* Calendar Icon */}
-                  <motion.div
-                    className="bg-white/20 rounded-2xl p-6 flex items-center justify-center"
-                    whileHover={{ y: -5 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <Calendar className="w-8 h-8 text-white" />
-                  </motion.div>
-                  
-                  {/* Message Icon */}
-                  <motion.div
-                    className="bg-white/20 rounded-2xl p-6 flex items-center justify-center"
-                    whileHover={{ y: -5 }}
-                    transition={{ duration: 0.3, delay: 0.1 }}
-                  >
-                    <MessageCircle className="w-8 h-8 text-white" />
-                  </motion.div>
-                  
-                  {/* Combined Action */}
-                  <motion.div
-                    className="col-span-2 bg-white/20 rounded-2xl p-6 flex items-center justify-center gap-3"
-                    whileHover={{ y: -5 }}
-                    transition={{ duration: 0.3, delay: 0.2 }}
-                  >
-                    <ArrowRight className="w-6 h-6 text-white" />
-                    <span className="text-white font-medium">
-                      {dir === 'rtl' ? 'ابدأ الآن' : 'Get Started'}
-                    </span>
-                  </motion.div>
-                </div>
-              </motion.div>
-
-              {/* Floating Elements */}
-              <motion.div
-                className="absolute -top-3 -right-3 w-6 h-6 bg-yellow-400 rounded-full"
-                animate={{
-                  y: [0, -10, 0],
-                  scale: [1, 1.2, 1],
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              />
-              <motion.div
-                className="absolute -bottom-3 -left-3 w-4 h-4 bg-green-400 rounded-full"
-                animate={{
-                  y: [0, 10, 0],
-                  rotate: [0, 180, 360],
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
-              />
-            </div>
           </motion.div>
         </div>
       </div>
