@@ -100,11 +100,10 @@ export default function Navbar() {
                 {/* Logo with Bounce Effect */}
                 <motion.img 
                   src="/brand/logo-gsc-48.png" 
-                  alt="GSC" 
-                  className="h-10 w-auto md:h-12"
+                  alt="Genius Software Core" 
+                  className="h-10 w-10 md:h-12 md:w-12 object-contain"
                   width={48}
                   height={48}
-                  style={{ height: '40px' }}
                   whileHover={{ 
                     y: [-2, -4, -2],
                     transition: { duration: 0.5, ease: "easeInOut" }
