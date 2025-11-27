@@ -23,16 +23,12 @@ export default function Footer() {
           <div className={`${lang === 'ar' ? 'lg:order-1' : 'lg:order-1'}`}>
             <div className="flex items-center gap-3 mb-4">
               <img 
-                src="/brand/logo-gsc-icon.svg" 
-                alt="GSC Logo" 
-                className="w-8 h-8 object-contain"
-                onError={(e) => {
-                  // Fallback to PNG if SVG not available
-                  e.currentTarget.src = "/brand/logo-gsc-32.png";
-                }}
+                src="/brand/logo-gsc-footer.png" 
+                alt="Genius Software Core" 
+                className="w-10 h-10 object-contain"
               />
               <div className="font-bold text-lg text-gray-900">
-                {t('brand.shortName')}
+                {t('brand.name')}
               </div>
             </div>
             <p className="text-gray-600 text-sm leading-relaxed mb-6">
