@@ -100,7 +100,7 @@ export default function Login() {
             <div className="flex gap-8 mt-12 pt-8 border-t border-white/20">
               <div className="text-center">
                 <div className="text-3xl font-bold">100%</div>
-                <div className="text-sm text-sky-200">مشروع منجز</div>
+                <div className="text-sm text-sky-200">التزام بالمواعيد</div>
               </div>
               <div className="text-center">
                 <div className="text-3xl font-bold">99%</div>
