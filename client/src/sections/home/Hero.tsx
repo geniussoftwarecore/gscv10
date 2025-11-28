@@ -39,12 +39,12 @@ export function Hero() {
         />
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Content Section */}
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full max-w-7xl">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
+          {/* Content Section - Full width on mobile/tablet, half on desktop */}
           <motion.div
             className={cn(
-              "text-center lg:text-start",
+              "text-center lg:text-start w-full",
               dir === "rtl" && "lg:text-right"
             )}
             initial={{ opacity: 0, y: 50 }}
@@ -53,7 +53,7 @@ export function Hero() {
           >
             {/* Hero Logo */}
             <motion.div
-              className="flex justify-center lg:justify-start mb-8"
+              className="flex justify-center lg:justify-start mb-6 sm:mb-8"
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
@@ -76,7 +76,7 @@ export function Hero() {
                 <motion.img
                   src="/brand/logo-gsc-hero.png"
                   alt={t('brand.name')}
-                  className="relative h-24 md:h-32 lg:h-40 w-auto drop-shadow-lg group-hover:drop-shadow-2xl transition-all duration-300"
+                  className="relative h-16 sm:h-20 md:h-28 lg:h-36 xl:h-40 w-auto drop-shadow-lg group-hover:drop-shadow-2xl transition-all duration-300"
                   width={192}
                   height={96}
                   loading="eager"
@@ -98,7 +98,7 @@ export function Hero() {
 
             {/* Main Headline */}
             <motion.h1
-              className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-brand-text-primary mb-6 leading-tight"
+              className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-brand-text-primary mb-4 sm:mb-6 leading-tight px-2 sm:px-0"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.3 }}
@@ -108,7 +108,7 @@ export function Hero() {
 
             {/* Subtitle */}
             <motion.p
-              className="text-lg md:text-xl text-brand-text-muted mb-8 max-w-2xl mx-auto lg:mx-0"
+              className="text-base sm:text-lg md:text-xl text-brand-text-muted mb-6 sm:mb-8 max-w-full sm:max-w-xl md:max-w-2xl mx-auto lg:mx-0 px-2 sm:px-0"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
@@ -118,7 +118,7 @@ export function Hero() {
 
             {/* CTA Buttons */}
             <motion.div
-              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+              className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start px-2 sm:px-0"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.5 }}
@@ -126,7 +126,7 @@ export function Hero() {
               <Link href="/services/be5527f7-3381-48f8-9ff2-21132038ae59">
                 <Button
                   size="lg"
-                  className="bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-primary text-white px-8 py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 text-base font-semibold"
+                  className="w-full sm:w-auto bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-primary text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 text-sm sm:text-base font-semibold"
                   data-testid="hero-primary-cta"
                 >
                   {t('hero.primaryCta')}
@@ -137,7 +137,7 @@ export function Hero() {
                 <Button
                   variant="outline"
                   size="lg"
-                  className="border-2 border-primary text-primary hover:bg-primary hover:text-white px-8 py-4 rounded-xl transition-all duration-300 text-base font-semibold"
+                  className="w-full sm:w-auto border-2 border-primary text-primary hover:bg-primary hover:text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl transition-all duration-300 text-sm sm:text-base font-semibold"
                   data-testid="hero-secondary-cta"
                 >
                   {t('hero.secondaryCta')}
@@ -147,7 +147,7 @@ export function Hero() {
 
             {/* Trust Indicators */}
             <motion.div
-              className="mt-12 flex items-center justify-center lg:justify-start gap-6 text-sm text-brand-text-muted"
+              className="mt-8 sm:mt-12 flex flex-wrap items-center justify-center lg:justify-start gap-4 sm:gap-6 text-xs sm:text-sm text-brand-text-muted px-2 sm:px-0"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.6 }}
