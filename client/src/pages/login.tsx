@@ -44,7 +44,6 @@ export default function Login() {
         description="سجل دخولك للوصول إلى لوحة التحكم الخاصة بك وإدارة مشاريعك وطلباتك."
         type="website"
       />
-      
       <div className="min-h-screen flex" dir="rtl">
         {/* Left Panel - Decorative (hidden on mobile) */}
         <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-sky-500 via-sky-600 to-blue-700 relative overflow-hidden">
@@ -100,7 +99,7 @@ export default function Login() {
             {/* Stats */}
             <div className="flex gap-8 mt-12 pt-8 border-t border-white/20">
               <div className="text-center">
-                <div className="text-3xl font-bold">+150</div>
+                <div className="text-3xl font-bold">100%</div>
                 <div className="text-sm text-sky-200">مشروع منجز</div>
               </div>
               <div className="text-center">
