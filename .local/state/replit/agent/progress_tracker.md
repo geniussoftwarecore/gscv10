@@ -59,3 +59,8 @@
 [x] 59. Made CTA buttons full-width on mobile with responsive padding/sizing - Nov 28, 2025
 [x] 60. Added flex-wrap to trust indicators for better mobile display - Nov 28, 2025
 [x] 61. Updated logo sizing to be responsive (h-16 to xl:h-40) - Nov 28, 2025
+[x] 62. Made ERPNext dashboard mockup VISIBLE on ALL devices (mobile, iPad, laptop, desktop) - Nov 28, 2025
+[x] 63. Added responsive sizing for dashboard stats grid (smaller on mobile) - Nov 28, 2025
+[x] 64. Made ERP modules grid responsive with proper text truncation - Nov 28, 2025
+[x] 65. Updated chart visualization to be responsive - Nov 28, 2025
+[x] 66. Made floating icons responsive (hidden on very small screens, smaller on mobile) - Nov 28, 2025
