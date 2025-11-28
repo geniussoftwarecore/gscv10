@@ -145,7 +145,7 @@ export default function Navbar() {
                 initial={{ color: "rgb(15 23 42)" }} // slate-900
                 style={{ color: "var(--foreground)" }}
               >
-                {t('brand.name')}
+                جينيس سوفت وير كور
               </motion.span>
             </motion.div>
           </Link>
