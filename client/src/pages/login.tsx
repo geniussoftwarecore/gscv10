@@ -35,7 +35,6 @@ export default function Login() {
         description="سجل دخولك للوصول إلى لوحة التحكم الخاصة بك وإدارة مشاريعك وطلباتك."
         type="website"
       />
-      
       <div className="min-h-screen bg-gradient-to-br from-slate-50 to-sky-50 flex items-center justify-center py-12 px-4" dir="rtl">
         <div className="w-full max-w-md">
           <div className="text-center mb-8">
@@ -68,9 +67,7 @@ export default function Login() {
                 />
               </svg>
             </div>
-            <h1 className="text-2xl font-bold text-slate-900">
-              Genius Software Core
-            </h1>
+            <h1 className="text-2xl font-bold text-[#0284c7]">جينيس سوفت وير كور</h1>
             <p className="text-slate-600 mt-2">
               منصة إدارة المشاريع والخدمات التقنية
             </p>
