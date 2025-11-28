@@ -163,9 +163,9 @@ export function Hero() {
             </motion.div>
           </motion.div>
 
-          {/* Visual Section - ERPNext Dashboard Mockup */}
+          {/* Visual Section - ERPNext Dashboard Mockup - Hidden on mobile, visible on lg screens */}
           <motion.div
-            className="relative lg:block hidden"
+            className="hidden lg:block relative"
             initial={{ opacity: 0, x: dir === 'rtl' ? -50 : 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}

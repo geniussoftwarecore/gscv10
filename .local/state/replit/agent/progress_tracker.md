@@ -53,3 +53,4 @@
 [x] 53. Import migration to Replit environment COMPLETED - Nov 28, 2025
 [x] 54. Removed visual section (icons grid with phone, message, calendar) from ServicesCTA on services page - Nov 28, 2025
 [x] 55. Centered ServicesCTA content and cleaned up unused imports - Nov 28, 2025
+[x] 56. Fixed Hero ERPNext dashboard mockup showing on mobile - reordered classes to "hidden lg:block relative" - Nov 28, 2025
