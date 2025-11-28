@@ -133,11 +133,7 @@ export default function Navbar() {
               
               {/* Brand Text with Color Animation */}
               <motion.span 
-                className={cn(
-                  "font-medium tracking-tight transition-all duration-300",
-                  "text-base md:text-lg",
-                  dir ? "font-cairo" : "font-inter"
-                )}
+                className="tracking-tight transition-all duration-300 md:text-lg font-cairo text-[15px] font-bold text-[#0999dd]"
                 whileHover={{
                   color: "#0ea5e9", // sky-500
                   textShadow: "0 0 8px rgba(14, 165, 233, 0.3)"
