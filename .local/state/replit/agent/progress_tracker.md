@@ -64,3 +64,5 @@
 [x] 64. Made ERP modules grid responsive with proper text truncation - Nov 28, 2025
 [x] 65. Updated chart visualization to be responsive - Nov 28, 2025
 [x] 66. Made floating icons responsive (hidden on very small screens, smaller on mobile) - Nov 28, 2025
+[x] 67. Updated Navbar brand text to Arabic "جينيس سوفت وير كور" with professional responsive sizing - Nov 28, 2025
+[x] 68. Made brand text smaller and responsive (text-[11px] to text-base) for mobile/iPad/laptop/desktop - Nov 28, 2025

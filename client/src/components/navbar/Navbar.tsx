@@ -133,13 +133,11 @@ export default function Navbar() {
               
               {/* Brand Text with Color Animation */}
               <motion.span 
-                className="tracking-tight transition-all duration-300 md:text-lg font-cairo text-[#0999dd] text-[16px] font-bold"
+                className="font-cairo font-semibold tracking-tight transition-all duration-300 text-[11px] sm:text-xs md:text-sm lg:text-base text-slate-800 dark:text-slate-200 whitespace-nowrap"
                 whileHover={{
-                  color: "#0ea5e9", // sky-500
+                  color: "#0ea5e9",
                   textShadow: "0 0 8px rgba(14, 165, 233, 0.3)"
                 }}
-                initial={{ color: "rgb(15 23 42)" }} // slate-900
-                style={{ color: "var(--foreground)" }}
               >
                 جينيس سوفت وير كور
               </motion.span>
