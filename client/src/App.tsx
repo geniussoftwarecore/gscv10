@@ -229,6 +229,28 @@ function Router() {
   );
 }
 
+function AppContent() {
+  const [location] = useLocation();
+  
+  // Pages that should not show header and footer
+  const isAuthPage = location === '/login' || location === '/register';
+  
+  return (
+    <div className="min-h-screen font-cairo">
+      <MetaTags />
+      {!isAuthPage && <ScrollIndicator />}
+      {!isAuthPage && <Navbar />}
+      {!isAuthPage && <Breadcrumbs />}
+      <main className="scroll-smooth">
+        <Router />
+      </main>
+      {!isAuthPage && <Footer />}
+      {!isAuthPage && <ScrollToTop />}
+      <Toaster />
+    </div>
+  );
+}
+
 function App() {
   return (
     <HelmetProvider>
@@ -237,18 +259,7 @@ function App() {
           <AuthProvider>
             <NotificationProviderWrapper>
               <TooltipProvider>
-                <div className="min-h-screen font-cairo">
-                  <MetaTags />
-                  <ScrollIndicator />
-                  <Navbar />
-                  <Breadcrumbs />
-                  <main className="scroll-smooth">
-                    <Router />
-                  </main>
-                  <Footer />
-                  <ScrollToTop />
-                  <Toaster />
-                </div>
+                <AppContent />
               </TooltipProvider>
             </NotificationProviderWrapper>
           </AuthProvider>
