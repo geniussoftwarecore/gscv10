@@ -55,6 +55,7 @@ import {
 import { randomUUID } from "crypto";
 import { DatabaseStorage } from "./database-storage";
 import { db } from "./db";
+import bcrypt from "bcrypt";
 
 export interface IStorage {
   // User Management
@@ -63,6 +64,7 @@ export interface IStorage {
   createUser(user: InsertUser): Promise<User>;
   updateUser(id: string, updates: Partial<User>): Promise<User>;
   getAllUsers(): Promise<User[]>;
+  verifyPassword(password: string, hashedPassword: string): Promise<boolean>;
   
   // Contact Submissions
   createContactSubmission(submission: InsertContactSubmission): Promise<ContactSubmission>;
@@ -1124,6 +1126,13 @@ export class MemStorage implements IStorage {
     return Array.from(this.users.values()).find(
       (user) => user.username === username,
     );
+  }
+
+  async verifyPassword(password: string, storedPassword: string): Promise<boolean> {
+    if (storedPassword.startsWith('$2')) {
+      return bcrypt.compare(password, storedPassword);
+    }
+    return password === storedPassword;
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {

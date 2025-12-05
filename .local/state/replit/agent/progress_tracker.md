@@ -71,3 +71,5 @@
 [x] 71. Confirmed frontend (Arabic ERPNext/CRM landing page) displaying correctly - Nov 30, 2025
 [x] 72. Confirmed backend API endpoints working (services and testimonials loading) - Nov 30, 2025
 [x] 73. FINAL IMPORT MIGRATION VERIFICATION COMPLETE - All systems operational - Nov 30, 2025
+[x] 74. Fixed login system to work with in-memory storage - added verifyPassword method to IStorage and MemStorage - Dec 5, 2025
+[x] 75. Login credentials now working: admin/sales/support@geniussoftwarecore.com with password "123" - Dec 5, 2025

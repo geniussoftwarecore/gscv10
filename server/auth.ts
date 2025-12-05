@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
-import { DatabaseStorage } from './database-storage';
+import { IStorage } from './storage';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret-for-development';
 
@@ -73,7 +73,7 @@ export function requireRole(...roles: string[]) {
   };
 }
 
-export async function loginUser(username: string, password: string, storage: DatabaseStorage): Promise<{ user: any; token: string } | null> {
+export async function loginUser(username: string, password: string, storage: IStorage): Promise<{ user: any; token: string } | null> {
   const user = await storage.getUserByUsername(username);
   if (!user) {
     return null;

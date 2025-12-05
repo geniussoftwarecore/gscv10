@@ -322,7 +322,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Username and password are required" });
       }
 
-      const result = await loginUser(username, password, storage.instance as DatabaseStorage);
+      const result = await loginUser(username, password, storage.instance);
       
       if (!result) {
         return res.status(401).json({ message: "Invalid credentials" });
