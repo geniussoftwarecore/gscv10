@@ -9,6 +9,7 @@ import { DatabaseStorage } from "./database-storage";
 import crmRoutes from "../crm_api/routes";
 import authRoutes from "./routes/auth";
 import billingRoutes from "./routes/billing";
+import adminRoutes from "./routes/admin";
 import stripeWebhookRoutes from "./routes/stripeWebhook";
 import healthRoutes, { trackMetrics } from "./routes/health";
 import enhancedCrmRoutes from "../crm_api/crmRoutes";
@@ -429,6 +430,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.use("/api/billing", billingRoutes);
   app.use("/api/stripe", stripeWebhookRoutes);
   app.use("/api/health", healthRoutes);
+  app.use("/api/admin", adminRoutes);
   
   // Mount new CRM routes
   app.use("/api/crm", crmRoutes);

@@ -43,6 +43,7 @@ const Settings = lazy(() => import("@/pages/settings"));
 const AdminPanel = lazy(() => import("@/pages/admin"));
 const AdminDashboard = lazy(() => import("@/pages/admin/dashboard"));
 const CrmDashboard = lazy(() => import("@/pages/CrmDashboard"));
+const CRMPanel = lazy(() => import("@/pages/admin/crm-panel"));
 
 // Dev components (only loaded in dev mode)
 const UIPreview = lazy(() => import("@/dev/ui-preview"));
@@ -196,6 +197,13 @@ function Router() {
         <ProtectedRoute>
           <Suspense fallback={<CrmSkeleton />}>
             <CrmDashboard />
+          </Suspense>
+        </ProtectedRoute>
+      </Route>
+      <Route path="/admin/crm-panel">
+        <ProtectedRoute>
+          <Suspense fallback={<CrmSkeleton />}>
+            <CRMPanel />
           </Suspense>
         </ProtectedRoute>
       </Route>
