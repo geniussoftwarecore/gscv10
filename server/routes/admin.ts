@@ -4,9 +4,14 @@ import { requireAuth, requireRole, AuthenticatedRequest } from "../auth";
 
 const router = Router();
 
-// Get dashboard stats
+// Get dashboard stats (admin, support, sales only)
 router.get("/dashboard-stats", requireAuth, async (req: AuthenticatedRequest, res: Response) => {
   try {
+    const currentUser = req.user;
+    if (!currentUser || !['admin', 'support', 'sales'].includes(currentUser.role)) {
+      return res.status(403).json({ success: false, message: "Unauthorized - Admin, Support, or Sales role required" });
+    }
+    
     const users = await storage.instance.getUsers?.() || [];
     const activeUsers = users.filter((u: any) => u.isActive === true || u.isActive === "true");
     
