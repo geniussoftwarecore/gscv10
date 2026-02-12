@@ -23,8 +23,8 @@ export default function Footer() {
           <div className={`${lang === 'ar' ? 'lg:order-1' : 'lg:order-1'}`}>
             <div className="flex items-center gap-3 mb-4">
               <img 
-                src="/brand/logo-gsc-footer.png" 
-                alt="Genius Software Core" 
+                src="/logo_1770936801206.png" 
+                alt="Unlimited Soft" 
                 className="w-10 h-10 object-contain"
               />
               <div className="font-bold text-lg text-gray-900">

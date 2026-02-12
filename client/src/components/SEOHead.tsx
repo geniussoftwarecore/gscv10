@@ -14,7 +14,7 @@ interface SEOHeadProps {
 export function SEOHead({ 
   title, 
   description, 
-  image = "/brand/logo-gsc-hero.png",
+  image = "/logo_1770936801206.png",
   url = typeof window !== 'undefined' ? window.location.href : '',
   type = "website",
   keywords
@@ -23,22 +23,22 @@ export function SEOHead({
   const { t } = useTranslation();
 
   // Clean site title and page data
-  const siteTitle = "Genius Software Core";
+  const siteTitle = lang === 'ar' ? "بلاحدود سوفت" : "Unlimited Soft";
   const pageTitle = title ? `${title} | ${siteTitle}` : siteTitle;
   const pageDescription = description || (lang === 'ar' 
-    ? "شركة رائدة في تطوير البرمجيات والحلول التقنية المتطورة"
-    : "Leading software development company providing advanced technical solutions"
+    ? "بلاحدود سوفت - حلول برمجية متطورة"
+    : "Unlimited Soft - Advanced Software Solutions"
   );
   
   // Clean keywords
   const defaultKeywords = lang === 'ar' 
-    ? "جينيوس سوفت وير كور، تطوير تطبيقات، نظام CRM، ERP، تطبيقات الويب، تطبيقات الجوال، تصميم مواقع، التسويق الرقمي"
-    : "Genius Software Core, app development, CRM system, ERP, web applications, mobile apps, website design, digital marketing";
+    ? "بلاحدود سوفت، تطوير تطبيقات، نظام CRM، ERP، تطبيقات الويب، تطبيقات الجوال، تصميم مواقع، التسويق الرقمي"
+    : "Unlimited Soft, app development, CRM system, ERP, web applications, mobile apps, website design, digital marketing";
   
   const pageKeywords = keywords || defaultKeywords;
 
   // Clean URL handling
-  const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://geniussoftwarecore.com';
+  const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://unlimitedsoft.com';
   const fullImageUrl = image.startsWith('http') ? image : `${baseUrl}${image}`;
   const canonicalUrl = url || (typeof window !== 'undefined' ? window.location.href : baseUrl);
 
@@ -49,7 +49,7 @@ export function SEOHead({
       <title>{pageTitle}</title>
       <meta name="description" content={pageDescription} />
       <meta name="keywords" content={pageKeywords} />
-      <meta name="author" content="Genius Software Core" />
+      <meta name="author" content="Unlimited Soft" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
       
@@ -78,13 +78,13 @@ export function SEOHead({
       <link rel="canonical" href={canonicalUrl} />
       
       {/* Favicon and App Icons */}
-      <link rel="icon" type="image/png" sizes="32x32" href="/brand/logo-gsc-32.png" />
-      <link rel="icon" type="image/png" sizes="16x16" href="/brand/logo-gsc-16.png" />
-      <link rel="apple-touch-icon" sizes="192x192" href="/brand/logo-gsc-192.png" />
-      <link rel="shortcut icon" href="/brand/logo-gsc-32.png" />
+      <link rel="icon" type="image/png" sizes="32x32" href="/logo_1770936801206.png" />
+      <link rel="icon" type="image/png" sizes="16x16" href="/logo_1770936801206.png" />
+      <link rel="apple-touch-icon" sizes="192x192" href="/logo_1770936801206.png" />
+      <link rel="shortcut icon" href="/logo_1770936801206.png" />
       
       {/* Preload Critical Resources */}
-      <link rel="preload" href="/brand/logo-gsc-hero.png" as="image" />
+      <link rel="preload" href="/logo_1770936801206.png" as="image" />
       {/* Local fonts are now handled in CSS */}
       
       {/* Prevent any unwanted styling or scripts injection */}

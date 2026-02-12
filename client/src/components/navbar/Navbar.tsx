@@ -99,8 +99,8 @@ export default function Navbar() {
                 
                 {/* Logo with Bounce Effect */}
                 <motion.img 
-                  src="/brand/logo-gsc-48.png" 
-                  alt="Genius Software Core" 
+                  src="/logo_1770936801206.png" 
+                  alt="Unlimited Soft" 
                   className="h-10 w-10 md:h-12 md:w-12 object-contain"
                   width={48}
                   height={48}
@@ -139,7 +139,7 @@ export default function Navbar() {
                   textShadow: "0 0 8px rgba(14, 165, 233, 0.3)"
                 }}
               >
-                جينيس سوفت وير كور
+                {t('brand.name')}
               </motion.span>
             </motion.div>
           </Link>

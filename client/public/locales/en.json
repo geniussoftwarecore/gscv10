@@ -1,8 +1,8 @@
 {
   "brand": {
-    "name": "Genius Software Core",
-    "shortName": "GSC",
-    "alt": "Genius Software Core"
+    "name": "Unlimited Soft",
+    "shortName": "Unlimited Soft",
+    "alt": "Unlimited Soft"
   },
   "nav": {
     "home": "Home",
@@ -169,7 +169,7 @@
   "proof": {
     "title": "Trusted by Leading Companies",
     "testimonial": {
-      "quote": "Genius Software Core transformed our vision into an advanced digital reality that helped us significantly improve our business efficiency",
+      "quote": "Unlimited Soft transformed our vision into an advanced digital reality that helped us significantly improve our business efficiency",
       "author": "Ahmed Mohammed, Technical Manager"
     }
   },
@@ -251,7 +251,7 @@
     }
   },
   "footer": {
-    "aboutTitle": "About GSC",
+    "aboutTitle": "About Unlimited Soft",
     "aboutText": "We build modern, bilingual business platforms—web, mobile, and integrated CRM/ERP—tailored for your growth.",
     "cta": "Get a Demo",
     "servicesTitle": "Services",

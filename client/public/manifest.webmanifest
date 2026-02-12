@@ -1,22 +1,22 @@
 {
-  "name": "Genius Software Core",
-  "short_name": "GSC",
+  "name": "Unlimited Soft",
+  "short_name": "Unlimited Soft",
   "description": "Professional software development company specializing in mobile apps, web development, and smart solutions",
   "icons": [
     { 
-      "src": "/brand/logo-gsc-192.png", 
+      "src": "/logo_1770936801206.png", 
       "sizes": "192x192", 
       "type": "image/png",
       "purpose": "maskable any"
     },
     { 
-      "src": "/brand/logo-gsc-256.png", 
+      "src": "/logo_1770936801206.png", 
       "sizes": "256x256", 
       "type": "image/png",
       "purpose": "any"
     },
     { 
-      "src": "/brand/logo-gsc-512.png", 
+      "src": "/logo_1770936801206.png", 
       "sizes": "512x512", 
       "type": "image/png",
       "purpose": "any"
