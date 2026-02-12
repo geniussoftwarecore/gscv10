@@ -74,7 +74,7 @@ export function Hero() {
                 
                 {/* Logo with enhanced styling */}
                 <motion.img
-                  src="/brand/logo-gsc-hero.png"
+                  src="/logo_1770937061044.png"
                   alt={t('brand.name')}
                   className="relative h-16 sm:h-20 md:h-28 lg:h-36 xl:h-40 w-auto drop-shadow-lg group-hover:drop-shadow-2xl transition-all duration-300"
                   width={192}
