@@ -3,7 +3,7 @@ import { useLocation } from 'wouter';
 import { useAuth } from '../contexts/AuthContext';
 import { LoginMagic } from '../components/auth/LoginMagic';
 import { MetaTags } from '../components/seo/meta-tags';
-import logoImage from '@assets/logo_1764350770360.png';
+import logoImage from '/logo_1771267520276.png';
 import { Shield, Zap, Users, BarChart3 } from 'lucide-react';
 
 export default function Login() {
@@ -40,7 +40,7 @@ export default function Login() {
   return (
     <>
       <MetaTags
-        title="تسجيل الدخول - Genius Software Core"
+        title="تسجيل الدخول - بلاحدود سوفت"
         description="سجل دخولك للوصول إلى لوحة التحكم الخاصة بك وإدارة مشاريعك وطلباتك."
         type="website"
       />
@@ -72,12 +72,12 @@ export default function Login() {
             <div className="mb-8">
               <img 
                 src={logoImage} 
-                alt="Genius Software Core Logo" 
-                className="w-32 h-32 drop-shadow-2xl"
+                alt="Unlimited Soft Logo" 
+                className="w-32 h-32 drop-shadow-2xl object-contain"
               />
             </div>
             
-            <h1 className="text-4xl font-bold mb-4 text-center">جينيس سوفت وير كور</h1>
+            <h1 className="text-4xl font-bold mb-4 text-center">بلاحدود سوفت</h1>
             <p className="text-xl text-sky-100 mb-12 text-center max-w-md">
               منصة متكاملة لإدارة المشاريع والخدمات التقنية
             </p>
@@ -121,10 +121,10 @@ export default function Login() {
             <div className="lg:hidden text-center mb-8">
               <img 
                 src={logoImage} 
-                alt="Genius Software Core Logo" 
-                className="w-20 h-20 mx-auto mb-4"
+                alt="Unlimited Soft Logo" 
+                className="w-20 h-20 mx-auto mb-4 object-contain"
               />
-              <h1 className="text-2xl font-bold text-sky-600">جينيس سوفت وير كور</h1>
+              <h1 className="text-2xl font-bold text-sky-600">بلاحدود سوفت</h1>
               <p className="text-slate-500 mt-2 text-sm">
                 منصة إدارة المشاريع والخدمات التقنية
               </p>
@@ -143,7 +143,7 @@ export default function Login() {
             {/* Footer */}
             <div className="mt-8 pt-6 border-t border-slate-100 text-center">
               <p className="text-xs text-slate-400">
-                &copy; 2025 Genius Software Core. جميع الحقوق محفوظة
+                &copy; {new Date().getFullYear()} Unlimited Soft. جميع الحقوق محفوظة
               </p>
             </div>
           </div>
