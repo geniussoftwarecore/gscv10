@@ -13,7 +13,7 @@ import { motion } from "framer-motion";
 import { Users, User, Palette, Smartphone, TrendingUp, MessageCircle, Eye, Heart, Target, Lightbulb, Shield, Zap } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useLanguage } from "@/i18n/lang";
-import logoGSC from "@assets/logo_1761853687120.webp";
+import logoGSC from "/logo_1771267639175.png";
 
 export default function About() {
   const { t } = useTranslation();
@@ -237,113 +237,113 @@ export default function About() {
                       />
                       
                       <motion.img 
-                        src={logoGSC} 
-                        alt="Genius Software Core Logo" 
-                        className="w-72 h-72 object-contain relative z-10"
-                        style={{
-                          filter: "drop-shadow(0 20px 60px rgba(25, 194, 240, 0.3))"
-                        }}
-                        whileHover={{
-                          filter: "drop-shadow(0 30px 80px rgba(25, 194, 240, 0.5))",
-                          rotate: [0, -3, 3, -3, 0],
-                        }}
-                        transition={{
-                          filter: { duration: 0.3 },
-                          rotate: { duration: 0.5 }
-                        }}
-                      />
-                    </motion.div>
-
-                    {[...Array(6)].map((_, i) => (
-                      <motion.div
-                        key={`particle-${i}`}
-                        className="absolute w-1 h-1 bg-primary rounded-full"
-                        style={{
-                          top: `${Math.random() * 100}%`,
-                          left: `${Math.random() * 100}%`,
-                        }}
-                        animate={{
-                          y: [0, -30, 0],
-                          opacity: [0, 1, 0],
-                          scale: [0, 1.5, 0],
-                        }}
-                        transition={{
-                          duration: 3,
-                          repeat: Infinity,
-                          delay: i * 0.5,
-                          ease: "easeInOut"
-                        }}
-                      />
-                    ))}
+                      src={logoGSC} 
+                      alt="Unlimited Soft Logo" 
+                      className="w-72 h-72 object-contain relative z-10"
+                      style={{
+                        filter: "drop-shadow(0 20px 60px rgba(25, 194, 240, 0.3))"
+                      }}
+                      whileHover={{
+                        filter: "drop-shadow(0 30px 80px rgba(25, 194, 240, 0.5))",
+                        rotate: [0, -3, 3, -3, 0],
+                      }}
+                      transition={{
+                        filter: { duration: 0.3 },
+                        rotate: { duration: 0.5 }
+                      }}
+                    />
                   </motion.div>
-                </div>
 
+                  {[...Array(6)].map((_, i) => (
+                    <motion.div
+                      key={`particle-${i}`}
+                      className="absolute w-1 h-1 bg-primary rounded-full"
+                      style={{
+                        top: `${Math.random() * 100}%`,
+                        left: `${Math.random() * 100}%`,
+                      }}
+                      animate={{
+                        y: [0, -30, 0],
+                        opacity: [0, 1, 0],
+                        scale: [0, 1.5, 0],
+                      }}
+                      transition={{
+                        duration: 3,
+                        repeat: Infinity,
+                        delay: i * 0.5,
+                        ease: "easeInOut"
+                      }}
+                    />
+                  ))}
+                </motion.div>
+              </div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+                className="text-center space-y-4 max-w-2xl px-4"
+              >
                 <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.6 }}
-                  className="text-center space-y-4 max-w-2xl px-4"
+                  className="inline-block"
+                  whileHover={{ scale: 1.02 }}
                 >
-                  <motion.div
-                    className="inline-block"
-                    whileHover={{ scale: 1.02 }}
-                  >
-                    <h1 className="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-secondary via-primary to-secondary bg-clip-text text-transparent mb-2">
-                      جينيس سوفت وير كور
-                    </h1>
-                    <motion.div 
-                      className="h-1 bg-gradient-to-r from-transparent via-primary to-transparent rounded-full"
-                      initial={{ scaleX: 0 }}
-                      animate={{ scaleX: 1 }}
-                      transition={{ duration: 0.8, delay: 0.8 }}
-                    />
-                  </motion.div>
-                  
-                  <motion.h2 
-                    className="text-xl lg:text-2xl font-semibold text-primary tracking-wide"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.9 }}
-                  >
-                    Genius Software Core
-                  </motion.h2>
-
+                  <h1 className="text-3xl lg:text-4xl font-bold bg-gradient-to-r from-secondary via-primary to-secondary bg-clip-text text-transparent mb-2">
+                    بلاحدود سوفت
+                  </h1>
                   <motion.div 
-                    className="flex items-center justify-center gap-3 py-4"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 1 }}
-                  >
-                    <motion.div 
-                      className="h-px w-12 bg-gradient-to-r from-transparent to-primary"
-                      animate={{ scaleX: [1, 1.5, 1] }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    />
-                    <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
-                    <motion.div 
-                      className="h-px w-12 bg-gradient-to-l from-transparent to-primary"
-                      animate={{ scaleX: [1, 1.5, 1] }}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    />
-                  </motion.div>
+                    className="h-1 bg-gradient-to-r from-transparent via-primary to-transparent rounded-full"
+                    initial={{ scaleX: 0 }}
+                    animate={{ scaleX: 1 }}
+                    transition={{ duration: 0.8, delay: 0.8 }}
+                  />
+                </motion.div>
+                
+                <motion.h2 
+                  className="text-xl lg:text-2xl font-semibold text-primary tracking-wide"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.9 }}
+                >
+                  Unlimited Soft
+                </motion.h2>
 
-                  <motion.p 
-                    className="text-xl lg:text-2xl font-bold text-primary leading-relaxed"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 1.1 }}
-                  >
-                    نبتكر الحلول… ونحقق النمو
-                  </motion.p>
-                  
-                  <motion.p 
-                    className="text-base lg:text-lg text-gray-600 italic font-medium"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 1.2 }}
-                  >
-                    We Innovate Solutions… We Drive Growth
-                  </motion.p>
+                <motion.div 
+                  className="flex items-center justify-center gap-3 py-4"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 1 }}
+                >
+                  <motion.div 
+                    className="h-px w-12 bg-gradient-to-r from-transparent to-primary"
+                    animate={{ scaleX: [1, 1.5, 1] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  />
+                  <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
+                  <motion.div 
+                    className="h-px w-12 bg-gradient-to-l from-transparent to-primary"
+                    animate={{ scaleX: [1, 1.5, 1] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  />
+                </motion.div>
+
+                <motion.p 
+                  className="text-xl lg:text-2xl font-bold text-primary leading-relaxed"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1.1 }}
+                >
+                  نبتكر الحلول… ونحقق النمو
+                </motion.p>
+                
+                <motion.p 
+                  className="text-base lg:text-lg text-gray-600 italic font-medium"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1.2 }}
+                >
+                  We Innovate Solutions… We Drive Growth
+                </motion.p>
 
                   <motion.div
                     className="flex justify-center gap-3 pt-4"
