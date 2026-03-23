@@ -17,7 +17,8 @@ export function PortfolioPreview() {
   const excludedSlugs = [
     'fintech-mobile-app', // تطبيق البنكية الرقمية - البنك السعودي
     'logistics-optimization-platform', // منصة اللوجستيات الذكية
-    'educational-platform-ksu' // نظام إدارة التعلم الذكي
+    'educational-platform-ksu', // نظام إدارة التعلم الذكي
+    'healthcare-management-system' // نظام إدارة الرعاية الصحية - مستشفى الملك فهد
   ];
 
   // Get top 6 featured projects excluding specific ones
