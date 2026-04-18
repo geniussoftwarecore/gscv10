@@ -17,6 +17,7 @@ import enhancedCrmRoutes from "../crm_api/crmRoutes";
 import exportsRoutes from "./routes/exports";
 import savedViewsRoutes from "./routes/savedViews";
 import enterpriseTableRoutes from "./routes/enterpriseTableRoutes";
+import { crmStorage } from "../crm_services/crm-storage";
 import { 
   insertContactSubmissionSchema, 
   insertServiceRequestSchema,
@@ -450,31 +451,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Create the contact submission for record keeping
       const submission = await storage.instance.createContactSubmission(validatedData);
       
-      // Create a CRM Lead from the contact form with enhanced data
+      // Create a CRM Lead from the contact form
       try {
-        const leadData = {
-          firstName: validatedData.name.split(' ')[0] || validatedData.name,
-          lastName: validatedData.name.split(' ').slice(1).join(' ') || '',
-          primaryEmail: validatedData.email,
-          phones: validatedData.phone ? [validatedData.phone] : [],
+        const nameParts = validatedData.name.trim().split(/\s+/);
+        const lead = await crmStorage.createLead({
+          firstName: nameParts[0],
+          lastName: nameParts.slice(1).join(' ') || '',
+          email: validatedData.email,
+          phone: validatedData.phone || '',
           company: validatedData.company || '',
           jobTitle: '',
-          leadSource: validatedData.leadSource || 'website_contact_form',
+          leadSource: 'website',
           leadStatus: 'new',
           leadRating: 'warm',
-          leadScore: 50, // Default score for website leads
-          estimatedValue: validatedData.budget ? parseFloat(validatedData.budget.replace(/[^\d.]/g, '')) : 0,
           description: validatedData.message,
-          utm: validatedData.utm || {
-            source: 'direct',
-            medium: 'website'
-          }
-        };
-
-        if (storage.instance.createLead) {
-          const lead = await storage.instance.createLead(leadData);
-          console.log('CRM Lead created successfully:', lead.id);
-        }
+          utm: validatedData.utm || { source: 'direct', medium: 'website' },
+        });
+        console.log('CRM Lead created successfully:', lead.id);
       } catch (leadError) {
         // Don't fail the entire request if lead creation fails
         console.error('Failed to create CRM lead from contact form:', leadError);

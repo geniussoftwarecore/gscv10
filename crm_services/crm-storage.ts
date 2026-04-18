@@ -380,6 +380,7 @@ export class CrmStorage {
     company?: string;
     jobTitle?: string;
     leadSource?: string;
+    leadStatus?: string;
     leadRating?: string;
     estimatedValue?: string;
     assignedTo?: string;
@@ -393,12 +394,12 @@ export class CrmStorage {
     const result = await db.execute(sql`
       INSERT INTO crm_core.crm_leads (
         first_name, last_name, email, phone, company, job_title,
-        lead_source, lead_rating, lead_score, estimated_value,
+        lead_source, lead_status, lead_rating, lead_score, estimated_value,
         assigned_to, team_id, utm, description
       ) VALUES (
         ${data.firstName}, ${data.lastName}, ${data.email}, ${data.phone},
         ${data.company}, ${data.jobTitle}, ${data.leadSource || 'website'},
-        ${data.leadRating || 'cold'}, ${leadScore}, ${data.estimatedValue},
+        ${data.leadStatus || 'new'}, ${data.leadRating || 'cold'}, ${leadScore}, ${data.estimatedValue},
         ${data.assignedTo}, ${data.teamId}, ${JSON.stringify(data.utm || {})},
         ${data.description}
       )
