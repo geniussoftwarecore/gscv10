@@ -8,16 +8,23 @@ export interface JwtPayload {
   userId: string;
   email: string;
   role: string;
+  username?: string;
+  teamId?: string;
   mustChangePassword?: boolean;
   iat: number;
   exp: number;
 }
 
-export function generateToken(user: { id: string; email: string; role: string; name?: string }, mustChangePassword?: boolean): string {
+export function generateToken(
+  user: { id: string; email: string; role: string; name?: string; username?: string; teamId?: string },
+  mustChangePassword?: boolean
+): string {
   const payload = {
     userId: user.id,
     email: user.email,
     role: user.role,
+    ...(user.username && { username: user.username }),
+    ...(user.teamId && { teamId: user.teamId }),
     ...(mustChangePassword && { mustChangePassword: true })
   };
   

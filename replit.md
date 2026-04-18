@@ -71,6 +71,26 @@ See `.env.example` for complete configuration. Key variables:
 - **Schema**: Auto-synced with Drizzle ORM
 - **Seeding**: Automatic data seeding on startup
 
+## Recent Changes (April 18, 2026)
+### 🔐 **Extended Role-Based Access Control (RBAC)**
+- ✅ **6 Business Roles**: `admin`, `manager`, `sales`, `support`, `finance`, `customer` (replaces `client`)
+- ✅ **Role stored in JWT payload** — accessible by all middleware from the token
+- ✅ **`requireRole()` middleware** in `server/auth.ts` — accepts single role, spread args, or an array: `requireRole('admin')`, `requireRole('admin', 'sales')`, `requireRole(['admin', 'sales'])`
+- ✅ **`VALID_ROLES` constant** exported from `server/auth.ts` — single source of truth for role validation
+- ✅ **Admin routes refactored** — all inline role checks replaced with `requireRole()` middleware
+- ✅ **Permission matrix in `shared/security/roles.ts`** — each role has defined resource/action permissions and field visibility
+- ✅ **CRM Panel updated** — role dropdowns, badges, colors, labels, and permission maps reflect all 6 roles
+
+#### Role Access Summary:
+| Role       | Dashboard | Users | Clients | Revenue | User Mgmt |
+|------------|-----------|-------|---------|---------|-----------|
+| admin      | ✅        | ✅    | ✅      | ✅      | full CRUD |
+| manager    | ✅        | read  | ✅      | ✅      | read/update |
+| sales      | ✅        | self  | ✅      | ✅      | — |
+| support    | ✅        | self  | read    | —       | — |
+| finance    | ✅        | self  | read    | ✅      | — |
+| customer   | —         | self  | self    | —       | — |
+
 ## Recent Changes (December 15, 2025)
 ### 🎉 **Comprehensive CRM Admin Panel Implementation**
 - ✅ **Full CRM Admin Panel** at `/admin/crm-panel` with Arabic RTL support

@@ -4,7 +4,7 @@ export interface User {
   id: string;
   email: string;
   name?: string;
-  role: 'owner' | 'admin' | 'member' | 'viewer';
+  role: 'admin' | 'manager' | 'sales' | 'support' | 'customer' | 'finance';
   hasTotp?: boolean;
   webauthnRegistered?: boolean;
   subscription?: Subscription;

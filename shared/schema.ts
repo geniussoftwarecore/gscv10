@@ -9,7 +9,7 @@ export const users = pgTable("users", {
   password: text("password").notNull(), // Deprecated - use password_hash
   password_hash: text("password_hash"), // Argon2 hashed password
   force_password_change: boolean("force_password_change").notNull().default(false),
-  role: text("role").notNull().default("client"), // client, admin, manager, agent, viewer
+  role: text("role").notNull().default("customer"), // admin | manager | sales | support | customer | finance
   name: text("name"),
   email: text("email"),
   phone: text("phone"),

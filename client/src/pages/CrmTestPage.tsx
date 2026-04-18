@@ -52,7 +52,7 @@ interface TestUser {
   id: string;
   name: string;
   email: string;
-  role: 'admin' | 'manager' | 'agent' | 'viewer';
+  role: 'admin' | 'manager' | 'sales' | 'support' | 'finance' | 'customer';
   token: string;
 }
 
@@ -69,8 +69,8 @@ export default function CrmTestPage() {
   const testUsers = [
     { id: '1', name: 'Admin User', email: 'admin@test.com', role: 'admin' as const, token: 'admin-token' },
     { id: '2', name: 'Manager User', email: 'manager@test.com', role: 'manager' as const, token: 'manager-token' },
-    { id: '3', name: 'Agent User', email: 'agent@test.com', role: 'agent' as const, token: 'agent-token' },
-    { id: '4', name: 'Viewer User', email: 'viewer@test.com', role: 'viewer' as const, token: 'viewer-token' }
+    { id: '3', name: 'Sales User', email: 'sales@test.com', role: 'sales' as const, token: 'sales-token' },
+    { id: '4', name: 'Support User', email: 'support@test.com', role: 'support' as const, token: 'support-token' }
   ];
 
   // Mock authentication for testing
@@ -238,8 +238,8 @@ export default function CrmTestPage() {
     }
   };
 
-  const hasCreatePermission = currentUser && ['admin', 'manager', 'agent'].includes(currentUser.role);
-  const hasEditPermission = currentUser && ['admin', 'manager', 'agent'].includes(currentUser.role);
+  const hasCreatePermission = currentUser && ['admin', 'manager', 'sales', 'support'].includes(currentUser.role);
+  const hasEditPermission = currentUser && ['admin', 'manager', 'sales', 'support'].includes(currentUser.role);
   const hasDeletePermission = currentUser && ['admin', 'manager'].includes(currentUser.role);
   const hasAuditPermission = currentUser && ['admin', 'manager'].includes(currentUser.role);
 

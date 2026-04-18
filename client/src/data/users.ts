@@ -2,7 +2,7 @@ export interface AuthUser {
   id: string;
   name: string;
   email: string;
-  role: "admin" | "client";
+  role: "admin" | "manager" | "sales" | "support" | "customer" | "finance";
   password: string;
   phone?: string;
 }
@@ -20,7 +20,7 @@ export const users: AuthUser[] = [
     id: "user-1",
     name: "أحمد محمد",
     email: "ahmed@example.com",
-    role: "client",
+    role: "customer",
     password: "123",
     phone: "+967 777 123456"
   },
@@ -28,7 +28,7 @@ export const users: AuthUser[] = [
     id: "user-2", 
     name: "فاطمة علي",
     email: "fatima@example.com",
-    role: "client",
+    role: "customer",
     password: "123",
     phone: "+967 733 987654"
   }

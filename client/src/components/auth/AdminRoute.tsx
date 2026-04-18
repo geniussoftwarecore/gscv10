@@ -79,7 +79,7 @@ export function AdminRoute({ children }: AdminRouteProps) {
                 المستخدم الحالي: <span className="font-medium">{user?.name}</span>
               </p>
               <p className="text-sm text-gray-500">
-                الدور: <span className="font-medium">{user?.role || "client"}</span>
+                الدور: <span className="font-medium">{user?.role || "customer"}</span>
               </p>
             </div>
           </CardContent>

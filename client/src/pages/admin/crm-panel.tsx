@@ -75,7 +75,7 @@ import {
 } from "lucide-react";
 
 type TabValue = "dashboard" | "users" | "clients" | "registrations" | "revenue" | "permissions" | "settings";
-type UserRole = "admin" | "support" | "sales" | "client";
+type UserRole = "admin" | "manager" | "sales" | "support" | "customer" | "finance";
 
 interface User {
   id: string;
@@ -128,23 +128,29 @@ interface RevenueData {
 
 const roleLabels: Record<UserRole, string> = {
   admin: "مدير النظام",
-  support: "دعم فني",
+  manager: "مدير",
   sales: "مبيعات",
-  client: "عميل"
+  support: "دعم فني",
+  finance: "مالية",
+  customer: "عميل"
 };
 
 const roleColors: Record<UserRole, string> = {
-  admin: "bg-purple-500",
-  support: "bg-blue-500",
+  admin: "bg-purple-600",
+  manager: "bg-indigo-500",
   sales: "bg-green-500",
-  client: "bg-gray-500"
+  support: "bg-blue-500",
+  finance: "bg-amber-500",
+  customer: "bg-gray-500"
 };
 
 const rolePermissions: Record<UserRole, string[]> = {
   admin: ["users.view", "users.create", "users.edit", "users.delete", "clients.view", "clients.create", "clients.edit", "clients.delete", "registrations.view", "registrations.edit", "revenue.view", "revenue.export", "permissions.view", "permissions.edit", "settings.view", "settings.edit"],
-  support: ["clients.view", "registrations.view", "tickets.view", "tickets.respond"],
+  manager: ["users.view", "clients.view", "clients.create", "clients.edit", "registrations.view", "registrations.edit", "revenue.view", "revenue.export", "settings.view"],
   sales: ["clients.view", "clients.create", "clients.edit", "registrations.view", "registrations.create", "revenue.view"],
-  client: ["profile.view", "profile.edit", "registrations.view", "tickets.create"]
+  support: ["clients.view", "registrations.view", "tickets.view", "tickets.respond"],
+  finance: ["revenue.view", "revenue.export", "registrations.view"],
+  customer: ["profile.view", "profile.edit", "registrations.view", "tickets.create"]
 };
 
 export default function CRMPanel() {
@@ -213,8 +219,8 @@ export default function CRMPanel() {
     { id: "1", username: "admin@geniussoftwarecore.com", name: "مدير النظام", email: "admin@geniussoftwarecore.com", role: "admin", department: "الإدارة", position: "مدير عام", isActive: true, createdAt: "2024-01-01" },
     { id: "2", username: "sales@geniussoftwarecore.com", name: "أحمد محمد", email: "sales@geniussoftwarecore.com", phone: "+967777123456", role: "sales", department: "المبيعات", position: "مدير مبيعات", isActive: true, createdAt: "2024-02-15" },
     { id: "3", username: "support@geniussoftwarecore.com", name: "محمد علي", email: "support@geniussoftwarecore.com", phone: "+967777654321", role: "support", department: "الدعم الفني", position: "مهندس دعم", isActive: true, createdAt: "2024-03-10" },
-    { id: "4", username: "client1@example.com", name: "شركة الأمل التجارية", email: "client1@example.com", phone: "+967771234567", role: "client", isActive: true, createdAt: "2024-06-01" },
-    { id: "5", username: "client2@example.com", name: "مؤسسة النجاح", email: "client2@example.com", phone: "+967772345678", role: "client", isActive: true, createdAt: "2024-07-15" },
+    { id: "4", username: "client1@example.com", name: "شركة الأمل التجارية", email: "client1@example.com", phone: "+967771234567", role: "customer", isActive: true, createdAt: "2024-06-01" },
+    { id: "5", username: "client2@example.com", name: "مؤسسة النجاح", email: "client2@example.com", phone: "+967772345678", role: "customer", isActive: true, createdAt: "2024-07-15" },
   ];
 
   const clients: Client[] = clientsData?.clients || [
@@ -649,10 +655,12 @@ export default function CRMPanel() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">جميع الأدوار</SelectItem>
-                  <SelectItem value="admin">مدير</SelectItem>
-                  <SelectItem value="support">دعم فني</SelectItem>
+                  <SelectItem value="admin">مدير النظام</SelectItem>
+                  <SelectItem value="manager">مدير</SelectItem>
                   <SelectItem value="sales">مبيعات</SelectItem>
-                  <SelectItem value="client">عميل</SelectItem>
+                  <SelectItem value="support">دعم فني</SelectItem>
+                  <SelectItem value="finance">مالية</SelectItem>
+                  <SelectItem value="customer">عميل</SelectItem>
                 </SelectContent>
               </Select>
               <Select value={filterStatus} onValueChange={setFilterStatus}>
@@ -1220,9 +1228,11 @@ export default function CRMPanel() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="admin">مدير النظام</SelectItem>
-                  <SelectItem value="support">دعم فني</SelectItem>
+                  <SelectItem value="manager">مدير</SelectItem>
                   <SelectItem value="sales">مبيعات</SelectItem>
-                  <SelectItem value="client">عميل</SelectItem>
+                  <SelectItem value="support">دعم فني</SelectItem>
+                  <SelectItem value="finance">مالية</SelectItem>
+                  <SelectItem value="customer">عميل</SelectItem>
                 </SelectContent>
               </Select>
             </div>
