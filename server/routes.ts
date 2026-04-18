@@ -10,6 +10,7 @@ import crmRoutes from "../crm_api/routes";
 import authRoutes from "./routes/auth";
 import billingRoutes from "./routes/billing";
 import adminRoutes from "./routes/admin";
+import customerRoutes from "./routes/customer";
 import stripeWebhookRoutes from "./routes/stripeWebhook";
 import healthRoutes, { trackMetrics } from "./routes/health";
 import enhancedCrmRoutes from "../crm_api/crmRoutes";
@@ -431,7 +432,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.use("/api/stripe", stripeWebhookRoutes);
   app.use("/api/health", healthRoutes);
   app.use("/api/admin", adminRoutes);
-  
+  app.use("/api/customer", customerRoutes);
+
   // Mount new CRM routes
   app.use("/api/crm", crmRoutes);
   app.use("/api/crm", enhancedCrmRoutes);

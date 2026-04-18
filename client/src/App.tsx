@@ -39,6 +39,9 @@ const Register = lazy(() => import("@/pages/register"));
 const ChangePassword = lazy(() => import("@/pages/change-password"));
 const Settings = lazy(() => import("@/pages/settings"));
 
+// Customer portal
+const CustomerDashboard = lazy(() => import("@/pages/customer/dashboard"));
+
 // Heavy admin/CRM components with separate chunk loading
 const AdminPanel = lazy(() => import("@/pages/admin"));
 const AdminDashboard = lazy(() => import("@/pages/admin/dashboard"));
@@ -207,6 +210,13 @@ function Router() {
           </Suspense>
         </ProtectedRoute>
       </Route>
+      <Route path="/customer/dashboard">
+        <ProtectedRoute>
+          <Suspense fallback={<DashboardSkeleton />}>
+            <CustomerDashboard />
+          </Suspense>
+        </ProtectedRoute>
+      </Route>
       <Route path="/search-demo">
         <Suspense fallback={<PageSkeleton />}>
           <SearchDemo />
@@ -241,7 +251,7 @@ function AppContent() {
   const [location] = useLocation();
   
   // Pages that should not show header and footer
-  const isAuthPage = location === '/login' || location === '/register';
+  const isAuthPage = location === '/login' || location === '/register' || location === '/customer/dashboard';
   
   return (
     <div className="min-h-screen font-cairo">

@@ -71,7 +71,19 @@ See `.env.example` for complete configuration. Key variables:
 - **Schema**: Auto-synced with Drizzle ORM
 - **Seeding**: Automatic data seeding on startup
 
-## Recent Changes (April 18, 2026)
+## Recent Changes (April 18, 2026) — Customer Dashboard
+### 🧑‍💼 **Customer Dashboard at `/customer/dashboard`**
+- ✅ **Route**: `/customer/dashboard` — protected, only accessible to logged-in `customer` role users
+- ✅ **Access control**: Unauthenticated → redirected to `/login`. Wrong role → "Access Denied" screen
+- ✅ **Backend API** at `/api/customer/*` — all routes protected with `requireAuth + requireRole('customer')`:
+  - `GET /api/customer/profile` — returns the authenticated customer's profile (no password fields)
+  - `GET /api/customer/orders` — returns the customer's service requests
+  - `GET /api/customer/tickets` — returns the customer's support tickets (via CRM storage)
+- ✅ **Dashboard sections**: Overview stats, Orders, Tickets, Profile (tab-based navigation)
+- ✅ **UI**: Custom sticky header, welcome banner, stat cards, status/priority badges, Arabic RTL support
+- ✅ **Global Navbar/Footer hidden** on this route (standalone layout)
+
+## Recent Changes (April 18, 2026) — Role System
 ### 🔐 **Extended Role-Based Access Control (RBAC)**
 - ✅ **6 Business Roles**: `admin`, `manager`, `sales`, `support`, `finance`, `customer` (replaces `client`)
 - ✅ **Role stored in JWT payload** — accessible by all middleware from the token
